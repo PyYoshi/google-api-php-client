@@ -8,6 +8,9 @@
     "require": {
         "php": ">=5.2.1"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "1.*"
+    },
     "autoload": {
         "classmap": [
             "src/"
