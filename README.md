@@ -4,7 +4,7 @@
 The Google API Client Library enables you to work with Google APIs such as Google+, Drive, or YouTube on your server.
 
 ## Requirements ##
-* [PHP 5.2.1 or higher](http://www.php.net/)
+* [PHP 5.5.0 or higher](http://www.php.net/)
 * [PHP JSON extension](http://php.net/manual/en/book.json.php)
 
 ## Developer Documentation ##
@@ -46,7 +46,7 @@ When we started working on the 1.0.0 branch we knew there were several fundament
 
 ### Why does Google_..._Service have weird names? ###
 
-The _Service classes are generally automatically generated from the API discovery documents: https://developers.google.com/discovery/. Sometimes new features are added to APIs with unusual names, which can cause some unexpected or non-standard style naming in the PHP classes. 
+The _Service classes are generally automatically generated from the API discovery documents: https://developers.google.com/discovery/. Sometimes new features are added to APIs with unusual names, which can cause some unexpected or non-standard style naming in the PHP classes.
 
 ## Code Quality ##
 

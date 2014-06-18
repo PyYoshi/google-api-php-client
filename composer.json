@@ -6,7 +6,7 @@
     "homepage": "http://developers.google.com/api-client-library/php",
     "license": "Apache-2.0",
     "require": {
-        "php": ">=5.2.1"
+        "php": ">=5.5.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "1.*"
