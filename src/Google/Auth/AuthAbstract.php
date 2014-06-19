@@ -35,6 +35,12 @@ abstract class AuthAbstract
 
     abstract public function authenticate($code);
 
+    /**
+     * Include an accessToken in a given apiHttpRequest.
+     * @param \Google\Http\Request $request
+     * @return \Google\Http\Request
+     * @throws \Google\Auth\Exception
+     */
     abstract public function sign(\Google\Http\Request $request);
 
     abstract public function createAuthUrl($scope);

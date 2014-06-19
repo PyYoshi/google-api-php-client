@@ -34,14 +34,14 @@ abstract class IoAbstract
     public function __construct(\Google\Client $client)
     {
         $this->client = $client;
-        $timeout = $client->getClassConfig('Google_IO_Abstract', 'request_timeout_seconds');
+        $timeout = $client->getClassConfig('Google\IO\IoAbstract', 'request_timeout_seconds');
         if ($timeout > 0) {
             $this->setTimeout($timeout);
         }
     }
 
     /**
-     * Executes a Google_Http_Request and returns the resulting populated Google_Http_Request
+     * Executes a \Google\Http\Request and returns the resulting populated \Google\Http\Request
      * @param \Google\Http\Request $request
      * @return \Google\Http\Request $request
      */

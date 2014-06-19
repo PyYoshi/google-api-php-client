@@ -18,7 +18,7 @@
 namespace Google\IO;
 
 /**
- * Http Streams based implementation of Google_IO.
+ * Http Streams based implementation of \Google\IO.
  *
  * @author Stuart Langley <slangley@google.com>
  */

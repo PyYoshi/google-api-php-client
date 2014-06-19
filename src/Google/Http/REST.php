@@ -26,7 +26,7 @@ namespace Google\Http;
 class REST
 {
     /**
-     * Executes a Google_Http_Request
+     * Executes a \Google\Http_Request
      *
      * @param \Google\Client $client
      * @param \Google\Http\Request $req

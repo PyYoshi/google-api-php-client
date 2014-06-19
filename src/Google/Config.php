@@ -30,7 +30,7 @@ class Config
     private $configuration;
 
     /**
-     * Create a new Google_Config. Can accept an ini file location with the
+     * Create a new \Google\Config. Can accept an ini file location with the
      * local configuration. For example:
      *     application_name: "My App";
      *
@@ -43,9 +43,9 @@ class Config
             'application_name' => '',
 
             // Which Authentication, Storage and HTTP IO classes to use.
-            'auth_class' => 'Google_Auth_OAuth2',
+            'auth_class' => 'Google\Auth\OAuth2',
             'io_class' => self::USE_AUTO_IO_SELECTION,
-            'cache_class' => 'Google_Cache_File',
+            'cache_class' => 'Google\Cache\File',
 
             // Don't change these unless you're working against a special development
             // or testing environment.
@@ -53,10 +53,10 @@ class Config
 
             // Definition of class specific values, like file paths and so on.
             'classes' => array(
-                'Google_IO_Abstract' => array(
+                'Google\IO\IoAbstract' => array(
                     'request_timeout_seconds' => 100,
                 ),
-                'Google_Http_Request' => array(
+                'Google\Http\Request' => array(
                     // Disable the use of gzip on calls if set to true. Defaults to false.
                     'disable_gzip' => self::GZIP_ENABLED,
 
@@ -68,7 +68,7 @@ class Config
                 ),
                 // If you want to pass in OAuth 2.0 settings, they will need to be
                 // structured like this.
-                'Google_Auth_OAuth2' => array(
+                'Google\Auth\OAuth2' => array(
                     // Keys for OAuth 2.0 access, see the API console at
                     // https://developers.google.com/console
                     'client_id' => '',
@@ -87,7 +87,7 @@ class Config
                         'https://www.googleapis.com/oauth2/v1/certs',
                 ),
                 // Set a default directory for the file cache.
-                'Google_Cache_File' => array(
+                'Google\Cache\File' => array(
                     'directory' => sys_get_temp_dir() . '/Google_Client'
                 )
             ),
@@ -106,7 +106,7 @@ class Config
 
     /**
      * Set configuration specific to a given class.
-     * $config->setClassConfig('Google_Cache_File',
+     * $config->setClassConfig('Google\Cache\File',
      *   array('directory' => '/tmp/cache'));
      * @param [$class] The class name for the configuration
      * @param $config string key or an array of configuration values

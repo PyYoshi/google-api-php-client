@@ -83,20 +83,20 @@ class Client
 
             if ($this->isAppEngine()) {
                 // Automatically use Memcache if we're in AppEngine.
-                $config->setCacheClass('Google_Cache_Memcache');
+                $config->setCacheClass('Google\Cache\Memcache');
             }
 
             if (version_compare(phpversion(), "5.3.4", "<=") || $this->isAppEngine()) {
                 // Automatically disable compress.zlib, as currently unsupported.
-                $config->setClassConfig('Google_Http_Request', 'disable_gzip', true);
+                $config->setClassConfig('Google\Http\Request', 'disable_gzip', true);
             }
         }
 
         if ($config->getIoClass() == \Google\Config::USE_AUTO_IO_SELECTION) {
             if (function_exists('curl_version')) {
-                $config->setIoClass("Google_Io_Curl");
+                $config->setIoClass('Google\IO\Curl');
             } else {
-                $config->setIoClass("Google_Io_Stream");
+                $config->setIoClass('Google\IO\Stream');
             }
         }
 
@@ -174,7 +174,7 @@ class Client
 
     /**
      * Set the OAuth 2.0 access token using the string that resulted from calling createAuthUrl()
-     * or Google_Client#getAccessToken().
+     * or \Google\Client#getAccessToken().
      * @param string $accessToken JSON encoded string containing in the following format:
      * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
      *  "expires_in":3600, "id_token":"TOKEN", "created":1320790426}
@@ -482,7 +482,7 @@ class Client
                 . " " . self::USER_AGENT_SUFFIX
                 . $this->getLibraryVersion()
             );
-            if (!$this->getClassConfig("Google_Http_Request", "disable_gzip")) {
+            if (!$this->getClassConfig('Google\Http\Request', "disable_gzip")) {
                 $request->enableGzip();
             }
             $request->maybeMoveParametersToBody();
@@ -554,7 +554,7 @@ class Client
 
     /**
      * Set configuration specific to a given class.
-     * $config->setClassConfig('Google_Cache_File',
+     * $config->setClassConfig('Google\Cache\File',
      *   array('directory' => '/tmp/cache'));
      * @param mixed $class The class name for the configuration
      * @param $config string key or an array of configuration values

@@ -18,7 +18,7 @@
 namespace Google\IO;
 
 /**
- * Curl based implementation of Google_IO.
+ * Curl based implementation of \Google\IO.
  *
  * @author Stuart Langley <slangley@google.com>
  */

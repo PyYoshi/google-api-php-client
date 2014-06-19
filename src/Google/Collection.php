@@ -3,7 +3,7 @@
 namespace Google;
 
 /**
- * Extension to the regular Google_Model that automatically
+ * Extension to the regular \Google\Model that automatically
  * exposes the items array for iteration, so you can just
  * iterate over the object rather than a reference inside.
  */

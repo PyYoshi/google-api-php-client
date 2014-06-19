@@ -31,7 +31,7 @@ class Service
     }
 
     /**
-     * Return the associated Google_Client class.
+     * Return the associated \Google\Client class.
      * @return \Google\Client
      */
     public function getClient()
