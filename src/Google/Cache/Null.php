@@ -23,33 +23,33 @@ namespace Google\Cache;
  */
 class Null extends \Google\Cache\CacheAbstract
 {
-  public function __construct(\Google\Client $client)
-  {
+    public function __construct(\Google\Client $client)
+    {
 
-  }
+    }
 
-   /**
-   * @inheritDoc
-   */
-  public function get($key, $expiration = false)
-  {
-    return false;
-  }
+    /**
+     * @inheritDoc
+     */
+    public function get($key, $expiration = false)
+    {
+        return false;
+    }
 
-  /**
-   * @inheritDoc
-   */
-  public function set($key, $value)
-  {
-    // Nop.
-  }
+    /**
+     * @inheritDoc
+     */
+    public function set($key, $value)
+    {
+        // Nop.
+    }
 
-  /**
-   * @inheritDoc
-   * @param String $key
-   */
-  public function delete($key)
-  {
-    // Nop.
-  }
+    /**
+     * @inheritDoc
+     * @param String $key
+     */
+    public function delete($key)
+    {
+        // Nop.
+    }
 }

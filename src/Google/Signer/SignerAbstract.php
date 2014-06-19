@@ -24,8 +24,8 @@ namespace Google\Signer;
  */
 abstract class SignerAbstract
 {
-  /**
-   * Signs data, returns the signature as binary data.
-   */
-  abstract public function sign($data);
+    /**
+     * Signs data, returns the signature as binary data.
+     */
+    abstract public function sign($data);
 }

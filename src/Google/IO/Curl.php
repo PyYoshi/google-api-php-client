@@ -25,111 +25,112 @@ namespace Google\IO;
 
 class Curl extends \Google\IO\IoAbstract
 {
-  // hex for version 7.31.0
-  const NO_QUIRK_VERSION = 0x071F00;
+    // hex for version 7.31.0
+    const NO_QUIRK_VERSION = 0x071F00;
 
-  private $options = array();
-  /**
-   * Execute an HTTP Request
-   *
-   * @param \Google\Http\Request $request the http request to be executed
-   * @return \Google\Http\Request http request with the response http code,
-   * response headers and response body filled in
-   * @throws \Google\IO\Exception on curl or IO error
-   */
-  public function executeRequest(\Google\Http\Request $request)
-  {
-    $curl = curl_init();
+    private $options = array();
 
-    if ($request->getPostBody()) {
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getPostBody());
+    /**
+     * Execute an HTTP Request
+     *
+     * @param \Google\Http\Request $request the http request to be executed
+     * @return \Google\Http\Request http request with the response http code,
+     * response headers and response body filled in
+     * @throws \Google\IO\Exception on curl or IO error
+     */
+    public function executeRequest(\Google\Http\Request $request)
+    {
+        $curl = curl_init();
+
+        if ($request->getPostBody()) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $request->getPostBody());
+        }
+
+        $requestHeaders = $request->getRequestHeaders();
+        if ($requestHeaders && is_array($requestHeaders)) {
+            $curlHeaders = array();
+            foreach ($requestHeaders as $k => $v) {
+                $curlHeaders[] = "$k: $v";
+            }
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeaders);
+        }
+
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
+        curl_setopt($curl, CURLOPT_USERAGENT, $request->getUserAgent());
+
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+
+        curl_setopt($curl, CURLOPT_URL, $request->getUrl());
+
+        if ($request->canGzip()) {
+            curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
+        }
+
+        foreach ($this->options as $key => $var) {
+            curl_setopt($curl, $key, $var);
+        }
+
+        if (!isset($this->options[CURLOPT_CAINFO])) {
+            curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacerts.pem');
+        }
+
+        $response = curl_exec($curl);
+        if ($response === false) {
+            throw new \Google\IO\Exception(curl_error($curl));
+        }
+        $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+
+        $responseBody = substr($response, $headerSize);
+        $responseHeaderString = substr($response, 0, $headerSize);
+        $responseHeaders = $this->getHttpResponseHeaders($responseHeaderString);
+        $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        return array($responseBody, $responseHeaders, $responseCode);
     }
 
-    $requestHeaders = $request->getRequestHeaders();
-    if ($requestHeaders && is_array($requestHeaders)) {
-      $curlHeaders = array();
-      foreach ($requestHeaders as $k => $v) {
-        $curlHeaders[] = "$k: $v";
-      }
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeaders);
+    /**
+     * Set options that update the transport implementation's behavior.
+     * @param $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = array_merge($this->options, $options);
     }
 
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
-    curl_setopt($curl, CURLOPT_USERAGENT, $request->getUserAgent());
-
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_HEADER, true);
-
-    curl_setopt($curl, CURLOPT_URL, $request->getUrl());
-
-    if ($request->canGzip()) {
-      curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
+    /**
+     * Set the maximum request time in seconds.
+     * @param int $timeout in seconds
+     */
+    public function setTimeout($timeout)
+    {
+        // Since this timeout is really for putting a bound on the time
+        // we'll set them both to the same. If you need to specify a longer
+        // CURLOPT_TIMEOUT, or a tigher CONNECTTIMEOUT, the best thing to
+        // do is use the setOptions method for the values individually.
+        $this->options[CURLOPT_CONNECTTIMEOUT] = $timeout;
+        $this->options[CURLOPT_TIMEOUT] = $timeout;
     }
 
-    foreach ($this->options as $key => $var) {
-      curl_setopt($curl, $key, $var);
+    /**
+     * Get the maximum request time in seconds.
+     * @return int timeout in seconds
+     */
+    public function getTimeout()
+    {
+        return $this->options[CURLOPT_TIMEOUT];
     }
 
-    if (!isset($this->options[CURLOPT_CAINFO])) {
-      curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacerts.pem');
+    /**
+     * Determine whether "Connection Established" quirk is needed
+     * @return boolean
+     */
+    protected function _needsQuirk()
+    {
+        $ver = curl_version();
+        $versionNum = $ver['version_number'];
+        return $versionNum < static::NO_QUIRK_VERSION;
     }
-
-    $response = curl_exec($curl);
-    if ($response === false) {
-      throw new \Google\IO\Exception(curl_error($curl));
-    }
-    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-
-    $responseBody = substr($response, $headerSize);
-    $responseHeaderString = substr($response, 0, $headerSize);
-    $responseHeaders = $this->getHttpResponseHeaders($responseHeaderString);
-    $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-    return array($responseBody, $responseHeaders, $responseCode);
-  }
-
-  /**
-   * Set options that update the transport implementation's behavior.
-   * @param $options
-   */
-  public function setOptions($options)
-  {
-    $this->options = array_merge($this->options, $options);
-  }
-
-  /**
-   * Set the maximum request time in seconds.
-   * @param int $timeout in seconds
-   */
-  public function setTimeout($timeout)
-  {
-    // Since this timeout is really for putting a bound on the time
-    // we'll set them both to the same. If you need to specify a longer
-    // CURLOPT_TIMEOUT, or a tigher CONNECTTIMEOUT, the best thing to
-    // do is use the setOptions method for the values individually.
-    $this->options[CURLOPT_CONNECTTIMEOUT] = $timeout;
-    $this->options[CURLOPT_TIMEOUT] = $timeout;
-  }
-
-  /**
-   * Get the maximum request time in seconds.
-   * @return int timeout in seconds
-   */
-  public function getTimeout()
-  {
-    return $this->options[CURLOPT_TIMEOUT];
-  }
-
-  /**
-   * Determine whether "Connection Established" quirk is needed
-   * @return boolean
-   */
-  protected function _needsQuirk()
-  {
-    $ver = curl_version();
-    $versionNum = $ver['version_number'];
-    return $versionNum < static::NO_QUIRK_VERSION;
-  }
 }
