@@ -1,5 +1,5 @@
 {
-    "name": "pyyoshi/apiclient",
+    "name": "pyyoshi/google-api-php-client",
     "type": "library",
     "description": "Client library for Google APIs",
     "keywords": ["google"],
