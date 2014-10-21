@@ -38,7 +38,9 @@ class Google_Service_GamesManagement extends Google_Service
 
   public $achievements;
   public $applications;
+  public $events;
   public $players;
+  public $quests;
   public $rooms;
   public $scores;
   public $turnBasedMatches;
@@ -76,6 +78,10 @@ class Google_Service_GamesManagement extends Google_Service
               'path' => 'achievements/reset',
               'httpMethod' => 'POST',
               'parameters' => array(),
+            ),'resetAllForAllPlayers' => array(
+              'path' => 'achievements/resetAllForAllPlayers',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
             ),'resetForAllPlayers' => array(
               'path' => 'achievements/{achievementId}/resetForAllPlayers',
               'httpMethod' => 'POST',
@@ -86,6 +92,10 @@ class Google_Service_GamesManagement extends Google_Service
                   'required' => true,
                 ),
               ),
+            ),'resetMultipleForAllPlayers' => array(
+              'path' => 'achievements/resetMultipleForAllPlayers',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
             ),
           )
         )
@@ -112,6 +122,40 @@ class Google_Service_GamesManagement extends Google_Service
                 'maxResults' => array(
                   'location' => 'query',
                   'type' => 'integer',
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->events = new Google_Service_GamesManagement_Events_Resource(
+        $this,
+        $this->serviceName,
+        'events',
+        array(
+          'methods' => array(
+            'reset' => array(
+              'path' => 'events/{eventId}/reset',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'eventId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),'resetAll' => array(
+              'path' => 'events/reset',
+              'httpMethod' => 'POST',
+              'parameters' => array(),
+            ),'resetForAllPlayers' => array(
+              'path' => 'events/{eventId}/resetForAllPlayers',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'eventId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ),
               ),
             ),
@@ -149,6 +193,26 @@ class Google_Service_GamesManagement extends Google_Service
                   'required' => true,
                 ),
                 'playerId' => array(
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ),
+              ),
+            ),
+          )
+        )
+    );
+    $this->quests = new Google_Service_GamesManagement_Quests_Resource(
+        $this,
+        $this->serviceName,
+        'quests',
+        array(
+          'methods' => array(
+            'reset' => array(
+              'path' => 'quests/{questId}/reset',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'questId' => array(
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -262,9 +326,22 @@ class Google_Service_GamesManagement_Achievements_Resource extends Google_Servic
     return $this->call('resetAll', array($params), "Google_Service_GamesManagement_AchievementResetAllResponse");
   }
   /**
-   * Resets the achievement with the given ID for the all players. This method is
-   * only accessible to whitelisted tester accounts for your application.
-   * (achievements.resetForAllPlayers)
+   * Resets all draft achievements for all players. This method is only available
+   * to user accounts for your developer console.
+   * (achievements.resetAllForAllPlayers)
+   *
+   * @param array $optParams Optional parameters.
+   */
+  public function resetAllForAllPlayers($optParams = array())
+  {
+    $params = array();
+    $params = array_merge($params, $optParams);
+    return $this->call('resetAllForAllPlayers', array($params));
+  }
+  /**
+   * Resets the achievement with the given ID for all players. This method is only
+   * available to user accounts for your developer console. Only draft
+   * achievements can be reset. (achievements.resetForAllPlayers)
    *
    * @param string $achievementId
    * The ID of the achievement used by this method.
@@ -275,6 +352,20 @@ class Google_Service_GamesManagement_Achievements_Resource extends Google_Servic
     $params = array('achievementId' => $achievementId);
     $params = array_merge($params, $optParams);
     return $this->call('resetForAllPlayers', array($params));
+  }
+  /**
+   * Resets the achievement with the given IDs for all players. This method is
+   * only available to user accounts for your developer console. Only draft
+   * achievements may be reset. (achievements.resetMultipleForAllPlayers)
+   *
+   * @param Google_AchievementResetMultipleForAllRequest $postBody
+   * @param array $optParams Optional parameters.
+   */
+  public function resetMultipleForAllPlayers(Google_Service_GamesManagement_AchievementResetMultipleForAllRequest $postBody, $optParams = array())
+  {
+    $params = array('postBody' => $postBody);
+    $params = array_merge($params, $optParams);
+    return $this->call('resetMultipleForAllPlayers', array($params));
   }
 }
 
@@ -311,6 +402,65 @@ class Google_Service_GamesManagement_Applications_Resource extends Google_Servic
     $params = array('applicationId' => $applicationId);
     $params = array_merge($params, $optParams);
     return $this->call('listHidden', array($params), "Google_Service_GamesManagement_HiddenPlayerList");
+  }
+}
+
+/**
+ * The "events" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $gamesManagementService = new Google_Service_GamesManagement(...);
+ *   $events = $gamesManagementService->events;
+ *  </code>
+ */
+class Google_Service_GamesManagement_Events_Resource extends Google_Service_Resource
+{
+
+  /**
+   * Reset all player progress on the event for the currently authenticated
+   * player. This method is only accessible to whitelisted tester accounts for
+   * your application. All resources that use the event will also be reset.
+   * (events.reset)
+   *
+   * @param string $eventId
+   * The ID of the event.
+   * @param array $optParams Optional parameters.
+   */
+  public function reset($eventId, $optParams = array())
+  {
+    $params = array('eventId' => $eventId);
+    $params = array_merge($params, $optParams);
+    return $this->call('reset', array($params));
+  }
+  /**
+   * Reset all player progress on all unpublished events for the currently
+   * authenticated player. This method is only accessible to whitelisted tester
+   * accounts for your application. All resources that use the events will also be
+   * reset. (events.resetAll)
+   *
+   * @param array $optParams Optional parameters.
+   */
+  public function resetAll($optParams = array())
+  {
+    $params = array();
+    $params = array_merge($params, $optParams);
+    return $this->call('resetAll', array($params));
+  }
+  /**
+   * Reset all player progress on the event for all players. This method is only
+   * available to user accounts for your developer console. Only draft events can
+   * be reset. All resources that use the event will also be reset.
+   * (events.resetForAllPlayers)
+   *
+   * @param string $eventId
+   * The ID of the event.
+   * @param array $optParams Optional parameters.
+   */
+  public function resetForAllPlayers($eventId, $optParams = array())
+  {
+    $params = array('eventId' => $eventId);
+    $params = array_merge($params, $optParams);
+    return $this->call('resetForAllPlayers', array($params));
   }
 }
 
@@ -358,6 +508,34 @@ class Google_Service_GamesManagement_Players_Resource extends Google_Service_Res
     $params = array('applicationId' => $applicationId, 'playerId' => $playerId);
     $params = array_merge($params, $optParams);
     return $this->call('unhide', array($params));
+  }
+}
+
+/**
+ * The "quests" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $gamesManagementService = new Google_Service_GamesManagement(...);
+ *   $quests = $gamesManagementService->quests;
+ *  </code>
+ */
+class Google_Service_GamesManagement_Quests_Resource extends Google_Service_Resource
+{
+
+  /**
+   * Reset all player progress on the quest for the currently authenticated
+   * player. This method is only accessible to whitelisted tester accounts for
+   * your application. (quests.reset)
+   *
+   * @param string $questId
+   * The ID of the quest.
+   * @param array $optParams Optional parameters.
+   */
+  public function reset($questId, $optParams = array())
+  {
+    $params = array('questId' => $questId);
+    $params = array_merge($params, $optParams);
+    return $this->call('reset', array($params));
   }
 }
 
@@ -416,8 +594,8 @@ class Google_Service_GamesManagement_Scores_Resource extends Google_Service_Reso
   }
   /**
    * Reset scores for the specified leaderboard for all players. This method is
-   * only accessible to whitelisted tester accounts for your application. Only
-   * draft leaderboards can be reset. (scores.resetForAllPlayers)
+   * only available to user accounts for your developer console. Only draft
+   * leaderboards can be reset. (scores.resetForAllPlayers)
    *
    * @param string $leaderboardId
    * The ID of the leaderboard.
@@ -461,6 +639,9 @@ class Google_Service_GamesManagement_TurnBasedMatches_Resource extends Google_Se
 
 class Google_Service_GamesManagement_AchievementResetAllResponse extends Google_Collection
 {
+  protected $collection_key = 'results';
+  protected $internal_gapi_mappings = array(
+  );
   public $kind;
   protected $resultsType = 'Google_Service_GamesManagement_AchievementResetResponse';
   protected $resultsDataType = 'array';
@@ -486,8 +667,40 @@ class Google_Service_GamesManagement_AchievementResetAllResponse extends Google_
   }
 }
 
+class Google_Service_GamesManagement_AchievementResetMultipleForAllRequest extends Google_Collection
+{
+  protected $collection_key = 'achievement_ids';
+  protected $internal_gapi_mappings = array(
+        "achievementIds" => "achievement_ids",
+  );
+  public $achievementIds;
+  public $kind;
+
+  public function setAchievementIds($achievementIds)
+  {
+    $this->achievementIds = $achievementIds;
+  }
+
+  public function getAchievementIds()
+  {
+    return $this->achievementIds;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
 class Google_Service_GamesManagement_AchievementResetResponse extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $currentState;
   public $definitionId;
   public $kind;
@@ -536,6 +749,8 @@ class Google_Service_GamesManagement_AchievementResetResponse extends Google_Mod
 
 class Google_Service_GamesManagement_GamesPlayedResource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $autoMatched;
   public $timeMillis;
 
@@ -560,8 +775,101 @@ class Google_Service_GamesManagement_GamesPlayedResource extends Google_Model
   }
 }
 
+class Google_Service_GamesManagement_GamesPlayerExperienceInfoResource extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+  public $currentExperiencePoints;
+  protected $currentLevelType = 'Google_Service_GamesManagement_GamesPlayerLevelResource';
+  protected $currentLevelDataType = '';
+  public $lastLevelUpTimestampMillis;
+  protected $nextLevelType = 'Google_Service_GamesManagement_GamesPlayerLevelResource';
+  protected $nextLevelDataType = '';
+
+  public function setCurrentExperiencePoints($currentExperiencePoints)
+  {
+    $this->currentExperiencePoints = $currentExperiencePoints;
+  }
+
+  public function getCurrentExperiencePoints()
+  {
+    return $this->currentExperiencePoints;
+  }
+
+  public function setCurrentLevel(Google_Service_GamesManagement_GamesPlayerLevelResource $currentLevel)
+  {
+    $this->currentLevel = $currentLevel;
+  }
+
+  public function getCurrentLevel()
+  {
+    return $this->currentLevel;
+  }
+
+  public function setLastLevelUpTimestampMillis($lastLevelUpTimestampMillis)
+  {
+    $this->lastLevelUpTimestampMillis = $lastLevelUpTimestampMillis;
+  }
+
+  public function getLastLevelUpTimestampMillis()
+  {
+    return $this->lastLevelUpTimestampMillis;
+  }
+
+  public function setNextLevel(Google_Service_GamesManagement_GamesPlayerLevelResource $nextLevel)
+  {
+    $this->nextLevel = $nextLevel;
+  }
+
+  public function getNextLevel()
+  {
+    return $this->nextLevel;
+  }
+}
+
+class Google_Service_GamesManagement_GamesPlayerLevelResource extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+  public $level;
+  public $maxExperiencePoints;
+  public $minExperiencePoints;
+
+  public function setLevel($level)
+  {
+    $this->level = $level;
+  }
+
+  public function getLevel()
+  {
+    return $this->level;
+  }
+
+  public function setMaxExperiencePoints($maxExperiencePoints)
+  {
+    $this->maxExperiencePoints = $maxExperiencePoints;
+  }
+
+  public function getMaxExperiencePoints()
+  {
+    return $this->maxExperiencePoints;
+  }
+
+  public function setMinExperiencePoints($minExperiencePoints)
+  {
+    $this->minExperiencePoints = $minExperiencePoints;
+  }
+
+  public function getMinExperiencePoints()
+  {
+    return $this->minExperiencePoints;
+  }
+}
+
 class Google_Service_GamesManagement_HiddenPlayer extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $hiddenTimeMillis;
   public $kind;
   protected $playerType = 'Google_Service_GamesManagement_Player';
@@ -600,6 +908,9 @@ class Google_Service_GamesManagement_HiddenPlayer extends Google_Model
 
 class Google_Service_GamesManagement_HiddenPlayerList extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_GamesManagement_HiddenPlayer';
   protected $itemsDataType = 'array';
   public $kind;
@@ -638,14 +949,19 @@ class Google_Service_GamesManagement_HiddenPlayerList extends Google_Collection
 
 class Google_Service_GamesManagement_Player extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $avatarImageUrl;
   public $displayName;
+  protected $experienceInfoType = 'Google_Service_GamesManagement_GamesPlayerExperienceInfoResource';
+  protected $experienceInfoDataType = '';
   public $kind;
   protected $lastPlayedWithType = 'Google_Service_GamesManagement_GamesPlayedResource';
   protected $lastPlayedWithDataType = '';
   protected $nameType = 'Google_Service_GamesManagement_PlayerName';
   protected $nameDataType = '';
   public $playerId;
+  public $title;
 
   public function setAvatarImageUrl($avatarImageUrl)
   {
@@ -665,6 +981,16 @@ class Google_Service_GamesManagement_Player extends Google_Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+
+  public function setExperienceInfo(Google_Service_GamesManagement_GamesPlayerExperienceInfoResource $experienceInfo)
+  {
+    $this->experienceInfo = $experienceInfo;
+  }
+
+  public function getExperienceInfo()
+  {
+    return $this->experienceInfo;
   }
 
   public function setKind($kind)
@@ -706,10 +1032,22 @@ class Google_Service_GamesManagement_Player extends Google_Model
   {
     return $this->playerId;
   }
+
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+
+  public function getTitle()
+  {
+    return $this->title;
+  }
 }
 
 class Google_Service_GamesManagement_PlayerName extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $familyName;
   public $givenName;
 
@@ -736,6 +1074,9 @@ class Google_Service_GamesManagement_PlayerName extends Google_Model
 
 class Google_Service_GamesManagement_PlayerScoreResetResponse extends Google_Collection
 {
+  protected $collection_key = 'resetScoreTimeSpans';
+  protected $internal_gapi_mappings = array(
+  );
   public $kind;
   public $resetScoreTimeSpans;
 

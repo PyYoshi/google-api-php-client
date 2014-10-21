@@ -168,7 +168,8 @@ class Google_Service_AppState_States_Resource extends Google_Service_Resource
     return $this->call('delete', array($params));
   }
   /**
-   * Retrieves the data corresponding to the passed key. (states.get)
+   * Retrieves the data corresponding to the passed key. If the key does not exist
+   * on the server, an HTTP 404 will be returned. (states.get)
    *
    * @param int $stateKey
    * The key for the data to be retrieved.
@@ -225,6 +226,8 @@ class Google_Service_AppState_States_Resource extends Google_Service_Resource
 
 class Google_Service_AppState_GetResponse extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $currentStateVersion;
   public $data;
   public $kind;
@@ -273,6 +276,9 @@ class Google_Service_AppState_GetResponse extends Google_Model
 
 class Google_Service_AppState_ListResponse extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_AppState_GetResponse';
   protected $itemsDataType = 'array';
   public $kind;
@@ -311,6 +317,8 @@ class Google_Service_AppState_ListResponse extends Google_Collection
 
 class Google_Service_AppState_UpdateRequest extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $data;
   public $kind;
 
@@ -337,6 +345,8 @@ class Google_Service_AppState_UpdateRequest extends Google_Model
 
 class Google_Service_AppState_WriteResult extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $currentStateVersion;
   public $kind;
   public $stateKey;

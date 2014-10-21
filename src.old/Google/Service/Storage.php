@@ -16,7 +16,7 @@
  */
 
 /**
- * Service definition for Storage (v1beta2).
+ * Service definition for Storage (v1).
  *
  * <p>
  * Lets you store and retrieve potentially-large, immutable data objects.
@@ -31,6 +31,8 @@
  */
 class Google_Service_Storage extends Google_Service
 {
+  /** View and manage your data across Google Cloud Platform services. */
+  const CLOUD_PLATFORM = "https://www.googleapis.com/auth/cloud-platform";
   /** Manage your data and permissions in Google Cloud Storage. */
   const DEVSTORAGE_FULL_CONTROL = "https://www.googleapis.com/auth/devstorage.full_control";
   /** View your data in Google Cloud Storage. */
@@ -54,8 +56,8 @@ class Google_Service_Storage extends Google_Service
   public function __construct(Google_Client $client)
   {
     parent::__construct($client);
-    $this->servicePath = 'storage/v1beta2/';
-    $this->version = 'v1beta2';
+    $this->servicePath = 'storage/v1/';
+    $this->version = 'v1';
     $this->serviceName = 'storage';
 
     $this->bucketAccessControls = new Google_Service_Storage_BucketAccessControls_Resource(
@@ -203,6 +205,10 @@ class Google_Service_Storage extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'predefinedAcl' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'projection' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -243,6 +249,10 @@ class Google_Service_Storage extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
+                'predefinedAcl' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'ifMetagenerationNotMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -262,6 +272,10 @@ class Google_Service_Storage extends Google_Service
                   'required' => true,
                 ),
                 'ifMetagenerationMatch' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'predefinedAcl' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -554,11 +568,15 @@ class Google_Service_Storage extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'ifGenerationMatch' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'ifMetagenerationMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'ifGenerationMatch' => array(
+                'destinationPredefinedAcl' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -591,10 +609,6 @@ class Google_Service_Storage extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'ifGenerationMatch' => array(
-                  'location' => 'query',
-                  'type' => 'string',
-                ),
                 'ifGenerationNotMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -603,11 +617,15 @@ class Google_Service_Storage extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'ifMetagenerationNotMatch' => array(
+                'ifMetagenerationMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
                 'sourceGeneration' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'destinationPredefinedAcl' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -619,7 +637,11 @@ class Google_Service_Storage extends Google_Service
                   'location' => 'query',
                   'type' => 'string',
                 ),
-                'ifMetagenerationMatch' => array(
+                'ifGenerationMatch' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'ifMetagenerationNotMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -711,6 +733,10 @@ class Google_Service_Storage extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'predefinedAcl' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'projection' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -720,6 +746,10 @@ class Google_Service_Storage extends Google_Service
                   'type' => 'string',
                 ),
                 'ifMetagenerationMatch' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'contentEncoding' => array(
                   'location' => 'query',
                   'type' => 'string',
                 ),
@@ -784,6 +814,10 @@ class Google_Service_Storage extends Google_Service
                   'type' => 'string',
                   'required' => true,
                 ),
+                'predefinedAcl' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
                 'ifGenerationNotMatch' => array(
                   'location' => 'query',
                   'type' => 'string',
@@ -822,6 +856,10 @@ class Google_Service_Storage extends Google_Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ),
+                'predefinedAcl' => array(
+                  'location' => 'query',
+                  'type' => 'string',
                 ),
                 'ifGenerationNotMatch' => array(
                   'location' => 'query',
@@ -1025,11 +1063,9 @@ class Google_Service_Storage_Buckets_Resource extends Google_Service_Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string ifMetagenerationMatch
-   * Makes the return of the bucket metadata conditional on whether the bucket's current
-    * metageneration matches the given value.
+   * If set, only deletes the bucket if its metageneration matches this value.
    * @opt_param string ifMetagenerationNotMatch
-   * Makes the return of the bucket metadata conditional on whether the bucket's current
-    * metageneration does not match the given value.
+   * If set, only deletes the bucket if its metageneration does not match this value.
    */
   public function delete($bucket, $optParams = array())
   {
@@ -1068,6 +1104,8 @@ class Google_Service_Storage_Buckets_Resource extends Google_Service_Resource
    * @param Google_Bucket $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this bucket.
    * @opt_param string projection
    * Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or
     * defaultObjectAcl properties, when it defaults to full.
@@ -1111,6 +1149,8 @@ class Google_Service_Storage_Buckets_Resource extends Google_Service_Resource
    * @opt_param string ifMetagenerationMatch
    * Makes the return of the bucket metadata conditional on whether the bucket's current
     * metageneration matches the given value.
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this bucket.
    * @opt_param string ifMetagenerationNotMatch
    * Makes the return of the bucket metadata conditional on whether the bucket's current
     * metageneration does not match the given value.
@@ -1135,6 +1175,8 @@ class Google_Service_Storage_Buckets_Resource extends Google_Service_Resource
    * @opt_param string ifMetagenerationMatch
    * Makes the return of the bucket metadata conditional on whether the bucket's current
     * metageneration matches the given value.
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this bucket.
    * @opt_param string ifMetagenerationNotMatch
    * Makes the return of the bucket metadata conditional on whether the bucket's current
     * metageneration does not match the given value.
@@ -1246,11 +1288,11 @@ class Google_Service_Storage_DefaultObjectAccessControls_Resource extends Google
    * @param array $optParams Optional parameters.
    *
    * @opt_param string ifMetagenerationMatch
-   * Makes the operation conditional on whether the destination object's current metageneration
-    * matches the given value.
+   * If present, only return default ACL listing if the bucket's current metageneration matches this
+    * value.
    * @opt_param string ifMetagenerationNotMatch
-   * Makes the operation conditional on whether the destination object's current metageneration does
-    * not match the given value.
+   * If present, only return default ACL listing if the bucket's current metageneration does not
+    * match the given value.
    * @return Google_Service_Storage_ObjectAccessControls
    */
   public function listDefaultObjectAccessControls($bucket, $optParams = array())
@@ -1473,12 +1515,14 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @param Google_ComposeRequest $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string ifMetagenerationMatch
-   * Makes the operation conditional on whether the object's current metageneration matches the given
-    * value.
    * @opt_param string ifGenerationMatch
    * Makes the operation conditional on whether the object's current generation matches the given
     * value.
+   * @opt_param string ifMetagenerationMatch
+   * Makes the operation conditional on whether the object's current metageneration matches the given
+    * value.
+   * @opt_param string destinationPredefinedAcl
+   * Apply a predefined set of access controls to the destination object.
    * @return Google_Service_Storage_StorageObject
    */
   public function compose($destinationBucket, $destinationObject, Google_Service_Storage_ComposeRequest $postBody, $optParams = array())
@@ -1488,8 +1532,8 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('compose', array($params), "Google_Service_Storage_StorageObject");
   }
   /**
-   * Copies an object to a destination in the same location. Optionally overrides
-   * metadata. (objects.copy)
+   * Copies an object to a specified location. Optionally overrides metadata.
+   * (objects.copy)
    *
    * @param string $sourceBucket
    * Name of the bucket in which to find the source object.
@@ -1507,30 +1551,32 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @opt_param string ifSourceGenerationNotMatch
    * Makes the operation conditional on whether the source object's generation does not match the
     * given value.
-   * @opt_param string ifGenerationMatch
-   * Makes the operation conditional on whether the destination object's current generation matches
-    * the given value.
    * @opt_param string ifGenerationNotMatch
    * Makes the operation conditional on whether the destination object's current generation does not
     * match the given value.
    * @opt_param string ifSourceMetagenerationNotMatch
    * Makes the operation conditional on whether the source object's current metageneration does not
     * match the given value.
-   * @opt_param string ifMetagenerationNotMatch
-   * Makes the operation conditional on whether the destination object's current metageneration does
-    * not match the given value.
+   * @opt_param string ifMetagenerationMatch
+   * Makes the operation conditional on whether the destination object's current metageneration
+    * matches the given value.
    * @opt_param string sourceGeneration
    * If present, selects a specific revision of the source object (as opposed to the latest version,
     * the default).
+   * @opt_param string destinationPredefinedAcl
+   * Apply a predefined set of access controls to the destination object.
    * @opt_param string ifSourceGenerationMatch
    * Makes the operation conditional on whether the source object's generation matches the given
     * value.
    * @opt_param string ifSourceMetagenerationMatch
    * Makes the operation conditional on whether the source object's current metageneration matches
     * the given value.
-   * @opt_param string ifMetagenerationMatch
-   * Makes the operation conditional on whether the destination object's current metageneration
-    * matches the given value.
+   * @opt_param string ifGenerationMatch
+   * Makes the operation conditional on whether the destination object's current generation matches
+    * the given value.
+   * @opt_param string ifMetagenerationNotMatch
+   * Makes the operation conditional on whether the destination object's current metageneration does
+    * not match the given value.
    * @opt_param string projection
    * Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl
     * property, when it defaults to full.
@@ -1543,9 +1589,9 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('copy', array($params), "Google_Service_Storage_StorageObject");
   }
   /**
-   * Deletes data blobs and associated metadata. Deletions are permanent if
-   * versioning is not enabled for the bucket, or if the generation parameter is
-   * used. (objects.delete)
+   * Deletes an object and its metadata. Deletions are permanent if versioning is
+   * not enabled for the bucket, or if the generation parameter is used.
+   * (objects.delete)
    *
    * @param string $bucket
    * Name of the bucket in which the object resides.
@@ -1576,7 +1622,7 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('delete', array($params));
   }
   /**
-   * Retrieves objects or their associated metadata. (objects.get)
+   * Retrieves an object or its metadata. (objects.get)
    *
    * @param string $bucket
    * Name of the bucket in which the object resides.
@@ -1609,7 +1655,7 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('get', array($params), "Google_Service_Storage_StorageObject");
   }
   /**
-   * Stores new data blobs and associated metadata. (objects.insert)
+   * Stores a new object and metadata. (objects.insert)
    *
    * @param string $bucket
    * Name of the bucket in which to store the new object. Overrides the provided object metadata's
@@ -1617,6 +1663,8 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @param Google_StorageObject $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this object.
    * @opt_param string projection
    * Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl
     * property, when it defaults to full.
@@ -1626,6 +1674,11 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @opt_param string ifMetagenerationMatch
    * Makes the operation conditional on whether the object's current metageneration matches the given
     * value.
+   * @opt_param string contentEncoding
+   * If set, sets the contentEncoding property of the final object to this value. Setting this
+    * parameter is equivalent to setting the contentEncoding metadata property. This can be useful
+    * when uploading an object with uploadType=media to indicate the encoding of the content being
+    * uploaded.
    * @opt_param string ifGenerationMatch
    * Makes the operation conditional on whether the object's current generation matches the given
     * value.
@@ -1675,8 +1728,8 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('list', array($params), "Google_Service_Storage_Objects");
   }
   /**
-   * Updates a data blob's associated metadata. This method supports patch
-   * semantics. (objects.patch)
+   * Updates an object's metadata. This method supports patch semantics.
+   * (objects.patch)
    *
    * @param string $bucket
    * Name of the bucket in which the object resides.
@@ -1685,6 +1738,8 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @param Google_StorageObject $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this object.
    * @opt_param string ifGenerationNotMatch
    * Makes the operation conditional on whether the object's current generation does not match the
     * given value.
@@ -1711,7 +1766,7 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
     return $this->call('patch', array($params), "Google_Service_Storage_StorageObject");
   }
   /**
-   * Updates a data blob's associated metadata. (objects.update)
+   * Updates an object's metadata. (objects.update)
    *
    * @param string $bucket
    * Name of the bucket in which the object resides.
@@ -1720,6 +1775,8 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
    * @param Google_StorageObject $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string predefinedAcl
+   * Apply a predefined set of access controls to this object.
    * @opt_param string ifGenerationNotMatch
    * Makes the operation conditional on whether the object's current generation does not match the
     * given value.
@@ -1784,6 +1841,9 @@ class Google_Service_Storage_Objects_Resource extends Google_Service_Resource
 
 class Google_Service_Storage_Bucket extends Google_Collection
 {
+  protected $collection_key = 'defaultObjectAcl';
+  protected $internal_gapi_mappings = array(
+  );
   protected $aclType = 'Google_Service_Storage_BucketAccessControl';
   protected $aclDataType = 'array';
   protected $corsType = 'Google_Service_Storage_BucketCors';
@@ -1802,6 +1862,7 @@ class Google_Service_Storage_Bucket extends Google_Collection
   public $name;
   protected $ownerType = 'Google_Service_Storage_BucketOwner';
   protected $ownerDataType = '';
+  public $projectNumber;
   public $selfLink;
   public $storageClass;
   public $timeCreated;
@@ -1930,6 +1991,16 @@ class Google_Service_Storage_Bucket extends Google_Collection
     return $this->owner;
   }
 
+  public function setProjectNumber($projectNumber)
+  {
+    $this->projectNumber = $projectNumber;
+  }
+
+  public function getProjectNumber()
+  {
+    return $this->projectNumber;
+  }
+
   public function setSelfLink($selfLink)
   {
     $this->selfLink = $selfLink;
@@ -1983,6 +2054,8 @@ class Google_Service_Storage_Bucket extends Google_Collection
 
 class Google_Service_Storage_BucketAccessControl extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $bucket;
   public $domain;
   public $email;
@@ -1991,6 +2064,8 @@ class Google_Service_Storage_BucketAccessControl extends Google_Model
   public $etag;
   public $id;
   public $kind;
+  protected $projectTeamType = 'Google_Service_Storage_BucketAccessControlProjectTeam';
+  protected $projectTeamDataType = '';
   public $role;
   public $selfLink;
 
@@ -2074,6 +2149,16 @@ class Google_Service_Storage_BucketAccessControl extends Google_Model
     return $this->kind;
   }
 
+  public function setProjectTeam(Google_Service_Storage_BucketAccessControlProjectTeam $projectTeam)
+  {
+    $this->projectTeam = $projectTeam;
+  }
+
+  public function getProjectTeam()
+  {
+    return $this->projectTeam;
+  }
+
   public function setRole($role)
   {
     $this->role = $role;
@@ -2095,8 +2180,39 @@ class Google_Service_Storage_BucketAccessControl extends Google_Model
   }
 }
 
+class Google_Service_Storage_BucketAccessControlProjectTeam extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+  public $projectNumber;
+  public $team;
+
+  public function setProjectNumber($projectNumber)
+  {
+    $this->projectNumber = $projectNumber;
+  }
+
+  public function getProjectNumber()
+  {
+    return $this->projectNumber;
+  }
+
+  public function setTeam($team)
+  {
+    $this->team = $team;
+  }
+
+  public function getTeam()
+  {
+    return $this->team;
+  }
+}
+
 class Google_Service_Storage_BucketAccessControls extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Storage_BucketAccessControl';
   protected $itemsDataType = 'array';
   public $kind;
@@ -2124,6 +2240,9 @@ class Google_Service_Storage_BucketAccessControls extends Google_Collection
 
 class Google_Service_Storage_BucketCors extends Google_Collection
 {
+  protected $collection_key = 'responseHeader';
+  protected $internal_gapi_mappings = array(
+  );
   public $maxAgeSeconds;
   public $method;
   public $origin;
@@ -2172,6 +2291,9 @@ class Google_Service_Storage_BucketCors extends Google_Collection
 
 class Google_Service_Storage_BucketLifecycle extends Google_Collection
 {
+  protected $collection_key = 'rule';
+  protected $internal_gapi_mappings = array(
+  );
   protected $ruleType = 'Google_Service_Storage_BucketLifecycleRule';
   protected $ruleDataType = 'array';
 
@@ -2188,6 +2310,8 @@ class Google_Service_Storage_BucketLifecycle extends Google_Collection
 
 class Google_Service_Storage_BucketLifecycleRule extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $actionType = 'Google_Service_Storage_BucketLifecycleRuleAction';
   protected $actionDataType = '';
   protected $conditionType = 'Google_Service_Storage_BucketLifecycleRuleCondition';
@@ -2216,6 +2340,8 @@ class Google_Service_Storage_BucketLifecycleRule extends Google_Model
 
 class Google_Service_Storage_BucketLifecycleRuleAction extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $type;
 
   public function setType($type)
@@ -2231,6 +2357,8 @@ class Google_Service_Storage_BucketLifecycleRuleAction extends Google_Model
 
 class Google_Service_Storage_BucketLifecycleRuleCondition extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $age;
   public $createdBefore;
   public $isLive;
@@ -2279,6 +2407,8 @@ class Google_Service_Storage_BucketLifecycleRuleCondition extends Google_Model
 
 class Google_Service_Storage_BucketLogging extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $logBucket;
   public $logObjectPrefix;
 
@@ -2305,6 +2435,8 @@ class Google_Service_Storage_BucketLogging extends Google_Model
 
 class Google_Service_Storage_BucketOwner extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $entity;
   public $entityId;
 
@@ -2331,6 +2463,8 @@ class Google_Service_Storage_BucketOwner extends Google_Model
 
 class Google_Service_Storage_BucketVersioning extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $enabled;
 
   public function setEnabled($enabled)
@@ -2346,6 +2480,8 @@ class Google_Service_Storage_BucketVersioning extends Google_Model
 
 class Google_Service_Storage_BucketWebsite extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $mainPageSuffix;
   public $notFoundPage;
 
@@ -2372,6 +2508,9 @@ class Google_Service_Storage_BucketWebsite extends Google_Model
 
 class Google_Service_Storage_Buckets extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Storage_Bucket';
   protected $itemsDataType = 'array';
   public $kind;
@@ -2410,6 +2549,8 @@ class Google_Service_Storage_Buckets extends Google_Collection
 
 class Google_Service_Storage_Channel extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $address;
   public $expiration;
   public $id;
@@ -2522,8 +2663,17 @@ class Google_Service_Storage_Channel extends Google_Model
   }
 }
 
+class Google_Service_Storage_ChannelParams extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+}
+
 class Google_Service_Storage_ComposeRequest extends Google_Collection
 {
+  protected $collection_key = 'sourceObjects';
+  protected $internal_gapi_mappings = array(
+  );
   protected $destinationType = 'Google_Service_Storage_StorageObject';
   protected $destinationDataType = '';
   public $kind;
@@ -2563,6 +2713,8 @@ class Google_Service_Storage_ComposeRequest extends Google_Collection
 
 class Google_Service_Storage_ComposeRequestSourceObjects extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $generation;
   public $name;
   protected $objectPreconditionsType = 'Google_Service_Storage_ComposeRequestSourceObjectsObjectPreconditions';
@@ -2601,6 +2753,8 @@ class Google_Service_Storage_ComposeRequestSourceObjects extends Google_Model
 
 class Google_Service_Storage_ComposeRequestSourceObjectsObjectPreconditions extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $ifGenerationMatch;
 
   public function setIfGenerationMatch($ifGenerationMatch)
@@ -2616,6 +2770,8 @@ class Google_Service_Storage_ComposeRequestSourceObjectsObjectPreconditions exte
 
 class Google_Service_Storage_ObjectAccessControl extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $bucket;
   public $domain;
   public $email;
@@ -2626,6 +2782,8 @@ class Google_Service_Storage_ObjectAccessControl extends Google_Model
   public $id;
   public $kind;
   public $object;
+  protected $projectTeamType = 'Google_Service_Storage_ObjectAccessControlProjectTeam';
+  protected $projectTeamDataType = '';
   public $role;
   public $selfLink;
 
@@ -2729,6 +2887,16 @@ class Google_Service_Storage_ObjectAccessControl extends Google_Model
     return $this->object;
   }
 
+  public function setProjectTeam(Google_Service_Storage_ObjectAccessControlProjectTeam $projectTeam)
+  {
+    $this->projectTeam = $projectTeam;
+  }
+
+  public function getProjectTeam()
+  {
+    return $this->projectTeam;
+  }
+
   public function setRole($role)
   {
     $this->role = $role;
@@ -2750,8 +2918,39 @@ class Google_Service_Storage_ObjectAccessControl extends Google_Model
   }
 }
 
+class Google_Service_Storage_ObjectAccessControlProjectTeam extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+  public $projectNumber;
+  public $team;
+
+  public function setProjectNumber($projectNumber)
+  {
+    $this->projectNumber = $projectNumber;
+  }
+
+  public function getProjectNumber()
+  {
+    return $this->projectNumber;
+  }
+
+  public function setTeam($team)
+  {
+    $this->team = $team;
+  }
+
+  public function getTeam()
+  {
+    return $this->team;
+  }
+}
+
 class Google_Service_Storage_ObjectAccessControls extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   public $items;
   public $kind;
 
@@ -2778,6 +2977,9 @@ class Google_Service_Storage_ObjectAccessControls extends Google_Collection
 
 class Google_Service_Storage_Objects extends Google_Collection
 {
+  protected $collection_key = 'prefixes';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Storage_StorageObject';
   protected $itemsDataType = 'array';
   public $kind;
@@ -2827,6 +3029,9 @@ class Google_Service_Storage_Objects extends Google_Collection
 
 class Google_Service_Storage_StorageObject extends Google_Collection
 {
+  protected $collection_key = 'acl';
+  protected $internal_gapi_mappings = array(
+  );
   protected $aclType = 'Google_Service_Storage_ObjectAccessControl';
   protected $aclDataType = 'array';
   public $bucket;
@@ -2850,6 +3055,7 @@ class Google_Service_Storage_StorageObject extends Google_Collection
   protected $ownerDataType = '';
   public $selfLink;
   public $size;
+  public $storageClass;
   public $timeDeleted;
   public $updated;
 
@@ -3063,6 +3269,16 @@ class Google_Service_Storage_StorageObject extends Google_Collection
     return $this->size;
   }
 
+  public function setStorageClass($storageClass)
+  {
+    $this->storageClass = $storageClass;
+  }
+
+  public function getStorageClass()
+  {
+    return $this->storageClass;
+  }
+
   public function setTimeDeleted($timeDeleted)
   {
     $this->timeDeleted = $timeDeleted;
@@ -3084,8 +3300,16 @@ class Google_Service_Storage_StorageObject extends Google_Collection
   }
 }
 
+class Google_Service_Storage_StorageObjectMetadata extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+}
+
 class Google_Service_Storage_StorageObjectOwner extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $entity;
   public $entityId;
 

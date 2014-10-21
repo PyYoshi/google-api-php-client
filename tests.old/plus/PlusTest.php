@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once 'Google/Service/Plus.php';
+require_once realpath(dirname(__FILE__) . '/../../autoload.php');
 
 class AllPlusTests extends PHPUnit_Framework_TestSuite {
   public static function suite() {
@@ -35,6 +35,7 @@ class PlusTest extends BaseTest {
   }
 
   public function testGetPerson() {
+    $this->checkToken();
     $person = $this->plus->people->get("118051310819094153327");
     $this->assertArrayHasKey('kind', $person);
     $this->assertArrayHasKey('displayName', $person);
@@ -43,6 +44,7 @@ class PlusTest extends BaseTest {
   }
 
   public function testListActivities() {
+    $this->checkToken();
     $activities = $this->plus->activities
         ->listActivities("118051310819094153327", "public");
     

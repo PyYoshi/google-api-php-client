@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-require_once 'Google/Service/Pagespeedonline.php';
+require_once realpath(dirname(__FILE__) . '/../../autoload.php');
 
 class PageSpeedTest extends BaseTest {
   public $service;
@@ -25,6 +25,7 @@ class PageSpeedTest extends BaseTest {
   }
 
   public function testPageSpeed() {
+    $this->checkToken();
     $psapi = $this->service->pagespeedapi;
     $result = $psapi->runpagespeed('http://code.google.com');
     $this->assertArrayHasKey('kind', $result);

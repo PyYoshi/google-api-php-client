@@ -45,6 +45,7 @@ class Google_Service_Books extends Google_Service
   public $mylibrary_bookshelves;
   public $mylibrary_bookshelves_volumes;
   public $mylibrary_readingpositions;
+  public $promooffer;
   public $volumes;
   public $volumes_associated;
   public $volumes_mybooks;
@@ -936,6 +937,115 @@ class Google_Service_Books extends Google_Service
           )
         )
     );
+    $this->promooffer = new Google_Service_Books_Promooffer_Resource(
+        $this,
+        $this->serviceName,
+        'promooffer',
+        array(
+          'methods' => array(
+            'accept' => array(
+              'path' => 'promooffer/accept',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'product' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'volumeId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'offerId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'androidId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'device' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'model' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'serial' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'manufacturer' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),'dismiss' => array(
+              'path' => 'promooffer/dismiss',
+              'httpMethod' => 'POST',
+              'parameters' => array(
+                'product' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'offerId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'androidId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'device' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'model' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'serial' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'manufacturer' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),'get' => array(
+              'path' => 'promooffer/get',
+              'httpMethod' => 'GET',
+              'parameters' => array(
+                'product' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'androidId' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'device' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'model' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'serial' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+                'manufacturer' => array(
+                  'location' => 'query',
+                  'type' => 'string',
+                ),
+              ),
+            ),
+          )
+        )
+    );
     $this->volumes = new Google_Service_Books_Volumes_Resource(
         $this,
         $this->serviceName,
@@ -1300,11 +1410,11 @@ class Google_Service_Books_Cloudloading_Resource extends Google_Service_Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string uploadClientToken
+   * @opt_param string upload_client_token
    *
-   * @opt_param string driveDocumentId
+   * @opt_param string drive_document_id
    * A drive document id. The upload_client_token must not be set.
-   * @opt_param string mimeType
+   * @opt_param string mime_type
    * The document MIME type. It can be set only if the drive_document_id is set.
    * @opt_param string name
    * The document name. It can be set only if the drive_document_id is set.
@@ -2029,6 +2139,98 @@ class Google_Service_Books_MylibraryReadingpositions_Resource extends Google_Ser
 }
 
 /**
+ * The "promooffer" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $booksService = new Google_Service_Books(...);
+ *   $promooffer = $booksService->promooffer;
+ *  </code>
+ */
+class Google_Service_Books_Promooffer_Resource extends Google_Service_Resource
+{
+
+  /**
+   * (promooffer.accept)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string product
+   * device product
+   * @opt_param string volumeId
+   * Volume id to exercise the offer
+   * @opt_param string offerId
+   *
+   * @opt_param string androidId
+   * device android_id
+   * @opt_param string device
+   * device device
+   * @opt_param string model
+   * device model
+   * @opt_param string serial
+   * device serial
+   * @opt_param string manufacturer
+   * device manufacturer
+   */
+  public function accept($optParams = array())
+  {
+    $params = array();
+    $params = array_merge($params, $optParams);
+    return $this->call('accept', array($params));
+  }
+  /**
+   * (promooffer.dismiss)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string product
+   * device product
+   * @opt_param string offerId
+   * Offer to dimiss
+   * @opt_param string androidId
+   * device android_id
+   * @opt_param string device
+   * device device
+   * @opt_param string model
+   * device model
+   * @opt_param string serial
+   * device serial
+   * @opt_param string manufacturer
+   * device manufacturer
+   */
+  public function dismiss($optParams = array())
+  {
+    $params = array();
+    $params = array_merge($params, $optParams);
+    return $this->call('dismiss', array($params));
+  }
+  /**
+   * Returns a list of promo offers available to the user (promooffer.get)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string product
+   * device product
+   * @opt_param string androidId
+   * device android_id
+   * @opt_param string device
+   * device device
+   * @opt_param string model
+   * device model
+   * @opt_param string serial
+   * device serial
+   * @opt_param string manufacturer
+   * device manufacturer
+   * @return Google_Service_Books_Offers
+   */
+  public function get($optParams = array())
+  {
+    $params = array();
+    $params = array_merge($params, $optParams);
+    return $this->call('get', array($params), "Google_Service_Books_Offers");
+  }
+}
+
+/**
  * The "volumes" collection of methods.
  * Typical usage is:
  *  <code>
@@ -2274,6 +2476,9 @@ class Google_Service_Books_VolumesUseruploaded_Resource extends Google_Service_R
 
 class Google_Service_Books_Annotation extends Google_Collection
 {
+  protected $collection_key = 'pageIds';
+  protected $internal_gapi_mappings = array(
+  );
   public $afterSelectedText;
   public $beforeSelectedText;
   protected $clientVersionRangesType = 'Google_Service_Books_AnnotationClientVersionRanges';
@@ -2468,6 +2673,8 @@ class Google_Service_Books_Annotation extends Google_Collection
 
 class Google_Service_Books_AnnotationClientVersionRanges extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $cfiRangeType = 'Google_Service_Books_BooksAnnotationsRange';
   protected $cfiRangeDataType = '';
   public $contentVersion;
@@ -2531,6 +2738,8 @@ class Google_Service_Books_AnnotationClientVersionRanges extends Google_Model
 
 class Google_Service_Books_AnnotationCurrentVersionRanges extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $cfiRangeType = 'Google_Service_Books_BooksAnnotationsRange';
   protected $cfiRangeDataType = '';
   public $contentVersion;
@@ -2594,6 +2803,8 @@ class Google_Service_Books_AnnotationCurrentVersionRanges extends Google_Model
 
 class Google_Service_Books_AnnotationLayerSummary extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $allowedCharacterCount;
   public $limitType;
   public $remainingCharacterCount;
@@ -2631,6 +2842,9 @@ class Google_Service_Books_AnnotationLayerSummary extends Google_Model
 
 class Google_Service_Books_Annotationdata extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+        "encodedData" => "encoded_data",
+  );
   public $annotationType;
   public $data;
   public $encodedData;
@@ -2734,6 +2948,9 @@ class Google_Service_Books_Annotationdata extends Google_Model
 
 class Google_Service_Books_Annotations extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Annotation';
   protected $itemsDataType = 'array';
   public $kind;
@@ -2783,6 +3000,9 @@ class Google_Service_Books_Annotations extends Google_Collection
 
 class Google_Service_Books_AnnotationsSummary extends Google_Collection
 {
+  protected $collection_key = 'layers';
+  protected $internal_gapi_mappings = array(
+  );
   public $kind;
   protected $layersType = 'Google_Service_Books_AnnotationsSummaryLayers';
   protected $layersDataType = 'array';
@@ -2810,6 +3030,8 @@ class Google_Service_Books_AnnotationsSummary extends Google_Collection
 
 class Google_Service_Books_AnnotationsSummaryLayers extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $allowedCharacterCount;
   public $layerId;
   public $limitType;
@@ -2869,6 +3091,9 @@ class Google_Service_Books_AnnotationsSummaryLayers extends Google_Model
 
 class Google_Service_Books_Annotationsdata extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Annotationdata';
   protected $itemsDataType = 'array';
   public $kind;
@@ -2918,6 +3143,8 @@ class Google_Service_Books_Annotationsdata extends Google_Collection
 
 class Google_Service_Books_BooksAnnotationsRange extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $endOffset;
   public $endPosition;
   public $startOffset;
@@ -2966,6 +3193,8 @@ class Google_Service_Books_BooksAnnotationsRange extends Google_Model
 
 class Google_Service_Books_BooksCloudloadingResource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $author;
   public $processingState;
   public $title;
@@ -3014,6 +3243,9 @@ class Google_Service_Books_BooksCloudloadingResource extends Google_Model
 
 class Google_Service_Books_BooksVolumesRecommendedRateResponse extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+        "consistencyToken" => "consistency_token",
+  );
   public $consistencyToken;
 
   public function setConsistencyToken($consistencyToken)
@@ -3029,6 +3261,8 @@ class Google_Service_Books_BooksVolumesRecommendedRateResponse extends Google_Mo
 
 class Google_Service_Books_Bookshelf extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $access;
   public $created;
   public $description;
@@ -3143,6 +3377,9 @@ class Google_Service_Books_Bookshelf extends Google_Model
 
 class Google_Service_Books_Bookshelves extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Bookshelf';
   protected $itemsDataType = 'array';
   public $kind;
@@ -3170,6 +3407,8 @@ class Google_Service_Books_Bookshelves extends Google_Collection
 
 class Google_Service_Books_ConcurrentAccessRestriction extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $deviceAllowed;
   public $kind;
   public $maxConcurrentDevices;
@@ -3295,6 +3534,8 @@ class Google_Service_Books_ConcurrentAccessRestriction extends Google_Model
 
 class Google_Service_Books_Dictlayerdata extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $commonType = 'Google_Service_Books_DictlayerdataCommon';
   protected $commonDataType = '';
   protected $dictType = 'Google_Service_Books_DictlayerdataDict';
@@ -3334,6 +3575,8 @@ class Google_Service_Books_Dictlayerdata extends Google_Model
 
 class Google_Service_Books_DictlayerdataCommon extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $title;
 
   public function setTitle($title)
@@ -3349,6 +3592,9 @@ class Google_Service_Books_DictlayerdataCommon extends Google_Model
 
 class Google_Service_Books_DictlayerdataDict extends Google_Collection
 {
+  protected $collection_key = 'words';
+  protected $internal_gapi_mappings = array(
+  );
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictSource';
   protected $sourceDataType = '';
   protected $wordsType = 'Google_Service_Books_DictlayerdataDictWords';
@@ -3377,6 +3623,8 @@ class Google_Service_Books_DictlayerdataDict extends Google_Collection
 
 class Google_Service_Books_DictlayerdataDictSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3403,6 +3651,9 @@ class Google_Service_Books_DictlayerdataDictSource extends Google_Model
 
 class Google_Service_Books_DictlayerdataDictWords extends Google_Collection
 {
+  protected $collection_key = 'senses';
+  protected $internal_gapi_mappings = array(
+  );
   protected $derivativesType = 'Google_Service_Books_DictlayerdataDictWordsDerivatives';
   protected $derivativesDataType = 'array';
   protected $examplesType = 'Google_Service_Books_DictlayerdataDictWordsExamples';
@@ -3455,6 +3706,8 @@ class Google_Service_Books_DictlayerdataDictWords extends Google_Collection
 
 class Google_Service_Books_DictlayerdataDictWordsDerivatives extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictWordsDerivativesSource';
   protected $sourceDataType = '';
   public $text;
@@ -3482,6 +3735,8 @@ class Google_Service_Books_DictlayerdataDictWordsDerivatives extends Google_Mode
 
 class Google_Service_Books_DictlayerdataDictWordsDerivativesSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3508,6 +3763,8 @@ class Google_Service_Books_DictlayerdataDictWordsDerivativesSource extends Googl
 
 class Google_Service_Books_DictlayerdataDictWordsExamples extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictWordsExamplesSource';
   protected $sourceDataType = '';
   public $text;
@@ -3535,6 +3792,8 @@ class Google_Service_Books_DictlayerdataDictWordsExamples extends Google_Model
 
 class Google_Service_Books_DictlayerdataDictWordsExamplesSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3561,6 +3820,9 @@ class Google_Service_Books_DictlayerdataDictWordsExamplesSource extends Google_M
 
 class Google_Service_Books_DictlayerdataDictWordsSenses extends Google_Collection
 {
+  protected $collection_key = 'synonyms';
+  protected $internal_gapi_mappings = array(
+  );
   protected $conjugationsType = 'Google_Service_Books_DictlayerdataDictWordsSensesConjugations';
   protected $conjugationsDataType = 'array';
   protected $definitionsType = 'Google_Service_Books_DictlayerdataDictWordsSensesDefinitions';
@@ -3657,6 +3919,8 @@ class Google_Service_Books_DictlayerdataDictWordsSenses extends Google_Collectio
 
 class Google_Service_Books_DictlayerdataDictWordsSensesConjugations extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $type;
   public $value;
 
@@ -3683,6 +3947,9 @@ class Google_Service_Books_DictlayerdataDictWordsSensesConjugations extends Goog
 
 class Google_Service_Books_DictlayerdataDictWordsSensesDefinitions extends Google_Collection
 {
+  protected $collection_key = 'examples';
+  protected $internal_gapi_mappings = array(
+  );
   public $definition;
   protected $examplesType = 'Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamples';
   protected $examplesDataType = 'array';
@@ -3710,6 +3977,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesDefinitions extends Googl
 
 class Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamples extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamplesSource';
   protected $sourceDataType = '';
   public $text;
@@ -3737,6 +4006,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamples exten
 
 class Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamplesSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3763,6 +4034,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesDefinitionsExamplesSource
 
 class Google_Service_Books_DictlayerdataDictWordsSensesSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3789,6 +4062,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesSource extends Google_Mod
 
 class Google_Service_Books_DictlayerdataDictWordsSensesSynonyms extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $sourceType = 'Google_Service_Books_DictlayerdataDictWordsSensesSynonymsSource';
   protected $sourceDataType = '';
   public $text;
@@ -3816,6 +4091,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesSynonyms extends Google_M
 
 class Google_Service_Books_DictlayerdataDictWordsSensesSynonymsSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3842,6 +4119,8 @@ class Google_Service_Books_DictlayerdataDictWordsSensesSynonymsSource extends Go
 
 class Google_Service_Books_DictlayerdataDictWordsSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $attribution;
   public $url;
 
@@ -3868,6 +4147,8 @@ class Google_Service_Books_DictlayerdataDictWordsSource extends Google_Model
 
 class Google_Service_Books_DownloadAccessRestriction extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $deviceAllowed;
   public $downloadsAcquired;
   public $justAcquired;
@@ -4004,6 +4285,9 @@ class Google_Service_Books_DownloadAccessRestriction extends Google_Model
 
 class Google_Service_Books_DownloadAccesses extends Google_Collection
 {
+  protected $collection_key = 'downloadAccessList';
+  protected $internal_gapi_mappings = array(
+  );
   protected $downloadAccessListType = 'Google_Service_Books_DownloadAccessRestriction';
   protected $downloadAccessListDataType = 'array';
   public $kind;
@@ -4031,6 +4315,8 @@ class Google_Service_Books_DownloadAccesses extends Google_Collection
 
 class Google_Service_Books_Geolayerdata extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $commonType = 'Google_Service_Books_GeolayerdataCommon';
   protected $commonDataType = '';
   protected $geoType = 'Google_Service_Books_GeolayerdataGeo';
@@ -4070,6 +4356,8 @@ class Google_Service_Books_Geolayerdata extends Google_Model
 
 class Google_Service_Books_GeolayerdataCommon extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $lang;
   public $previewImageUrl;
   public $snippet;
@@ -4129,6 +4417,9 @@ class Google_Service_Books_GeolayerdataCommon extends Google_Model
 
 class Google_Service_Books_GeolayerdataGeo extends Google_Collection
 {
+  protected $collection_key = 'boundary';
+  protected $internal_gapi_mappings = array(
+  );
   protected $boundaryType = 'Google_Service_Books_GeolayerdataGeoBoundary';
   protected $boundaryDataType = 'array';
   public $cachePolicy;
@@ -4223,6 +4514,8 @@ class Google_Service_Books_GeolayerdataGeo extends Google_Collection
 
 class Google_Service_Books_GeolayerdataGeoBoundary extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $latitude;
   public $longitude;
 
@@ -4249,6 +4542,8 @@ class Google_Service_Books_GeolayerdataGeoBoundary extends Google_Model
 
 class Google_Service_Books_GeolayerdataGeoViewport extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $hiType = 'Google_Service_Books_GeolayerdataGeoViewportHi';
   protected $hiDataType = '';
   protected $loType = 'Google_Service_Books_GeolayerdataGeoViewportLo';
@@ -4277,6 +4572,8 @@ class Google_Service_Books_GeolayerdataGeoViewport extends Google_Model
 
 class Google_Service_Books_GeolayerdataGeoViewportHi extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $latitude;
   public $longitude;
 
@@ -4303,6 +4600,8 @@ class Google_Service_Books_GeolayerdataGeoViewportHi extends Google_Model
 
 class Google_Service_Books_GeolayerdataGeoViewportLo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $latitude;
   public $longitude;
 
@@ -4329,6 +4628,9 @@ class Google_Service_Books_GeolayerdataGeoViewportLo extends Google_Model
 
 class Google_Service_Books_Layersummaries extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Layersummary';
   protected $itemsDataType = 'array';
   public $kind;
@@ -4367,6 +4669,9 @@ class Google_Service_Books_Layersummaries extends Google_Collection
 
 class Google_Service_Books_Layersummary extends Google_Collection
 {
+  protected $collection_key = 'annotationTypes';
+  protected $internal_gapi_mappings = array(
+  );
   public $annotationCount;
   public $annotationTypes;
   public $annotationsDataLink;
@@ -4512,8 +4817,153 @@ class Google_Service_Books_Layersummary extends Google_Collection
   }
 }
 
+class Google_Service_Books_Offers extends Google_Collection
+{
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
+  protected $itemsType = 'Google_Service_Books_OffersItems';
+  protected $itemsDataType = 'array';
+  public $kind;
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+class Google_Service_Books_OffersItems extends Google_Collection
+{
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
+  public $artUrl;
+  public $id;
+  protected $itemsType = 'Google_Service_Books_OffersItemsItems';
+  protected $itemsDataType = 'array';
+
+  public function setArtUrl($artUrl)
+  {
+    $this->artUrl = $artUrl;
+  }
+
+  public function getArtUrl()
+  {
+    return $this->artUrl;
+  }
+
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+
+  public function getItems()
+  {
+    return $this->items;
+  }
+}
+
+class Google_Service_Books_OffersItemsItems extends Google_Model
+{
+  protected $internal_gapi_mappings = array(
+  );
+  public $author;
+  public $canonicalVolumeLink;
+  public $coverUrl;
+  public $description;
+  public $title;
+  public $volumeId;
+
+  public function setAuthor($author)
+  {
+    $this->author = $author;
+  }
+
+  public function getAuthor()
+  {
+    return $this->author;
+  }
+
+  public function setCanonicalVolumeLink($canonicalVolumeLink)
+  {
+    $this->canonicalVolumeLink = $canonicalVolumeLink;
+  }
+
+  public function getCanonicalVolumeLink()
+  {
+    return $this->canonicalVolumeLink;
+  }
+
+  public function setCoverUrl($coverUrl)
+  {
+    $this->coverUrl = $coverUrl;
+  }
+
+  public function getCoverUrl()
+  {
+    return $this->coverUrl;
+  }
+
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+
+  public function getDescription()
+  {
+    return $this->description;
+  }
+
+  public function setTitle($title)
+  {
+    $this->title = $title;
+  }
+
+  public function getTitle()
+  {
+    return $this->title;
+  }
+
+  public function setVolumeId($volumeId)
+  {
+    $this->volumeId = $volumeId;
+  }
+
+  public function getVolumeId()
+  {
+    return $this->volumeId;
+  }
+}
+
 class Google_Service_Books_ReadingPosition extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $epubCfiPosition;
   public $gbImagePosition;
   public $gbTextPosition;
@@ -4595,6 +5045,8 @@ class Google_Service_Books_ReadingPosition extends Google_Model
 
 class Google_Service_Books_RequestAccess extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $concurrentAccessType = 'Google_Service_Books_ConcurrentAccessRestriction';
   protected $concurrentAccessDataType = '';
   protected $downloadAccessType = 'Google_Service_Books_DownloadAccessRestriction';
@@ -4634,6 +5086,8 @@ class Google_Service_Books_RequestAccess extends Google_Model
 
 class Google_Service_Books_Review extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $authorType = 'Google_Service_Books_ReviewAuthor';
   protected $authorDataType = '';
   public $content;
@@ -4750,6 +5204,8 @@ class Google_Service_Books_Review extends Google_Model
 
 class Google_Service_Books_ReviewAuthor extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $displayName;
 
   public function setDisplayName($displayName)
@@ -4765,6 +5221,8 @@ class Google_Service_Books_ReviewAuthor extends Google_Model
 
 class Google_Service_Books_ReviewSource extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $description;
   public $extraDescription;
   public $url;
@@ -4802,6 +5260,8 @@ class Google_Service_Books_ReviewSource extends Google_Model
 
 class Google_Service_Books_Volume extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $accessInfoType = 'Google_Service_Books_VolumeAccessInfo';
   protected $accessInfoDataType = '';
   public $etag;
@@ -4934,10 +5394,13 @@ class Google_Service_Books_Volume extends Google_Model
 
 class Google_Service_Books_VolumeAccessInfo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $accessViewStatus;
   public $country;
   protected $downloadAccessType = 'Google_Service_Books_DownloadAccessRestriction';
   protected $downloadAccessDataType = '';
+  public $driveImportedContentLink;
   public $embeddable;
   protected $epubType = 'Google_Service_Books_VolumeAccessInfoEpub';
   protected $epubDataType = '';
@@ -4979,6 +5442,16 @@ class Google_Service_Books_VolumeAccessInfo extends Google_Model
   public function getDownloadAccess()
   {
     return $this->downloadAccess;
+  }
+
+  public function setDriveImportedContentLink($driveImportedContentLink)
+  {
+    $this->driveImportedContentLink = $driveImportedContentLink;
+  }
+
+  public function getDriveImportedContentLink()
+  {
+    return $this->driveImportedContentLink;
   }
 
   public function setEmbeddable($embeddable)
@@ -5084,6 +5557,8 @@ class Google_Service_Books_VolumeAccessInfo extends Google_Model
 
 class Google_Service_Books_VolumeAccessInfoEpub extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $acsTokenLink;
   public $downloadLink;
   public $isAvailable;
@@ -5121,6 +5596,8 @@ class Google_Service_Books_VolumeAccessInfoEpub extends Google_Model
 
 class Google_Service_Books_VolumeAccessInfoPdf extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $acsTokenLink;
   public $downloadLink;
   public $isAvailable;
@@ -5158,6 +5635,9 @@ class Google_Service_Books_VolumeAccessInfoPdf extends Google_Model
 
 class Google_Service_Books_VolumeLayerInfo extends Google_Collection
 {
+  protected $collection_key = 'layers';
+  protected $internal_gapi_mappings = array(
+  );
   protected $layersType = 'Google_Service_Books_VolumeLayerInfoLayers';
   protected $layersDataType = 'array';
 
@@ -5174,6 +5654,8 @@ class Google_Service_Books_VolumeLayerInfo extends Google_Collection
 
 class Google_Service_Books_VolumeLayerInfoLayers extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $layerId;
   public $volumeAnnotationsVersion;
 
@@ -5200,6 +5682,8 @@ class Google_Service_Books_VolumeLayerInfoLayers extends Google_Model
 
 class Google_Service_Books_VolumeRecommendedInfo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $explanation;
 
   public function setExplanation($explanation)
@@ -5215,6 +5699,9 @@ class Google_Service_Books_VolumeRecommendedInfo extends Google_Model
 
 class Google_Service_Books_VolumeSaleInfo extends Google_Collection
 {
+  protected $collection_key = 'offers';
+  protected $internal_gapi_mappings = array(
+  );
   public $buyLink;
   public $country;
   public $isEbook;
@@ -5310,6 +5797,8 @@ class Google_Service_Books_VolumeSaleInfo extends Google_Collection
 
 class Google_Service_Books_VolumeSaleInfoListPrice extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $amount;
   public $currencyCode;
 
@@ -5336,6 +5825,8 @@ class Google_Service_Books_VolumeSaleInfoListPrice extends Google_Model
 
 class Google_Service_Books_VolumeSaleInfoOffers extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $finskyOfferType;
   protected $listPriceType = 'Google_Service_Books_VolumeSaleInfoOffersListPrice';
   protected $listPriceDataType = '';
@@ -5387,6 +5878,8 @@ class Google_Service_Books_VolumeSaleInfoOffers extends Google_Model
 
 class Google_Service_Books_VolumeSaleInfoOffersListPrice extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $amountInMicros;
   public $currencyCode;
 
@@ -5413,6 +5906,8 @@ class Google_Service_Books_VolumeSaleInfoOffersListPrice extends Google_Model
 
 class Google_Service_Books_VolumeSaleInfoOffersRentalDuration extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $count;
   public $unit;
 
@@ -5439,6 +5934,8 @@ class Google_Service_Books_VolumeSaleInfoOffersRentalDuration extends Google_Mod
 
 class Google_Service_Books_VolumeSaleInfoOffersRetailPrice extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $amountInMicros;
   public $currencyCode;
 
@@ -5465,6 +5962,8 @@ class Google_Service_Books_VolumeSaleInfoOffersRetailPrice extends Google_Model
 
 class Google_Service_Books_VolumeSaleInfoRetailPrice extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $amount;
   public $currencyCode;
 
@@ -5491,6 +5990,8 @@ class Google_Service_Books_VolumeSaleInfoRetailPrice extends Google_Model
 
 class Google_Service_Books_VolumeSearchInfo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $textSnippet;
 
   public function setTextSnippet($textSnippet)
@@ -5506,6 +6007,8 @@ class Google_Service_Books_VolumeSearchInfo extends Google_Model
 
 class Google_Service_Books_VolumeUserInfo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $copyType = 'Google_Service_Books_VolumeUserInfoCopy';
   protected $copyDataType = '';
   public $isInMyBooks;
@@ -5636,6 +6139,8 @@ class Google_Service_Books_VolumeUserInfo extends Google_Model
 
 class Google_Service_Books_VolumeUserInfoCopy extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $allowedCharacterCount;
   public $limitType;
   public $remainingCharacterCount;
@@ -5684,6 +6189,8 @@ class Google_Service_Books_VolumeUserInfoCopy extends Google_Model
 
 class Google_Service_Books_VolumeUserInfoRentalPeriod extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $endUtcSec;
   public $startUtcSec;
 
@@ -5710,6 +6217,8 @@ class Google_Service_Books_VolumeUserInfoRentalPeriod extends Google_Model
 
 class Google_Service_Books_VolumeUserInfoUserUploadedVolumeInfo extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $processingState;
 
   public function setProcessingState($processingState)
@@ -5725,6 +6234,9 @@ class Google_Service_Books_VolumeUserInfoUserUploadedVolumeInfo extends Google_M
 
 class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
 {
+  protected $collection_key = 'industryIdentifiers';
+  protected $internal_gapi_mappings = array(
+  );
   public $authors;
   public $averageRating;
   public $canonicalVolumeLink;
@@ -5747,6 +6259,7 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
   public $publishedDate;
   public $publisher;
   public $ratingsCount;
+  public $readingModes;
   public $subtitle;
   public $title;
 
@@ -5940,6 +6453,16 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
     return $this->ratingsCount;
   }
 
+  public function setReadingModes($readingModes)
+  {
+    $this->readingModes = $readingModes;
+  }
+
+  public function getReadingModes()
+  {
+    return $this->readingModes;
+  }
+
   public function setSubtitle($subtitle)
   {
     $this->subtitle = $subtitle;
@@ -5963,6 +6486,8 @@ class Google_Service_Books_VolumeVolumeInfo extends Google_Collection
 
 class Google_Service_Books_VolumeVolumeInfoDimensions extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $height;
   public $thickness;
   public $width;
@@ -6000,6 +6525,8 @@ class Google_Service_Books_VolumeVolumeInfoDimensions extends Google_Model
 
 class Google_Service_Books_VolumeVolumeInfoImageLinks extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $extraLarge;
   public $large;
   public $medium;
@@ -6070,6 +6597,8 @@ class Google_Service_Books_VolumeVolumeInfoImageLinks extends Google_Model
 
 class Google_Service_Books_VolumeVolumeInfoIndustryIdentifiers extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   public $identifier;
   public $type;
 
@@ -6096,6 +6625,9 @@ class Google_Service_Books_VolumeVolumeInfoIndustryIdentifiers extends Google_Mo
 
 class Google_Service_Books_Volumeannotation extends Google_Collection
 {
+  protected $collection_key = 'pageIds';
+  protected $internal_gapi_mappings = array(
+  );
   public $annotationDataId;
   public $annotationDataLink;
   public $annotationType;
@@ -6255,6 +6787,8 @@ class Google_Service_Books_Volumeannotation extends Google_Collection
 
 class Google_Service_Books_VolumeannotationContentRanges extends Google_Model
 {
+  protected $internal_gapi_mappings = array(
+  );
   protected $cfiRangeType = 'Google_Service_Books_BooksAnnotationsRange';
   protected $cfiRangeDataType = '';
   public $contentVersion;
@@ -6306,6 +6840,9 @@ class Google_Service_Books_VolumeannotationContentRanges extends Google_Model
 
 class Google_Service_Books_Volumeannotations extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Volumeannotation';
   protected $itemsDataType = 'array';
   public $kind;
@@ -6366,6 +6903,9 @@ class Google_Service_Books_Volumeannotations extends Google_Collection
 
 class Google_Service_Books_Volumes extends Google_Collection
 {
+  protected $collection_key = 'items';
+  protected $internal_gapi_mappings = array(
+  );
   protected $itemsType = 'Google_Service_Books_Volume';
   protected $itemsDataType = 'array';
   public $kind;
