@@ -25,8 +25,8 @@ namespace Google\IO;
 
 class Curl extends \Google\IO\IoAbstract
 {
-    // hex for version 7.31.0
-    const NO_QUIRK_VERSION = 0x071F00;
+    // cURL hex representation of version 7.30.0
+    const NO_QUIRK_VERSION = 0x071E00;
 
     private $options = array();
 
@@ -55,6 +55,8 @@ class Curl extends \Google\IO\IoAbstract
             curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeaders);
         }
 
+        curl_setopt($curl, CURLOPT_URL, $request->getUrl());
+
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
         curl_setopt($curl, CURLOPT_USERAGENT, $request->getUserAgent());
 
@@ -62,8 +64,6 @@ class Curl extends \Google\IO\IoAbstract
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
-
-        curl_setopt($curl, CURLOPT_URL, $request->getUrl());
 
         if ($request->canGzip()) {
             curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
@@ -83,9 +83,8 @@ class Curl extends \Google\IO\IoAbstract
         }
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 
-        $responseBody = substr($response, $headerSize);
-        $responseHeaderString = substr($response, 0, $headerSize);
-        $responseHeaders = $this->getHttpResponseHeaders($responseHeaderString);
+        list($responseHeaders, $responseBody) = $this->parseHttpResponse($response, $headerSize);
+
         $responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         return array($responseBody, $responseHeaders, $responseCode);
@@ -97,7 +96,7 @@ class Curl extends \Google\IO\IoAbstract
      */
     public function setOptions($options)
     {
-        $this->options = array_merge($this->options, $options);
+        $this->options = $options + $this->options;
     }
 
     /**
@@ -124,13 +123,16 @@ class Curl extends \Google\IO\IoAbstract
     }
 
     /**
-     * Determine whether "Connection Established" quirk is needed
+     * Test for the presence of a cURL header processing bug
+     *
+     * {@inheritDoc}
+     *
      * @return boolean
      */
-    protected function _needsQuirk()
+    protected function needsQuirk()
     {
         $ver = curl_version();
         $versionNum = $ver['version_number'];
-        return $versionNum < static::NO_QUIRK_VERSION;
+        return $versionNum < \Google\IO\Curl::NO_QUIRK_VERSION;
     }
 }

@@ -28,11 +28,9 @@ class Resource extends \Google\Service\Resource
      * @param array $optParams Optional parameters.
      *
      * @opt_param string ifMetagenerationMatch
-     * Makes the return of the bucket metadata conditional on whether the bucket's current
-     * metageneration matches the given value.
+     * If set, only deletes the bucket if its metageneration matches this value.
      * @opt_param string ifMetagenerationNotMatch
-     * Makes the return of the bucket metadata conditional on whether the bucket's current
-     * metageneration does not match the given value.
+     * If set, only deletes the bucket if its metageneration does not match this value.
      */
     public function delete($bucket, $optParams = array())
     {
@@ -73,6 +71,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\Bucket $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this bucket.
      * @opt_param string projection
      * Set of properties to return. Defaults to noAcl, unless the bucket resource specifies acl or
      * defaultObjectAcl properties, when it defaults to full.
@@ -115,6 +115,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\Bucket $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this bucket.
      * @opt_param string ifMetagenerationMatch
      * Makes the return of the bucket metadata conditional on whether the bucket's current
      * metageneration matches the given value.
@@ -140,6 +142,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\Bucket $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this bucket.
      * @opt_param string ifMetagenerationMatch
      * Makes the return of the bucket metadata conditional on whether the bucket's current
      * metageneration matches the given value.

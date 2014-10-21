@@ -19,6 +19,8 @@ namespace Google\Service\Storage;
 
 class ComposeRequest extends \Google\Collection
 {
+    protected $collection_key = 'sourceObjects';
+    protected $internal_gapi_mappings = array();
     protected $destinationType = 'Google\Service\Storage\StorageObject';
     protected $destinationDataType = '';
     public $kind;

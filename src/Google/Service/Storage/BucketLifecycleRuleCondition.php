@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketLifecycleRuleCondition extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $age;
     public $createdBefore;
     public $isLive;

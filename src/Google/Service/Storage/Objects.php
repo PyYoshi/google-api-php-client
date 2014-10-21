@@ -20,6 +20,8 @@ namespace Google\Service\Storage;
 
 class Objects extends \Google\Collection
 {
+    protected $collection_key = 'prefixes';
+    protected $internal_gapi_mappings = array();
     protected $itemsType = 'Google\Service\Storage\StorageObject';
     protected $itemsDataType = 'array';
     public $kind;

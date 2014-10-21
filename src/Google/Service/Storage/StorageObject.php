@@ -20,6 +20,8 @@ namespace Google\Service\Storage;
 
 class StorageObject extends \Google\Collection
 {
+    protected $collection_key = 'acl';
+    protected $internal_gapi_mappings = array();
     protected $aclType = 'Google\Service\Storage\ObjectAccessControl';
     protected $aclDataType = 'array';
     public $bucket;
@@ -43,6 +45,7 @@ class StorageObject extends \Google\Collection
     protected $ownerDataType = '';
     public $selfLink;
     public $size;
+    public $storageClass;
     public $timeDeleted;
     public $updated;
 
@@ -254,6 +257,16 @@ class StorageObject extends \Google\Collection
     public function getSize()
     {
         return $this->size;
+    }
+
+    public function setStorageClass($storageClass)
+    {
+        $this->storageClass = $storageClass;
+    }
+
+    public function getStorageClass()
+    {
+        return $this->storageClass;
     }
 
     public function setTimeDeleted($timeDeleted)

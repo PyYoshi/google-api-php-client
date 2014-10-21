@@ -46,7 +46,7 @@ class Memcache extends \Google\Cache\CacheAbstract
         } else {
             $this->host = $client->getClassConfig($this, 'host');
             $this->port = $client->getClassConfig($this, 'port');
-            if (empty($this->host) || empty($this->port)) {
+            if (empty($this->host) || (empty($this->port) && (string) $this->port != "0")) {
                 throw new \Google\Cache\Exception("You need to supply a valid memcache host and port");
             }
         }

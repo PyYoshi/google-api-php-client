@@ -47,7 +47,7 @@ class File extends \Google\Cache\CacheAbstract
 
         if ($expiration) {
             $mtime = filemtime($storageFile);
-            if (($now - $mtime) >= $expiration) {
+            if ((time() - $mtime) >= $expiration) {
                 $this->delete($key);
                 return false;
             }

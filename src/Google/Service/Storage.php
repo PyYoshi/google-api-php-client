@@ -18,7 +18,7 @@
 namespace Google\Service;
 
 /**
- * Service definition for Storage (v1beta2).
+ * Service definition for Storage (v1).
  *
  * <p>
  * Lets you store and retrieve potentially-large, immutable data objects.
@@ -33,6 +33,8 @@ namespace Google\Service;
  */
 class Storage extends \Google\Service
 {
+    /** View and manage your data across Google Cloud Platform services. */
+    const CLOUD_PLATFORM = "https://www.googleapis.com/auth/cloud-platform";
     /** Manage your data and permissions in Google Cloud Storage. */
     const DEVSTORAGE_FULL_CONTROL = "https://www.googleapis.com/auth/devstorage.full_control";
     /** View your data in Google Cloud Storage. */
@@ -56,8 +58,8 @@ class Storage extends \Google\Service
     public function __construct(\Google\Client $client)
     {
         parent::__construct($client);
-        $this->servicePath = 'storage/v1beta2/';
-        $this->version = 'v1beta2';
+        $this->servicePath = 'storage/v1/';
+        $this->version = 'v1';
         $this->serviceName = 'storage';
 
         $this->bucketAccessControls = new \Google\Service\Storage\BucketAccessControls\Resource(
@@ -205,6 +207,10 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'predefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'projection' => array(
                                 'location' => 'query',
                                 'type' => 'string',
@@ -245,6 +251,10 @@ class Storage extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
+                            'predefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'ifMetagenerationNotMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
@@ -264,6 +274,10 @@ class Storage extends \Google\Service
                                 'required' => true,
                             ),
                             'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'predefinedAcl' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -556,11 +570,15 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'ifGenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'ifMetagenerationMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
-                            'ifGenerationMatch' => array(
+                            'destinationPredefinedAcl' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -593,10 +611,6 @@ class Storage extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
-                            'ifGenerationMatch' => array(
-                                'location' => 'query',
-                                'type' => 'string',
-                            ),
                             'ifGenerationNotMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
@@ -605,11 +619,15 @@ class Storage extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
-                            'ifMetagenerationNotMatch' => array(
+                            'ifMetagenerationMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
                             'sourceGeneration' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'destinationPredefinedAcl' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -621,7 +639,11 @@ class Storage extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
-                            'ifMetagenerationMatch' => array(
+                            'ifGenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifMetagenerationNotMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -713,6 +735,10 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'predefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'projection' => array(
                                 'location' => 'query',
                                 'type' => 'string',
@@ -722,6 +748,10 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                             ),
                             'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'contentEncoding' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -786,6 +816,10 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'predefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'ifGenerationNotMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
@@ -824,6 +858,10 @@ class Storage extends \Google\Service
                                 'location' => 'path',
                                 'type' => 'string',
                                 'required' => true,
+                            ),
+                            'predefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
                             ),
                             'ifGenerationNotMatch' => array(
                                 'location' => 'query',

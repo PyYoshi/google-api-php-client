@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketWebsite extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $mainPageSuffix;
     public $notFoundPage;
 

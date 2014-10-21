@@ -43,9 +43,9 @@ class OAuth2 extends \Google\Auth\AuthAbstract
     private $state;
 
     /**
-     * @var string The token bundle.
+     * @var array The token bundle.
      */
-    private $token;
+    private $token = array();
 
     /**
      * @var \Google\Client the base client
@@ -112,12 +112,15 @@ class OAuth2 extends \Google\Auth\AuthAbstract
         } else {
             $decodedResponse = json_decode($response->getResponseBody(), true);
             if ($decodedResponse != null && $decodedResponse['error']) {
-                $decodedResponse = $decodedResponse['error'];
+                $errorText = $decodedResponse['error'];
+                if (isset($decodedResponse['error_description'])) {
+                    $errorText .= ": " . $decodedResponse['error_description'];
+                }
             }
             throw new \Google\Auth\Exception(
                 sprintf(
                     "Error fetching OAuth2 access token, message: '%s'",
-                    $decodedResponse
+                    $errorText
                 ),
                 $response->getResponseHttpCode()
             );
@@ -139,8 +142,14 @@ class OAuth2 extends \Google\Auth\AuthAbstract
             'client_id' => $this->client->getClassConfig($this, 'client_id'),
             'scope' => $scope,
             'access_type' => $this->client->getClassConfig($this, 'access_type'),
-            'approval_prompt' => $this->client->getClassConfig($this, 'approval_prompt'),
         );
+
+        $params = $this->maybeAddParam($params, 'approval_prompt');
+        $params = $this->maybeAddParam($params, 'login_hint');
+        $params = $this->maybeAddParam($params, 'hd');
+        $params = $this->maybeAddParam($params, 'openid.realm');
+        $params = $this->maybeAddParam($params, 'prompt');
+        $params = $this->maybeAddParam($params, 'include_granted_scopes');
 
         // If the list of scopes contains plus.login, add request_visible_actions
         // to auth URL.
@@ -175,6 +184,15 @@ class OAuth2 extends \Google\Auth\AuthAbstract
     public function getAccessToken()
     {
         return json_encode($this->token);
+    }
+
+    public function getRefreshToken()
+    {
+        if (array_key_exists('refresh_token', $this->token)) {
+            return $this->token['refresh_token'];
+        } else {
+            return null;
+        }
     }
 
     public function setState($state)
@@ -313,6 +331,9 @@ class OAuth2 extends \Google\Auth\AuthAbstract
                 throw new \Google\Auth\Exception("Invalid token format");
             }
 
+            if (isset($token['id_token'])) {
+                $this->token['id_token'] = $token['id_token'];
+            }
             $this->token['access_token'] = $token['access_token'];
             $this->token['expires_in'] = $token['expires_in'];
             $this->token['created'] = time();
@@ -331,7 +352,14 @@ class OAuth2 extends \Google\Auth\AuthAbstract
     public function revokeToken($token = null)
     {
         if (!$token) {
-            $token = $this->token['access_token'];
+            if (!$this->token) {
+                // Not initialized, no token to actually revoke
+                return false;
+            } elseif (array_key_exists('refresh_token', $this->token)) {
+                $token = $this->token['refresh_token'];
+            } else {
+                $token = $this->token['access_token'];
+            }
         }
         $request = new \Google\Http\Request(
             self::OAUTH2_REVOKE_URI,
@@ -356,7 +384,7 @@ class OAuth2 extends \Google\Auth\AuthAbstract
      */
     public function isAccessTokenExpired()
     {
-        if (!$this->token) {
+        if (!$this->token || !isset($this->token['created'])) {
             return true;
         }
 
@@ -379,7 +407,9 @@ class OAuth2 extends \Google\Auth\AuthAbstract
 
     /**
      * Retrieve and cache a certificates file.
+     *
      * @param $url string location
+     * @throws \Google\Auth\Exception
      * @return array certificates
      */
     public function retrieveCertsFromLocation($url)
@@ -442,12 +472,13 @@ class OAuth2 extends \Google\Auth\AuthAbstract
     /**
      * Verifies the id token, returns the verified token contents.
      *
-     * @param string $jwt the token
-     * @param array $certs array of certificates
-     * @param mixed $required_audience the expected consumer of the token
+     * @param $jwt string the token
+     * @param $certs array of certificates
+     * @param $required_audience string the expected consumer of the token
      * @param [$issuer] the expected issues, defaults to Google
      * @param [$max_expiry] the max lifetime of a token, defaults to MAX_TOKEN_LIFETIME_SECS
-     * @return \Google\Auth\LoginTicket token information if valid, false if not
+     * @throws \Google\Auth\Exception
+     * @return mixed token information if valid, false if not
      */
     public function verifySignedJwtWithCerts(
         $jwt,
@@ -570,5 +601,17 @@ class OAuth2 extends \Google\Auth\AuthAbstract
 
         // All good.
         return new \Google\Auth\LoginTicket($envelope, $payload);
+    }
+
+    /**
+     * Add a parameter to the auth params if not empty string.
+     */
+    private function maybeAddParam($params, $name)
+    {
+        $param = $this->client->getClassConfig($this, $name);
+        if ($param != '') {
+            $params[$name] = $param;
+        }
+        return $params;
     }
 }

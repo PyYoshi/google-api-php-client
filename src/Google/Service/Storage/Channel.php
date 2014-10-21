@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class Channel extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $address;
     public $expiration;
     public $id;

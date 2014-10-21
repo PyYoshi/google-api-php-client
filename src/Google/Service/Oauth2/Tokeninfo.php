@@ -19,6 +19,13 @@ namespace Google\Service\Oauth2;
 
 class Tokeninfo extends \Google\Model
 {
+    protected $internal_gapi_mappings = array(
+        "accessType" => "access_type",
+        "expiresIn" => "expires_in",
+        "issuedTo" => "issued_to",
+        "userId" => "user_id",
+        "verifiedEmail" => "verified_email",
+    );
     public $accessType;
     public $audience;
     public $email;

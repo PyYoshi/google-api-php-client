@@ -20,6 +20,11 @@ namespace Google\Service\Oauth2;
 
 class Userinfoplus extends \Google\Model
 {
+    protected $internal_gapi_mappings = array(
+        "familyName" => "family_name",
+        "givenName" => "given_name",
+        "verifiedEmail" => "verified_email",
+    );
     public $email;
     public $familyName;
     public $gender;

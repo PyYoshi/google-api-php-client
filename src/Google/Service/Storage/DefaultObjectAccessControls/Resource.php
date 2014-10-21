@@ -81,12 +81,12 @@ class Resource extends \Google\Service\Resource
      * Name of a bucket.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch
-     * Makes the operation conditional on whether the destination object's current metageneration
-     * matches the given value.
+     * * @opt_param string ifMetagenerationMatch
+     * If present, only return default ACL listing if the bucket's current metageneration matches this
+     * value.
      * @opt_param string ifMetagenerationNotMatch
-     * Makes the operation conditional on whether the destination object's current metageneration does
-     * not match the given value.
+     * If present, only return default ACL listing if the bucket's current metageneration does not
+     * match the given value.
      * @return \Google\Service\Storage\ObjectAccessControls
      */
     public function listDefaultObjectAccessControls($bucket, $optParams = array())

@@ -20,6 +20,8 @@ namespace Google\Service\Storage;
 
 class Buckets extends \Google\Collection
 {
+    protected $collection_key = 'items';
+    protected $internal_gapi_mappings = array();
     protected $itemsType = 'Google\Service\Storage\Bucket';
     protected $itemsDataType = 'array';
     public $kind;

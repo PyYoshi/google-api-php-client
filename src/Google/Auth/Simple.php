@@ -51,38 +51,7 @@ class Simple extends \Google\Auth\AuthAbstract
     public function authenticatedRequest(\Google\Http\Request $request)
     {
         $request = $this->sign($request);
-//    return $this->io->makeRequest($request);
         return $this->client->getIo()->makeRequest($request);
-    }
-
-    public function authenticate($code)
-    {
-        throw new \Google\Auth\Exception("Simple auth does not exchange tokens.");
-    }
-
-    public function setAccessToken($accessToken)
-    {
-        /* noop*/
-    }
-
-    public function getAccessToken()
-    {
-        return null;
-    }
-
-    public function createAuthUrl($scope)
-    {
-        return null;
-    }
-
-    public function refreshToken($refreshToken)
-    {
-        /* noop*/
-    }
-
-    public function revokeToken()
-    {
-        /* noop*/
     }
 
     public function sign(\Google\Http\Request $request)

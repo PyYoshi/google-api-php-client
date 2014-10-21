@@ -19,6 +19,8 @@ namespace Google\Service\Storage;
 
 class BucketCors extends \Google\Collection
 {
+    protected $collection_key = 'responseHeader';
+    protected $internal_gapi_mappings = array();
     public $maxAgeSeconds;
     public $method;
     public $origin;

@@ -39,7 +39,7 @@ class Oauth2 extends \Google\Service
     const PLUS_ME = "https://www.googleapis.com/auth/plus.me";
     /** View your email address. */
     const USERINFO_EMAIL = "https://www.googleapis.com/auth/userinfo.email";
-    /** View basic information about your account. */
+    /** View your basic profile info. */
     const USERINFO_PROFILE = "https://www.googleapis.com/auth/userinfo.profile";
 
     public $userinfo;
@@ -116,9 +116,9 @@ class Oauth2 extends \Google\Service
      *
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string accessToken
+     * @opt_param string access_token
      *
-     * @opt_param string idToken
+     * @opt_param string id_token
      *
      * @return \Google\Service\Oauth2\Tokeninfo
      */

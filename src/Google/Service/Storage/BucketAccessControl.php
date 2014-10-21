@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketAccessControl extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $bucket;
     public $domain;
     public $email;
@@ -28,6 +29,8 @@ class BucketAccessControl extends \Google\Model
     public $etag;
     public $id;
     public $kind;
+    protected $projectTeamType = 'Google\Service\Storage\BucketAccessControlProjectTeam';
+    protected $projectTeamDataType = '';
     public $role;
     public $selfLink;
 
@@ -109,6 +112,16 @@ class BucketAccessControl extends \Google\Model
     public function getKind()
     {
         return $this->kind;
+    }
+
+    public function setProjectTeam(\Google\Service\Storage\BucketAccessControlProjectTeam $projectTeam)
+    {
+        $this->projectTeam = $projectTeam;
+    }
+
+    public function getProjectTeam()
+    {
+        return $this->projectTeam;
     }
 
     public function setRole($role)

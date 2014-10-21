@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketOwner extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $entity;
     public $entityId;
 

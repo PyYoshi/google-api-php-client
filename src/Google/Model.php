@@ -27,7 +27,8 @@ namespace Google;
  */
 class Model implements \ArrayAccess
 {
-    protected $data = array();
+    protected $internal_gapi_mappings = array();
+    protected $modelData = array();
     protected $processed = array();
 
     /**
@@ -48,8 +49,11 @@ class Model implements \ArrayAccess
         $keyTypeName = $this->keyType($key);
         $keyDataType = $this->dataType($key);
         if (isset($this->$keyTypeName) && !isset($this->processed[$key])) {
-            if (isset($this->data[$key])) {
-                $val = $this->data[$key];
+            if (isset($this->modelData[$key])) {
+                $val = $this->modelData[$key];
+            } else if (isset($this->$keyDataType) &&
+                ($this->$keyDataType == 'array' || $this->$keyDataType == 'map')) {
+                $val = array();
             } else {
                 $val = null;
             }
@@ -57,11 +61,11 @@ class Model implements \ArrayAccess
             if ($this->isAssociativeArray($val)) {
                 if (isset($this->$keyDataType) && 'map' == $this->$keyDataType) {
                     foreach ($val as $arrayKey => $arrayItem) {
-                        $this->data[$key][$arrayKey] =
+                        $this->modelData[$key][$arrayKey] =
                             $this->createObjectFromName($keyTypeName, $arrayItem);
                     }
                 } else {
-                    $this->data[$key] = $this->createObjectFromName($keyTypeName, $val);
+                    $this->modelData[$key] = $this->createObjectFromName($keyTypeName, $val);
                 }
             } else if (is_array($val)) {
                 $arrayObject = array();
@@ -69,12 +73,12 @@ class Model implements \ArrayAccess
                     $arrayObject[$arrayIndex] =
                         $this->createObjectFromName($keyTypeName, $arrayItem);
                 }
-                $this->data[$key] = $arrayObject;
+                $this->modelData[$key] = $arrayObject;
             }
             $this->processed[$key] = true;
         }
 
-        return $this->data[$key];
+        return isset($this->modelData[$key]) ? $this->modelData[$key] : null;
     }
 
     /**
@@ -98,7 +102,7 @@ class Model implements \ArrayAccess
                 $this->$camelKey = $val;
             }
         }
-        $this->data = $array;
+        $this->modelData = $array;
     }
 
     /**
@@ -112,9 +116,9 @@ class Model implements \ArrayAccess
         $object = new \stdClass();
 
         // Process all other data.
-        foreach ($this->data as $key => $val) {
+        foreach ($this->modelData as $key => $val) {
             $result = $this->getSimpleValue($val);
-            if ($result != null) {
+            if ($result !== null) {
                 $object->$key = $result;
             }
         }
@@ -125,7 +129,8 @@ class Model implements \ArrayAccess
         foreach ($props as $member) {
             $name = $member->getName();
             $result = $this->getSimpleValue($this->$name);
-            if ($result != null) {
+            if ($result !== null) {
+                $name = $this->getMappedName($name);
                 $object->$name = $result;
             }
         }
@@ -145,13 +150,26 @@ class Model implements \ArrayAccess
             $return = array();
             foreach ($value as $key => $a_value) {
                 $a_value = $this->getSimpleValue($a_value);
-                if ($a_value != null) {
+                if ($a_value !== null) {
+                    $key = $this->getMappedName($key);
                     $return[$key] = $a_value;
                 }
             }
             return $return;
         }
         return $value;
+    }
+
+    /**
+     * If there is an internal name mapping, use that.
+     */
+    private function getMappedName($key)
+    {
+        if (isset($this->internal_gapi_mappings) &&
+            isset($this->internal_gapi_mappings[$key])) {
+            $key = $this->internal_gapi_mappings[$key];
+        }
+        return $key;
     }
 
     /**
@@ -203,7 +221,7 @@ class Model implements \ArrayAccess
 
     public function offsetExists($offset)
     {
-        return isset($this->$offset) || isset($this->data[$offset]);
+        return isset($this->$offset) || isset($this->modelData[$offset]);
     }
 
     public function offsetGet($offset)
@@ -218,14 +236,14 @@ class Model implements \ArrayAccess
         if (property_exists($this, $offset)) {
             $this->$offset = $value;
         } else {
-            $this->data[$offset] = $value;
+            $this->modelData[$offset] = $value;
             $this->processed[$offset] = true;
         }
     }
 
     public function offsetUnset($offset)
     {
-        unset($this->data[$offset]);
+        unset($this->modelData[$offset]);
     }
 
     protected function keyType($key)
@@ -240,11 +258,11 @@ class Model implements \ArrayAccess
 
     public function __isset($key)
     {
-        return isset($this->data[$key]);
+        return isset($this->modelData[$key]);
     }
 
     public function __unset($key)
     {
-        unset($this->data[$key]);
+        unset($this->modelData[$key]);
     }
 }

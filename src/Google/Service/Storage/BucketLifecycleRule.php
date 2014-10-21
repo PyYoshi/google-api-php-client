@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketLifecycleRule extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     protected $actionType = 'Google\Service\Storage\BucketLifecycleRuleAction';
     protected $actionDataType = '';
     protected $conditionType = 'Google\Service\Storage\BucketLifecycleRuleCondition';

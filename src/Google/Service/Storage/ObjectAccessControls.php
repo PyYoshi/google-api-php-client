@@ -20,6 +20,8 @@ namespace Google\Service\Storage;
 
 class ObjectAccessControls extends \Google\Collection
 {
+    protected $collection_key = 'items';
+    protected $internal_gapi_mappings = array();
     public $items;
     public $kind;
 

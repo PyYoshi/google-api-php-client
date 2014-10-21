@@ -81,7 +81,8 @@ class P12 extends \Google\Signer\SignerAbstract
                 "PHP 5.3.0 or higher is required to use service accounts."
             );
         }
-        if (!openssl_sign($data, $signature, $this->privateKey, "sha256")) {
+        $hash = defined("OPENSSL_ALGO_SHA256") ? OPENSSL_ALGO_SHA256 : "sha256";
+        if (!openssl_sign($data, $signature, $this->privateKey, $hash)) {
             throw new \Google\Auth\Exception("Unable to sign data");
         }
         return $signature;

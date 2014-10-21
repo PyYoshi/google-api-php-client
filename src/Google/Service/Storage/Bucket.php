@@ -19,6 +19,8 @@ namespace Google\Service\Storage;
 
 class Bucket
 {
+    protected $collection_key = 'defaultObjectAcl';
+    protected $internal_gapi_mappings = array();
     protected $aclType = '\Google\Service\Storage\BucketAccessControl';
     protected $aclDataType = 'array';
     protected $corsType = '\Google\Service\Storage\BucketCors';
@@ -37,6 +39,7 @@ class Bucket
     public $name;
     protected $ownerType = '\Google\Service\Storage\BucketOwner';
     protected $ownerDataType = '';
+    public $projectNumber;
     public $selfLink;
     public $storageClass;
     public $timeCreated;
@@ -171,6 +174,16 @@ class Bucket
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    public function setProjectNumber($projectNumber)
+    {
+        $this->projectNumber = $projectNumber;
+    }
+
+    public function getProjectNumber()
+    {
+        return $this->projectNumber;
     }
 
     public function setSelfLink($selfLink)

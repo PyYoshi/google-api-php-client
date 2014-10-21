@@ -31,12 +31,14 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\ComposeRequest $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string ifMetagenerationMatch
-     * Makes the operation conditional on whether the object's current metageneration matches the given
-     * value.
      * @opt_param string ifGenerationMatch
      * Makes the operation conditional on whether the object's current generation matches the given
      * value.
+     * @opt_param string ifMetagenerationMatch
+     * Makes the operation conditional on whether the object's current metageneration matches the given
+     * value.
+     * @opt_param string destinationPredefinedAcl
+     * Apply a predefined set of access controls to the destination object.
      * @return \Google\Service\Storage\StorageObject
      */
     public function compose($destinationBucket, $destinationObject, \Google\Service\Storage\ComposeRequest $postBody, $optParams = array())
@@ -47,8 +49,8 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Copies an object to a destination in the same location. Optionally overrides
-     * metadata. (objects.copy)
+     * Copies an object to a specified location. Optionally overrides metadata.
+     * (objects.copy)
      *
      * @param string $sourceBucket
      * Name of the bucket in which to find the source object.
@@ -66,30 +68,32 @@ class Resource extends \Google\Service\Resource
      * @opt_param string ifSourceGenerationNotMatch
      * Makes the operation conditional on whether the source object's generation does not match the
      * given value.
-     * @opt_param string ifGenerationMatch
-     * Makes the operation conditional on whether the destination object's current generation matches
-     * the given value.
      * @opt_param string ifGenerationNotMatch
      * Makes the operation conditional on whether the destination object's current generation does not
      * match the given value.
      * @opt_param string ifSourceMetagenerationNotMatch
      * Makes the operation conditional on whether the source object's current metageneration does not
      * match the given value.
-     * @opt_param string ifMetagenerationNotMatch
-     * Makes the operation conditional on whether the destination object's current metageneration does
-     * not match the given value.
+     * @opt_param string ifMetagenerationMatch
+     * Makes the operation conditional on whether the destination object's current metageneration
+     * matches the given value.
      * @opt_param string sourceGeneration
      * If present, selects a specific revision of the source object (as opposed to the latest version,
      * the default).
+     * @opt_param string destinationPredefinedAcl
+     * Apply a predefined set of access controls to the destination object.
      * @opt_param string ifSourceGenerationMatch
      * Makes the operation conditional on whether the source object's generation matches the given
      * value.
      * @opt_param string ifSourceMetagenerationMatch
      * Makes the operation conditional on whether the source object's current metageneration matches
      * the given value.
-     * @opt_param string ifMetagenerationMatch
-     * Makes the operation conditional on whether the destination object's current metageneration
-     * matches the given value.
+     * @opt_param string ifGenerationMatch
+     * Makes the operation conditional on whether the destination object's current generation matches
+     * the given value.
+     * @opt_param string ifMetagenerationNotMatch
+     * Makes the operation conditional on whether the destination object's current metageneration does
+     * not match the given value.
      * @opt_param string projection
      * Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl
      * property, when it defaults to full.
@@ -103,9 +107,9 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Deletes data blobs and associated metadata. Deletions are permanent if
-     * versioning is not enabled for the bucket, or if the generation parameter is
-     * used. (objects.delete)
+     * Deletes an object and its metadata. Deletions are permanent if versioning is
+     * not enabled for the bucket, or if the generation parameter is used.
+     * (objects.delete)
      *
      * @param string $bucket
      * Name of the bucket in which the object resides.
@@ -137,7 +141,7 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Retrieves objects or their associated metadata. (objects.get)
+     * Retrieves an object or its metadata. (objects.get)
      *
      * @param string $bucket
      * Name of the bucket in which the object resides.
@@ -171,7 +175,7 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Stores new data blobs and associated metadata. (objects.insert)
+     * Stores a new object and metadata. (objects.insert)
      *
      * @param string $bucket
      * Name of the bucket in which to store the new object. Overrides the provided object metadata's
@@ -179,6 +183,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\StorageObject $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this object.
      * @opt_param string projection
      * Set of properties to return. Defaults to noAcl, unless the object resource specifies the acl
      * property, when it defaults to full.
@@ -188,6 +194,11 @@ class Resource extends \Google\Service\Resource
      * @opt_param string ifMetagenerationMatch
      * Makes the operation conditional on whether the object's current metageneration matches the given
      * value.
+     * @opt_param string contentEncoding
+     * If set, sets the contentEncoding property of the final object to this value. Setting this
+     * parameter is equivalent to setting the contentEncoding metadata property. This can be useful
+     * when uploading an object with uploadType=media to indicate the encoding of the content being
+     * uploaded.
      * @opt_param string ifGenerationMatch
      * Makes the operation conditional on whether the object's current generation matches the given
      * value.
@@ -239,7 +250,7 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Updates a data blob's associated metadata. This method supports patch
+     * Updates an object's metadata. This method supports patch semantics.
      * semantics. (objects.patch)
      *
      * @param string $bucket
@@ -249,6 +260,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\StorageObject $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this object.
      * @opt_param string ifGenerationNotMatch
      * Makes the operation conditional on whether the object's current generation does not match the
      * given value.
@@ -276,7 +289,7 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
-     * Updates a data blob's associated metadata. (objects.update)
+     * Updates an object's metadata. (objects.update)
      *
      * @param string $bucket
      * Name of the bucket in which the object resides.
@@ -285,6 +298,8 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\StorageObject $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string predefinedAcl
+     * Apply a predefined set of access controls to this object.
      * @opt_param string ifGenerationNotMatch
      * Makes the operation conditional on whether the object's current generation does not match the
      * given value.

@@ -41,7 +41,6 @@ class REST
         return self::decodeHttpResponse($httpRequest);
     }
 
-
     /**
      * Decode an HTTP Response.
      * @static
@@ -84,8 +83,6 @@ class REST
             if ($decoded === null || $decoded === "") {
                 throw new \Google\Service\Exception("Invalid json in service response: $body");
             }
-
-            $decoded = isset($decoded['data']) ? $decoded['data'] : $decoded;
 
             if ($response->getExpectedClass()) {
                 $class = $response->getExpectedClass();

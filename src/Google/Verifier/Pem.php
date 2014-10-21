@@ -63,7 +63,8 @@ class Pem extends \Google\Verifier\VerifierAbstract
      */
     public function verify($data, $signature)
     {
-        $status = openssl_verify($data, $signature, $this->publicKey, "sha256");
+        $hash = defined("OPENSSL_ALGO_SHA256") ? OPENSSL_ALGO_SHA256 : "sha256";
+        $status = openssl_verify($data, $signature, $this->publicKey, $hash);
         if ($status === -1) {
             throw new \Google\Auth\Exception('Signature verification error: ' . openssl_error_string());
         }

@@ -19,6 +19,8 @@ namespace Google\Service\Storage;
 
 class BucketAccessControls extends \Google\Collection
 {
+    protected $collection_key = 'items';
+    protected $internal_gapi_mappings = array();
     protected $itemsType = 'Google\Service\Storage\BucketAccessControl';
     protected $itemsDataType = 'array';
     public $kind;

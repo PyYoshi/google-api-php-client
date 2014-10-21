@@ -1,14 +1,44 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: pyyoshi
- * Date: 2014/10/21
- * Time: 16:14
- */
+/*
+* Copyright 2010 Google Inc.
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may not
+* use this file except in compliance with the License. You may obtain a copy of
+* the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+* License for the specific language governing permissions and limitations under
+* the License.
+*/
 
 namespace Google\Service\Storage;
 
+class BucketAccessControlProjectTeam extends \Google\Model {
+    protected $internal_gapi_mappings = array();
+    public $projectNumber;
+    public $team;
 
-class BucketAccessControlProjectTeam {
+    public function setProjectNumber($projectNumber)
+    {
+        $this->projectNumber = $projectNumber;
+    }
 
+    public function getProjectNumber()
+    {
+        return $this->projectNumber;
+    }
+
+    public function setTeam($team)
+    {
+        $this->team = $team;
+    }
+
+    public function getTeam()
+    {
+        return $this->team;
+    }
 } 

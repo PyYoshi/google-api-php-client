@@ -20,6 +20,7 @@ namespace Google\Service\Storage;
 
 class BucketLogging extends \Google\Model
 {
+    protected $internal_gapi_mappings = array();
     public $logBucket;
     public $logObjectPrefix;
 
