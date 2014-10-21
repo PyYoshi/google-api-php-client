@@ -33,4 +33,3 @@ class ComposeRequestSourceObjectsObjectPreconditions extends \Google\Model
         return $this->ifGenerationMatch;
     }
 }
- 

@@ -85,8 +85,12 @@ class Resource extends \Google\Service\Resource
      * default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
-    public function insert($bucket, $object, \Google\Service\Storage\ObjectAccessControl $postBody, $optParams = array())
-    {
+    public function insert(
+        $bucket,
+        $object,
+        \Google\Service\Storage\ObjectAccessControl $postBody,
+        $optParams = array()
+    ) {
         $params = array('bucket' => $bucket, 'object' => $object, 'postBody' => $postBody);
         $params = array_merge($params, $optParams);
         return $this->call('insert', array($params), 'Google\Service\Storage\ObjectAccessControl');
@@ -133,8 +137,13 @@ class Resource extends \Google\Service\Resource
      * default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
-    public function patch($bucket, $object, $entity, \Google\Service\Storage\ObjectAccessControl $postBody, $optParams = array())
-    {
+    public function patch(
+        $bucket,
+        $object,
+        $entity,
+        \Google\Service\Storage\ObjectAccessControl $postBody,
+        $optParams = array()
+    ) {
         $params = array('bucket' => $bucket, 'object' => $object, 'entity' => $entity, 'postBody' => $postBody);
         $params = array_merge($params, $optParams);
         return $this->call('patch', array($params), 'Google\Service\Storage\ObjectAccessControl');
@@ -158,11 +167,20 @@ class Resource extends \Google\Service\Resource
      * default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
-    public function update($bucket, $object, $entity, \Google\Service\Storage\ObjectAccessControl $postBody, $optParams = array())
-    {
-        $params = array('bucket' => $bucket, 'object' => $object, 'entity' => $entity, 'postBody' => $postBody);
+    public function update(
+        $bucket,
+        $object,
+        $entity,
+        \Google\Service\Storage\ObjectAccessControl $postBody,
+        $optParams = array()
+    ) {
+        $params = array(
+            'bucket' => $bucket,
+            'object' => $object,
+            'entity' => $entity,
+            'postBody' => $postBody
+        );
         $params = array_merge($params, $optParams);
         return $this->call('update', array($params), 'Google\Service\Storage\ObjectAccessControl');
     }
 }
- 

@@ -46,4 +46,3 @@ class BucketLifecycleRule extends \Google\Model
         return $this->condition;
     }
 }
- 

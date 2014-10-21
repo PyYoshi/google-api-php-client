@@ -33,4 +33,3 @@ class BucketVersioning extends \Google\Model
         return $this->enabled;
     }
 }
- 

@@ -21,4 +21,3 @@ class Resource extends \Google\Service\Resource
 {
 
 }
- 

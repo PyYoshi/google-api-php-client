@@ -584,7 +584,8 @@ class Storage extends \Google\Service
                             ),
                         ),
                     ), 'copy' => array(
-                        'path' => 'b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}',
+                        'path' =>
+                            'b/{sourceBucket}/o/{sourceObject}/copyTo/b/{destinationBucket}/o/{destinationObject}',
                         'httpMethod' => 'POST',
                         'parameters' => array(
                             'sourceBucket' => array(

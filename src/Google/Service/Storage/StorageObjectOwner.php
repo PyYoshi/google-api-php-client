@@ -44,4 +44,3 @@ class StorageObjectOwner extends \Google\Model
         return $this->entityId;
     }
 }
- 

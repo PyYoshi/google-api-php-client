@@ -17,7 +17,8 @@
 
 namespace Google\Service\Storage;
 
-class ObjectAccessControlProjectTeam extends \Google\Model {
+class ObjectAccessControlProjectTeam extends \Google\Model
+{
     protected $internal_gapi_mappings = array();
     public $projectNumber;
     public $team;
@@ -41,4 +42,4 @@ class ObjectAccessControlProjectTeam extends \Google\Model {
     {
         return $this->team;
     }
-} 
+}

@@ -41,9 +41,17 @@ class Resource extends \Google\Service\Resource
      * Apply a predefined set of access controls to the destination object.
      * @return \Google\Service\Storage\StorageObject
      */
-    public function compose($destinationBucket, $destinationObject, \Google\Service\Storage\ComposeRequest $postBody, $optParams = array())
-    {
-        $params = array('destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
+    public function compose(
+        $destinationBucket,
+        $destinationObject,
+        \Google\Service\Storage\ComposeRequest $postBody,
+        $optParams = array()
+    ) {
+        $params = array(
+            'destinationBucket' => $destinationBucket,
+            'destinationObject' => $destinationObject,
+            'postBody' => $postBody
+        );
         $params = array_merge($params, $optParams);
         return $this->call('compose', array($params), 'Google\Service\Storage\StorageObject');
     }
@@ -99,9 +107,21 @@ class Resource extends \Google\Service\Resource
      * property, when it defaults to full.
      * @return \Google\Service\Storage\StorageObject
      */
-    public function copy($sourceBucket, $sourceObject, $destinationBucket, $destinationObject, \Google\Service\Storage\StorageObject $postBody, $optParams = array())
-    {
-        $params = array('sourceBucket' => $sourceBucket, 'sourceObject' => $sourceObject, 'destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
+    public function copy(
+        $sourceBucket,
+        $sourceObject,
+        $destinationBucket,
+        $destinationObject,
+        \Google\Service\Storage\StorageObject $postBody,
+        $optParams = array()
+    ) {
+        $params = array(
+            'sourceBucket' => $sourceBucket,
+            'sourceObject' => $sourceObject,
+            'destinationBucket' => $destinationBucket,
+            'destinationObject' => $destinationObject,
+            'postBody' => $postBody
+        );
         $params = array_merge($params, $optParams);
         return $this->call('copy', array($params), 'Google\Service\Storage\StorageObject');
     }
@@ -359,4 +379,3 @@ class Resource extends \Google\Service\Resource
         return $this->call('watchAll', array($params), 'Google\Service\Storage\Channel');
     }
 }
- 

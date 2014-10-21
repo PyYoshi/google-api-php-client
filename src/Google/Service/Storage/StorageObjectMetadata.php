@@ -17,6 +17,7 @@
 
 namespace Google\Service\Storage;
 
-class StorageObjectMetadata extends \Google\Model {
+class StorageObjectMetadata extends \Google\Model
+{
     protected $internal_gapi_mappings = array();
 }

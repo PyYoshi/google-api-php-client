@@ -129,4 +129,3 @@ class Oauth2 extends \Google\Service
         return $this->base_methods->call('tokeninfo', array($params), 'Google\Service\Oauth2\Tokeninfo');
     }
 }
- 

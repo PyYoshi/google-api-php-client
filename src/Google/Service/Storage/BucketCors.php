@@ -66,4 +66,3 @@ class BucketCors extends \Google\Collection
         return $this->responseHeader;
     }
 }
- 

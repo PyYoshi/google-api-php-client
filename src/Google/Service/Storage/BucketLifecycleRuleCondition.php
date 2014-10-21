@@ -66,4 +66,3 @@ class BucketLifecycleRuleCondition extends \Google\Model
         return $this->numNewerVersions;
     }
 }
- 

@@ -68,4 +68,3 @@ class Objects extends \Google\Collection
         return $this->prefixes;
     }
 }
- 

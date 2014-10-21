@@ -132,4 +132,3 @@ class Channel extends \Google\Model
         return $this->type;
     }
 }
- 

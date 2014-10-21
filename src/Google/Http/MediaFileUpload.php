@@ -78,8 +78,7 @@ class MediaFileUpload
         $resumable = false,
         $chunkSize = false,
         $boundary = false
-    )
-    {
+    ) {
         $this->client = $client;
         $this->request = $request;
         $this->mimeType = $mimeType;
@@ -207,10 +206,10 @@ class MediaFileUpload
         if (self::UPLOAD_RESUMABLE_TYPE == $uploadType) {
             $contentType = $mimeType;
             $postBody = is_string($meta) ? $meta : json_encode($meta);
-        } else if (self::UPLOAD_MEDIA_TYPE == $uploadType) {
+        } elseif (self::UPLOAD_MEDIA_TYPE == $uploadType) {
             $contentType = $mimeType;
             $postBody = $this->data;
-        } else if (self::UPLOAD_MULTIPART_TYPE == $uploadType) {
+        } elseif (self::UPLOAD_MULTIPART_TYPE == $uploadType) {
             // This is a multipart/related upload.
             $boundary = $this->boundary ? $this->boundary : mt_rand();
             $boundary = str_replace('"', '', $boundary);
@@ -286,7 +285,7 @@ class MediaFileUpload
         }
         $message = $code;
         $body = @json_decode($response->getResponseBody());
-        if (!empty( $body->error->errors ) ) {
+        if (!empty($body->error->errors)) {
             $message .= ': ';
             foreach ($body->error->errors as $error) {
                 $message .= "{$error->domain}, {$error->message};";

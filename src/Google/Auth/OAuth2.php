@@ -486,8 +486,7 @@ class OAuth2 extends \Google\Auth\AuthAbstract
         $required_audience,
         $issuer = null,
         $max_expiry = null
-    )
-    {
+    ) {
         if (!$max_expiry) {
             // Set the maximum time we will accept a token for.
             $max_expiry = self::MAX_TOKEN_LIFETIME_SECS;

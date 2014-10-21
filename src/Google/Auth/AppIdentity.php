@@ -24,7 +24,8 @@ namespace Google\Auth;
  */
 use google\appengine\api\app_identity\AppIdentityService;
 
-class AppIdentity extends \Google\Auth\AuthAbstract {
+class AppIdentity extends \Google\Auth\AuthAbstract
+{
     const CACHE_PREFIX = "Google_Auth_AppIdentity::";
     const CACHE_LIFETIME = 1500;
     private $key = null;
@@ -53,7 +54,7 @@ class AppIdentity extends \Google\Auth\AuthAbstract {
                 $memcache_key = self::CACHE_PREFIX;
                 if (is_string($scopes)) {
                     $memcache_key .= $scopes;
-                } else if (is_array($scopes)) {
+                } elseif (is_array($scopes)) {
                     $memcache_key .= implode(":", $scopes);
                 }
                 $memcache->set($memcache_key, $this->token, self::CACHE_LIFETIME);

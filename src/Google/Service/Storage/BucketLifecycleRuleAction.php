@@ -33,4 +33,3 @@ class BucketLifecycleRuleAction extends \Google\Model
         return $this->type;
     }
 }
- 

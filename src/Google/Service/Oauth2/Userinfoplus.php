@@ -147,4 +147,3 @@ class Userinfoplus extends \Google\Model
         return $this->verifiedEmail;
     }
 }
- 

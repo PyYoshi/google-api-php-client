@@ -121,11 +121,15 @@ class Resource extends \Google\Service\Resource
      * @param array $optParams Optional parameters.
      * @return \Google\Service\Storage\BucketAccessControl
      */
-    public function update($bucket, $entity, \Google\Service\Storage\BucketAccessControl $postBody, $optParams = array())
-    {
+    public function update(
+        $bucket,
+        $entity,
+        \Google\Service\Storage\BucketAccessControl
+        $postBody,
+        $optParams = array()
+    ) {
         $params = array('bucket' => $bucket, 'entity' => $entity, 'postBody' => $postBody);
         $params = array_merge($params, $optParams);
         return $this->call('update', array($params), 'Google\Service\Storage\BucketAccessControl');
     }
 }
- 

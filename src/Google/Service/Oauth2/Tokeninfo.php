@@ -115,4 +115,3 @@ class Tokeninfo extends \Google\Model
         return $this->verifiedEmail;
     }
 }
- 

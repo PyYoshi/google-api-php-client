@@ -45,4 +45,3 @@ class ObjectAccessControls extends \Google\Collection
         return $this->kind;
     }
 }
- 

@@ -57,8 +57,7 @@ class Request
         $method = 'GET',
         $headers = array(),
         $postBody = null
-    )
-    {
+    ) {
         $this->setUrl($url);
         $this->setRequestMethod($method);
         $this->setRequestHeaders($headers);

@@ -57,4 +57,3 @@ class Buckets extends \Google\Collection
         return $this->nextPageToken;
     }
 }
- 

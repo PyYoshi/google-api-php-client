@@ -46,8 +46,9 @@ class ComposeRequestSourceObjects extends \Google\Model
         return $this->name;
     }
 
-    public function setObjectPreconditions(\Google\Service\Storage\ComposeRequestSourceObjectsObjectPreconditions $objectPreconditions)
-    {
+    public function setObjectPreconditions(
+        \Google\Service\Storage\ComposeRequestSourceObjectsObjectPreconditions $objectPreconditions
+    ) {
         $this->objectPreconditions = $objectPreconditions;
     }
 
@@ -56,4 +57,3 @@ class ComposeRequestSourceObjects extends \Google\Model
         return $this->objectPreconditions;
     }
 }
- 

@@ -102,7 +102,7 @@ class Resource
                 // to use the smart method to create a simple object for
                 // for JSONification.
                 $parameters['postBody'] = $parameters['postBody']->toSimpleObject();
-            } else if (is_object($parameters['postBody'])) {
+            } elseif (is_object($parameters['postBody'])) {
                 // If the post body is another kind of object, we will try and
                 // wrangle it into a sensible format.
                 $parameters['postBody'] =
@@ -210,4 +210,3 @@ class Resource
         return $o;
     }
 }
- 

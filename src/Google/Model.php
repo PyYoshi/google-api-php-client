@@ -51,7 +51,7 @@ class Model implements \ArrayAccess
         if (isset($this->$keyTypeName) && !isset($this->processed[$key])) {
             if (isset($this->modelData[$key])) {
                 $val = $this->modelData[$key];
-            } else if (isset($this->$keyDataType) &&
+            } elseif (isset($this->$keyDataType) &&
                 ($this->$keyDataType == 'array' || $this->$keyDataType == 'map')) {
                 $val = array();
             } else {
@@ -67,7 +67,7 @@ class Model implements \ArrayAccess
                 } else {
                     $this->modelData[$key] = $this->createObjectFromName($keyTypeName, $val);
                 }
-            } else if (is_array($val)) {
+            } elseif (is_array($val)) {
                 $arrayObject = array();
                 foreach ($val as $arrayIndex => $arrayItem) {
                     $arrayObject[$arrayIndex] =
@@ -146,7 +146,7 @@ class Model implements \ArrayAccess
     {
         if ($value instanceof \Google\Model) {
             return $value->toSimpleObject();
-        } else if (is_array($value)) {
+        } elseif (is_array($value)) {
             $return = array();
             foreach ($value as $key => $a_value) {
                 $a_value = $this->getSimpleValue($a_value);

@@ -44,4 +44,3 @@ class BucketLogging extends \Google\Model
         return $this->logObjectPrefix;
     }
 }
- 

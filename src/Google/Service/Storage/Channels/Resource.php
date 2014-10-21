@@ -32,4 +32,3 @@ class Resource extends \Google\Service\Resource
         return $this->call('stop', array($params));
     }
 }
- 

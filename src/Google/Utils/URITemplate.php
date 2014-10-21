@@ -155,8 +155,7 @@ class URITemplate
         $reserved = false,
         $tag_empty = false,
         $combine_on_empty = true
-    )
-    {
+    ) {
         if (strpos($section, ",") === false) {
             // If we only have a single value, we can immediately process.
             return $this->combine(
@@ -193,8 +192,7 @@ class URITemplate
         $reserved,
         $tag_empty,
         $combine_on_empty
-    )
-    {
+    ) {
         $length = false;
         $explode = false;
         $skip_final_combine = false;
@@ -254,7 +252,7 @@ class URITemplate
                     }
                     break;
             }
-        } else if ($tag_empty) {
+        } elseif ($tag_empty) {
             // If we are just indicating empty values with their key name, return that.
             return $key;
         } else {
@@ -303,8 +301,7 @@ class URITemplate
         $reserved,
         $tag_empty,
         $combine_on_empty
-    )
-    {
+    ) {
         $ret = array();
         foreach ($vars as $var) {
             $response = $this->combine(

@@ -45,4 +45,3 @@ class BucketAccessControls extends \Google\Collection
         return $this->kind;
     }
 }
- 

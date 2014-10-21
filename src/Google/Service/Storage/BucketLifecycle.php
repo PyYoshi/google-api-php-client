@@ -35,4 +35,3 @@ class BucketLifecycle extends \Google\Collection
         return $this->rule;
     }
 }
- 

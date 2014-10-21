@@ -44,4 +44,3 @@ class BucketOwner extends \Google\Model
         return $this->entityId;
     }
 }
- 

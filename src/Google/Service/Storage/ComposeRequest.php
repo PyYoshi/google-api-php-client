@@ -57,4 +57,3 @@ class ComposeRequest extends \Google\Collection
         return $this->sourceObjects;
     }
 }
- 

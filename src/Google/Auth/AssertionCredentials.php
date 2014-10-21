@@ -58,8 +58,7 @@ class AssertionCredentials
         $assertionType = 'http://oauth.net/grant_type/jwt/1.0/bearer',
         $sub = false,
         $useCache = true
-    )
-    {
+    ) {
         $this->serviceAccountName = $serviceAccountName;
         $this->scopes = is_string($scopes) ? $scopes : implode(' ', $scopes);
         $this->privateKey = $privateKey;
@@ -101,7 +100,7 @@ class AssertionCredentials
 
         if ($this->sub !== false) {
             $jwtParams['sub'] = $this->sub;
-        } else if ($this->prn !== false) {
+        } elseif ($this->prn !== false) {
             $jwtParams['prn'] = $this->prn;
         }
 

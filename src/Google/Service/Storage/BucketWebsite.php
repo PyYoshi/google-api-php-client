@@ -44,4 +44,3 @@ class BucketWebsite extends \Google\Model
         return $this->notFoundPage;
     }
 }
- 

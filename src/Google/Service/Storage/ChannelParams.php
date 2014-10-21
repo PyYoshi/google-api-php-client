@@ -18,6 +18,7 @@
 namespace Google\Service\Storage;
 
 
-class ChannelParams extends \Google\Model {
+class ChannelParams extends \Google\Model
+{
     protected $internal_gapi_mappings = array();
 }

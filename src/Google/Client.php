@@ -72,7 +72,7 @@ class Client
     {
         if (is_string($config) && strlen($config)) {
             $config = new \Google\Config($config);
-        } else if (!($config instanceof \Google\Config)) {
+        } elseif (!($config instanceof \Google\Config)) {
             $config = new \Google\Config();
 
             if ($this->isAppEngine()) {
@@ -484,7 +484,7 @@ class Client
     {
         if (is_string($scope_or_scopes) && !in_array($scope_or_scopes, $this->requestedScopes)) {
             $this->requestedScopes[] = $scope_or_scopes;
-        } else if (is_array($scope_or_scopes)) {
+        } elseif (is_array($scope_or_scopes)) {
             foreach ($scope_or_scopes as $scope) {
                 $this->addScope($scope);
             }
@@ -545,7 +545,7 @@ class Client
             }
             $request->maybeMoveParametersToBody();
             return \Google\Http\REST::execute($this, $request);
-        } else if ($request instanceof \Google\Http\Batch) {
+        } elseif ($request instanceof \Google\Http\Batch) {
             return $request->execute();
         } else {
             throw new \Google\Exception("Do not know how to execute this type of object.");

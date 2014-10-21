@@ -144,4 +144,3 @@ class BucketAccessControl extends \Google\Model
         return $this->selfLink;
     }
 }
- 

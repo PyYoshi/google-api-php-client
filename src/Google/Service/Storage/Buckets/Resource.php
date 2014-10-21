@@ -161,4 +161,3 @@ class Resource extends \Google\Service\Resource
         return $this->call('update', array($params), 'Google\Service\Storage\Bucket');
     }
 }
- 
