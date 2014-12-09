@@ -26,7 +26,7 @@ namespace Google;
  */
 class Client
 {
-    const LIBVER = "1.1.0-beta";
+    const LIBVER = "1.1.2";
     const USER_AGENT_SUFFIX = "google-api-php-client/";
     /**
      * @var \Google\Auth\AuthAbstract $auth
@@ -47,6 +47,11 @@ class Client
      * @var \Google\Config $config
      */
     private $config;
+
+    /**
+     * @var \Google\Logger\Abstract $logger
+     */
+    private $logger;
 
     /**
      * @var boolean $deferExecution
@@ -87,7 +92,8 @@ class Client
         }
 
         if ($config->getIoClass() == \Google\Config::USE_AUTO_IO_SELECTION) {
-            if (function_exists('curl_version') && function_exists('curl_exec')) {
+            if (function_exists('curl_version') && function_exists('curl_exec')
+                 && !$this->isAppEngine()) {
                 $config->setIoClass('Google\IO\Curl');
             } else {
                 $config->setIoClass('Google\IO\Stream');
@@ -212,6 +218,16 @@ class Client
     {
         $this->config->setCacheClass(get_class($cache));
         $this->cache = $cache;
+    }
+
+    /**
+     * Set the Logger object
+     * @param \Google\Logger\LoggerAbstract $logger
+     */
+    public function setLogger(\Google\Logger\LoggerAbstract $logger)
+    {
+        $this->config->setLoggerClass(get_class($logger));
+        $this->logger = $logger;
     }
 
     /**
@@ -598,6 +614,18 @@ class Client
     }
 
     /**
+     * @return \Google\Logger\LoggerAbstract Logger implementation
+     */
+    public function getLogger()
+    {
+        if (!isset($this->logger)) {
+            $class = $this->config->getLoggerClass();
+            $this->logger = new $class($this);
+        }
+        return $this->logger;
+    }
+
+    /**
      * Retrieve custom configuration for a specific class.
      * @param $class string|object - class or instance of class to retrieve
      * @param $key string optional - key to retrieve
@@ -613,7 +641,7 @@ class Client
 
     /**
      * Set configuration specific to a given class.
-     * $config->setClassConfig('Google_Cache_File',
+     * $config->setClassConfig('Google\Cache\File',
      *   array('directory' => '/tmp/cache'));
      * @param $class string|object - The class name for the configuration
      * @param $config string key or an array of configuration values

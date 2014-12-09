@@ -21,8 +21,7 @@ namespace Google\Service;
  * Service definition for Oauth2 (v2).
  *
  * <p>
- * Lets you access OAuth2 protocol related APIs.
- * </p>
+ * Lets you access OAuth2 protocol related APIs.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -34,13 +33,17 @@ namespace Google\Service;
 class Oauth2 extends \Google\Service
 {
     /** Know your basic profile info and list of people in your circles.. */
-    const PLUS_LOGIN = "https://www.googleapis.com/auth/plus.login";
+    const PLUS_LOGIN =
+        "https://www.googleapis.com/auth/plus.login";
     /** Know who you are on Google. */
-    const PLUS_ME = "https://www.googleapis.com/auth/plus.me";
+    const PLUS_ME =
+        "https://www.googleapis.com/auth/plus.me";
     /** View your email address. */
-    const USERINFO_EMAIL = "https://www.googleapis.com/auth/userinfo.email";
+    const USERINFO_EMAIL =
+        "https://www.googleapis.com/auth/userinfo.email";
     /** View your basic profile info. */
-    const USERINFO_PROFILE = "https://www.googleapis.com/auth/userinfo.profile";
+    const USERINFO_PROFILE =
+        "https://www.googleapis.com/auth/userinfo.profile";
 
     public $userinfo;
     public $userinfo_v2_me;
@@ -117,9 +120,7 @@ class Oauth2 extends \Google\Service
      * @param array $optParams Optional parameters.
      *
      * @opt_param string access_token
-     *
      * @opt_param string id_token
-     *
      * @return \Google\Service\Oauth2\Tokeninfo
      */
     public function tokeninfo($optParams = array())

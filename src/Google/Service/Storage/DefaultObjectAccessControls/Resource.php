@@ -23,11 +23,10 @@ class Resource extends \Google\Service\Resource
      * Permanently deletes the default object ACL entry for the specified entity on
      * the specified bucket. (defaultObjectAccessControls.delete)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param array $optParams Optional parameters.
      */
     public function delete($bucket, $entity, $optParams = array())
@@ -41,11 +40,10 @@ class Resource extends \Google\Service\Resource
      * Returns the default object ACL entry for the specified entity on the
      * specified bucket. (defaultObjectAccessControls.get)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param array $optParams Optional parameters.
      * @return \Google\Service\Storage\ObjectAccessControl
      */
@@ -60,8 +58,7 @@ class Resource extends \Google\Service\Resource
      * Creates a new default object ACL entry on the specified bucket.
      * (defaultObjectAccessControls.insert)
      *
-     * @param string $bucket
-     * Name of a bucket.
+     * @param string $bucket Name of a bucket.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      * @return \Google\Service\Storage\ObjectAccessControl
@@ -77,16 +74,14 @@ class Resource extends \Google\Service\Resource
      * Retrieves default object ACL entries on the specified bucket.
      * (defaultObjectAccessControls.listDefaultObjectAccessControls)
      *
-     * @param string $bucket
-     * Name of a bucket.
+     * @param string $bucket Name of a bucket.
      * @param array $optParams Optional parameters.
      *
-     * * @opt_param string ifMetagenerationMatch
-     * If present, only return default ACL listing if the bucket's current metageneration matches this
+     * @opt_param string ifMetagenerationMatch If present, only return default ACL
+     * listing if the bucket's current metageneration matches this value.
+     * @opt_param string ifMetagenerationNotMatch If present, only return default
+     * ACL listing if the bucket's current metageneration does not match the given
      * value.
-     * @opt_param string ifMetagenerationNotMatch
-     * If present, only return default ACL listing if the bucket's current metageneration does not
-     * match the given value.
      * @return \Google\Service\Storage\ObjectAccessControls
      */
     public function listDefaultObjectAccessControls($bucket, $optParams = array())
@@ -100,11 +95,10 @@ class Resource extends \Google\Service\Resource
      * Updates a default object ACL entry on the specified bucket. This method
      * supports patch semantics. (defaultObjectAccessControls.patch)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      * @return \Google\Service\Storage\ObjectAccessControl
@@ -120,11 +114,10 @@ class Resource extends \Google\Service\Resource
      * Updates a default object ACL entry on the specified bucket.
      * (defaultObjectAccessControls.update)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      * @return \Google\Service\Storage\ObjectAccessControl

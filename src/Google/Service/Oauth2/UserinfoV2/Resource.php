@@ -19,5 +19,4 @@ namespace Google\Service\Oauth2\UserinfoV2;
 
 class Resource extends \Google\Service\Resource
 {
-
 }

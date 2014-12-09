@@ -27,7 +27,6 @@ use google\appengine\api\app_identity\AppIdentityService;
 class AppIdentity extends \Google\Auth\AuthAbstract
 {
     const CACHE_PREFIX = "Google_Auth_AppIdentity::";
-    const CACHE_LIFETIME = 1500;
     private $key = null;
     private $client;
     private $token = false;
@@ -46,18 +45,22 @@ class AppIdentity extends \Google\Auth\AuthAbstract
         if ($this->token && $this->tokenScopes == $scopes) {
             return $this->token;
         }
-        $memcache = new \Memcached();
-        $this->token = $memcache->get(self::CACHE_PREFIX . $scopes);
+
+        $cacheKey = self::CACHE_PREFIX;
+        if (is_string($scopes)) {
+            $cacheKey .= $scopes;
+        } elseif (is_array($scopes)) {
+            $cacheKey .= implode(":", $scopes);
+        }
+
+        $this->token = $this->client->getCache()->get($cacheKey);
         if (!$this->token) {
             $this->token = AppIdentityService::getAccessToken($scopes);
             if ($this->token) {
-                $memcache_key = self::CACHE_PREFIX;
-                if (is_string($scopes)) {
-                    $memcache_key .= $scopes;
-                } elseif (is_array($scopes)) {
-                    $memcache_key .= implode(":", $scopes);
-                }
-                $memcache->set($memcache_key, $this->token, self::CACHE_LIFETIME);
+                $this->client->getCache()->set(
+                    $cacheKey,
+                    $this->token
+                );
             }
         }
         $this->tokenScopes = $scopes;
@@ -77,7 +80,7 @@ class AppIdentity extends \Google\Auth\AuthAbstract
     public function authenticatedRequest(\Google\Http\Request $request)
     {
         $request = $this->sign($request);
-        return $this->io->makeRequest($request);
+        return $this->client->getIo()->makeRequest($request);
     }
 
     public function sign(\Google\Http\Request $request)
@@ -86,6 +89,9 @@ class AppIdentity extends \Google\Auth\AuthAbstract
             // No token, so nothing to do.
             return $request;
         }
+
+        $this->client->getLogger()->debug('App Identity authentication');
+
         // Add the OAuth2 header to the request
         $request->setRequestHeaders(
             array('Authorization' => 'Bearer ' . $this->token['access_token'])

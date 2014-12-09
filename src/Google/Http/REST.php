@@ -38,7 +38,7 @@ class REST
     {
         $httpRequest = $client->getIo()->makeRequest($req);
         $httpRequest->setExpectedClass($req->getExpectedClass());
-        return self::decodeHttpResponse($httpRequest);
+        return self::decodeHttpResponse($httpRequest, $client);
     }
 
     /**
@@ -46,9 +46,10 @@ class REST
      * @static
      * @throws \Google\Service\Exception
      * @param \Google\Http\Request $response The http response to be decoded.
+     * @param \Google\Client $client
      * @return mixed|null
      */
-    public static function decodeHttpResponse($response)
+    public static function decodeHttpResponse($response, \Google\Client $client = null)
     {
         $code = $response->getResponseHttpCode();
         $body = $response->getResponseBody();
@@ -74,6 +75,12 @@ class REST
                 $errors = $decoded['error']['errors'];
             }
 
+            if ($client) {
+                $client->getLogger()->error(
+                    $err,
+                    array('code' => $code, 'errors' => $errors)
+                );
+            }
             throw new \Google\Service\Exception($err, $code, null, $errors);
         }
 
@@ -81,7 +88,11 @@ class REST
         if ($code != '204') {
             $decoded = json_decode($body, true);
             if ($decoded === null || $decoded === "") {
-                throw new \Google\Service\Exception("Invalid json in service response: $body");
+                $error = "Invalid json in service response: $body";
+                if ($client) {
+                    $client->getLogger()->error($error);
+                }
+                throw new \Google\Service\Exception($error);
             }
 
             if ($response->getExpectedClass()) {

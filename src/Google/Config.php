@@ -46,6 +46,7 @@ class Config
             'auth_class' => 'Google\Auth\OAuth2',
             'io_class' => self::USE_AUTO_IO_SELECTION,
             'cache_class' => 'Google\Cache\File',
+            'logger_class'  => 'Google\Logger\Null',
 
             // Don't change these unless you're working against a special development
             // or testing environment.
@@ -55,6 +56,17 @@ class Config
             'classes' => array(
                 'Google\IO\IoAbstract' => array(
                     'request_timeout_seconds' => 100,
+                ),
+                'Google\Logger\LoggerAbstract' => array(
+                    'level' => 'debug',
+                    'log_format' => "[%datetime%] %level%: %message% %context%\n",
+                    'date_format' => 'd/M/Y:H:i:s O',
+                    'allow_newlines' => true
+                ),
+                'Google\Logger\File' => array(
+                    'file' => 'php://stdout',
+                    'mode' => 0640,
+                    'lock' => false,
                 ),
                 'Google\Http\Request' => array(
                     // Disable the use of gzip on calls if set to true. Defaults to false.
@@ -100,7 +112,11 @@ class Config
         if ($ini_file_location) {
             $ini = parse_ini_file($ini_file_location, true);
             if (is_array($ini) && count($ini)) {
-                $this->configuration = array_merge($this->configuration, $ini);
+                $merged_configuration = $ini + $this->configuration;
+                if (isset($ini['classes']) && isset($this->configuration['classes'])) {
+                    $merged_configuration['classes'] = $ini['classes'] + $this->configuration['classes'];
+                }
+                $this->configuration = $merged_configuration;
             }
         }
     }
@@ -109,9 +125,9 @@ class Config
      * Set configuration specific to a given class.
      * $config->setClassConfig('Google\Cache\File',
      *   array('directory' => '/tmp/cache'));
-     * @param [$class] The class name for the configuration
+     * @param $class string The class name for the configuration
      * @param $config string key or an array of configuration values
-     * @param [$value] optional - if $config is a key, the value
+     * @param $value string optional - if $config is a key, the value
      */
     public function setClassConfig($class, $config, $value = null)
     {
@@ -147,6 +163,15 @@ class Config
     }
 
     /**
+     * Return the configured logger class.
+     * @return string
+     */
+    public function getLoggerClass()
+    {
+        return $this->configuration['logger_class'];
+    }
+
+    /**
      * Return the configured Auth class.
      * @return string
      */
@@ -158,7 +183,7 @@ class Config
     /**
      * Set the auth class.
      *
-     * @param [$class] the class name to set
+     * @param [$class] string the class name to set
      */
     public function setAuthClass($class)
     {
@@ -175,7 +200,7 @@ class Config
     /**
      * Set the IO class.
      *
-     * @param [$class] the class name to set
+     * @param [$class] string the class name to set
      */
     public function setIoClass($class)
     {
@@ -192,7 +217,7 @@ class Config
     /**
      * Set the cache class.
      *
-     * @param [$class] the class name to set
+     * @param [$class] string the class name to set
      */
     public function setCacheClass($class)
     {
@@ -207,7 +232,24 @@ class Config
     }
 
     /**
+     * Set the logger class.
+     *
+     * @param $class string the class name to set
+     */
+    public function setLoggerClass($class)
+    {
+        $prev = $this->configuration['logger_class'];
+        if (!isset($this->configuration['classes'][$class]) &&
+            isset($this->configuration['classes'][$prev])) {
+            $this->configuration['classes'][$class] =
+                $this->configuration['classes'][$prev];
+        }
+        $this->configuration['logger_class'] = $class;
+    }
+
+    /**
      * Return the configured IO class.
+     *
      * @return string
      */
     public function getIoClass()
@@ -234,7 +276,7 @@ class Config
 
     /**
      * Set the client ID for the auth class.
-     * @param $key string - the API console client ID
+     * @param $clientId string - the API console client ID
      */
     public function setClientId($clientId)
     {
@@ -243,7 +285,7 @@ class Config
 
     /**
      * Set the client secret for the auth class.
-     * @param $key string - the API console client secret
+     * @param $secret string - the API console client secret
      */
     public function setClientSecret($secret)
     {
@@ -253,7 +295,7 @@ class Config
     /**
      * Set the redirect uri for the auth class. Note that if using the
      * Javascript based sign in flow, this should be the string 'postmessage'.
-     * @param $key string - the URI that users should be redirected to
+     * @param $uri string - the URI that users should be redirected to
      */
     public function setRedirectUri($uri)
     {

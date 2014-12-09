@@ -58,6 +58,9 @@ class Simple extends \Google\Auth\AuthAbstract
     {
         $key = $this->client->getClassConfig($this, 'developer_key');
         if ($key) {
+            $this->client->getLogger()->debug(
+                'Simple API Access developer key authentication'
+            );
             $request->setQueryParam('key', $key);
         }
         return $request;

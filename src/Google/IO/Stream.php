@@ -97,6 +97,16 @@ class Stream extends \Google\IO\IoAbstract
             $url = self::ZLIB . $url;
         }
 
+        $this->client->getLogger()->debug(
+            'Stream request',
+            array(
+                'url' => $url,
+                'method' => $request->getRequestMethod(),
+                'headers' => $requestHeaders,
+                'body' => $request->getPostBody()
+            )
+        );
+
         // We are trapping any thrown errors in this method only and
         // throwing an exception.
         $this->trappedErrorNumber = null;
@@ -109,13 +119,13 @@ class Stream extends \Google\IO\IoAbstract
         // END - error trap.
 
         if ($this->trappedErrorNumber) {
-            throw new \Google\IO\Exception(
-                sprintf(
-                    "HTTP Error: Unable to connect: '%s'",
-                    $this->trappedErrorString
-                ),
-                $this->trappedErrorNumber
+            $error = sprintf(
+                "HTTP Error: Unable to connect: '%s'",
+                $this->trappedErrorString
             );
+
+            $this->client->getLogger()->error('Stream ' . $error);
+            throw new \Google\IO\Exception($error, $this->trappedErrorNumber);
         }
 
         $response_data = false;
@@ -132,16 +142,25 @@ class Stream extends \Google\IO\IoAbstract
         }
 
         if (false === $response_data) {
-            throw new \Google\IO\Exception(
-                sprintf(
-                    "HTTP Error: Unable to connect: '%s'",
-                    $respHttpCode
-                ),
+            $error = sprintf(
+                "HTTP Error: Unable to connect: '%s'",
                 $respHttpCode
             );
+
+            $this->client->getLogger()->error('Stream ' . $error);
+            throw new \Google\IO\Exception($error, $respHttpCode);
         }
 
         $responseHeaders = $this->getHttpResponseHeaders($http_response_header);
+
+        $this->client->getLogger()->debug(
+            'Stream response',
+            array(
+                'code' => $respHttpCode,
+                'headers' => $responseHeaders,
+                'body' => $response_data,
+            )
+        );
 
         return array($response_data, $responseHeaders, $respHttpCode);
     }

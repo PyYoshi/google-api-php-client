@@ -21,8 +21,7 @@ namespace Google\Service;
  * Service definition for Storage (v1).
  *
  * <p>
- * Lets you store and retrieve potentially-large, immutable data objects.
- * </p>
+ * Lets you store and retrieve potentially-large, immutable data objects.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -34,13 +33,17 @@ namespace Google\Service;
 class Storage extends \Google\Service
 {
     /** View and manage your data across Google Cloud Platform services. */
-    const CLOUD_PLATFORM = "https://www.googleapis.com/auth/cloud-platform";
+    const CLOUD_PLATFORM =
+        "https://www.googleapis.com/auth/cloud-platform";
     /** Manage your data and permissions in Google Cloud Storage. */
-    const DEVSTORAGE_FULL_CONTROL = "https://www.googleapis.com/auth/devstorage.full_control";
+    const DEVSTORAGE_FULL_CONTROL =
+        "https://www.googleapis.com/auth/devstorage.full_control";
     /** View your data in Google Cloud Storage. */
-    const DEVSTORAGE_READ_ONLY = "https://www.googleapis.com/auth/devstorage.read_only";
+    const DEVSTORAGE_READ_ONLY =
+        "https://www.googleapis.com/auth/devstorage.read_only";
     /** Manage your data in Google Cloud Storage. */
-    const DEVSTORAGE_READ_WRITE = "https://www.googleapis.com/auth/devstorage.read_write";
+    const DEVSTORAGE_READ_WRITE =
+        "https://www.googleapis.com/auth/devstorage.read_write";
 
     public $bucketAccessControls;
     public $buckets;

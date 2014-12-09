@@ -28,11 +28,21 @@ namespace Google\Cache;
 class Apc extends \Google\Cache\CacheAbstract
 {
 
+    /**
+     * @var \Google\Client the current client
+     */
+    private $client;
+
     public function __construct(\Google\Client $client)
     {
         if (!function_exists('apc_add')) {
-            throw new \Google\Cache\Exception("Apc functions not available");
+            $error = "Apc functions not available";
+
+            $client->getLogger()->error($error);
+            throw new \Google\Cache\Exception($error);
         }
+
+        $this->client = $client;
     }
 
     /**
@@ -42,12 +52,26 @@ class Apc extends \Google\Cache\CacheAbstract
     {
         $ret = apc_fetch($key);
         if ($ret === false) {
+            $this->client->getLogger()->debug(
+                'APC cache miss',
+                array('key' => $key)
+            );
             return false;
         }
         if (is_numeric($expiration) && (time() - $ret['time'] > $expiration)) {
+            $this->client->getLogger()->debug(
+                'APC cache miss (expired)',
+                array('key' => $key, 'var' => $ret)
+            );
             $this->delete($key);
             return false;
         }
+
+        $this->client->getLogger()->debug(
+            'APC cache hit',
+            array('key' => $key, 'var' => $ret)
+        );
+
         return $ret['data'];
     }
 
@@ -56,10 +80,21 @@ class Apc extends \Google\Cache\CacheAbstract
      */
     public function set($key, $value)
     {
-        $rc = apc_store($key, array('time' => time(), 'data' => $value));
+        $var = array('time' => time(), 'data' => $value);
+        $rc = apc_store($key, $var);
+
         if ($rc == false) {
+            $this->client->getLogger()->error(
+                'APC cache set failed',
+                array('key' => $key, 'var' => $var)
+            );
             throw new \Google\Cache\Exception("Couldn't store data");
         }
+
+        $this->client->getLogger()->debug(
+            'APC cache set',
+            array('key' => $key, 'var' => $var)
+        );
     }
 
     /**
@@ -68,6 +103,10 @@ class Apc extends \Google\Cache\CacheAbstract
      */
     public function delete($key)
     {
+        $this->client->getLogger()->debug(
+            'APC cache delete',
+            array('key' => $key)
+        );
         apc_delete($key);
     }
 }

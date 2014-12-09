@@ -24,18 +24,15 @@ class Resource extends \Google\Service\Resource
      * Permanently deletes the ACL entry for the specified entity on the specified
      * object. (objectAccessControls.delete)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      */
     public function delete($bucket, $object, $entity, $optParams = array())
     {
@@ -48,18 +45,15 @@ class Resource extends \Google\Service\Resource
      * Returns the ACL entry for the specified entity on the specified object.
      * (objectAccessControls.get)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
     public function get($bucket, $object, $entity, $optParams = array())
@@ -73,16 +67,13 @@ class Resource extends \Google\Service\Resource
      * Creates a new ACL entry on the specified object.
      * (objectAccessControls.insert)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
     public function insert(
@@ -100,15 +91,12 @@ class Resource extends \Google\Service\Resource
      * Retrieves ACL entries on the specified object.
      * (objectAccessControls.listObjectAccessControls)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      * @return \Google\Service\Storage\ObjectAccessControls
      */
     public function listObjectAccessControls($bucket, $object, $optParams = array())
@@ -122,19 +110,16 @@ class Resource extends \Google\Service\Resource
      * Updates an ACL entry on the specified object. This method supports patch
      * semantics. (objectAccessControls.patch)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
     public function patch(
@@ -152,19 +137,16 @@ class Resource extends \Google\Service\Resource
     /**
      * Updates an ACL entry on the specified object. (objectAccessControls.update)
      *
-     * @param string $bucket
-     * Name of a bucket.
-     * @param string $object
-     * Name of the object.
-     * @param string $entity
-     * The entity holding the permission. Can be user-userId, user-emailAddress, group-groupId, group-
-     * emailAddress, allUsers, or allAuthenticatedUsers.
+     * @param string $bucket Name of a bucket.
+     * @param string $object Name of the object.
+     * @param string $entity The entity holding the permission. Can be user-userId,
+     * user-emailAddress, group-groupId, group-emailAddress, allUsers, or
+     * allAuthenticatedUsers.
      * @param \Google\Service\Storage\ObjectAccessControl $postBody
      * @param array $optParams Optional parameters.
      *
-     * @opt_param string generation
-     * If present, selects a specific revision of this object (as opposed to the latest version, the
-     * default).
+     * @opt_param string generation If present, selects a specific revision of this
+     * object (as opposed to the latest version, the default).
      * @return \Google\Service\Storage\ObjectAccessControl
      */
     public function update(
