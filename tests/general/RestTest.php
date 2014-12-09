@@ -18,13 +18,13 @@
 class RestTest extends BaseTest
 {
     /**
-     * @var \Google\Http\REST $rest
+     * @var \Google\Http\Rest $rest
      */
     private $rest;
 
     public function setUp()
     {
-        $this->rest = new \Google\Http\REST();
+        $this->rest = new \Google\Http\Rest();
     }
 
     public function testDecodeResponse()
