@@ -178,7 +178,7 @@ class MediaFileUpload
             // No problems, but upload not complete.
             return false;
         } else {
-            return \Google\Http\REST::decodeHttpResponse($response, $this->client);
+            return \Google\Http\Rest::decodeHttpResponse($response, $this->client);
         }
     }
 

@@ -23,7 +23,7 @@ namespace Google\Http;
  * @author Chris Chabot <chabotc@google.com>
  * @author Chirag Shah <chirags@google.com>
  */
-class REST
+class Rest
 {
     /**
      * Executes a \Google\Http_Request

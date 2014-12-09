@@ -191,7 +191,7 @@ class Resource
             )
         );
 
-        $url = \Google\Http\REST::createRequestUri(
+        $url = \Google\Http\Rest::createRequestUri(
             $servicePath,
             $method['path'],
             $parameters

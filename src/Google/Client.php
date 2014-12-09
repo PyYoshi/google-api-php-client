@@ -560,7 +560,7 @@ class Client
                 $request->enableGzip();
             }
             $request->maybeMoveParametersToBody();
-            return \Google\Http\REST::execute($this, $request);
+            return \Google\Http\Rest::execute($this, $request);
         } elseif ($request instanceof \Google\Http\Batch) {
             return $request->execute();
         } else {

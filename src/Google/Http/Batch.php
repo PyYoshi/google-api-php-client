@@ -124,7 +124,7 @@ class Batch
                     }
 
                     try {
-                        $response = \Google\Http\REST::decodeHttpResponse($response, $this->client);
+                        $response = \Google\Http\Rest::decodeHttpResponse($response, $this->client);
                         $responses[$key] = $response;
                     } catch (\Google\Service\Exception $e) {
                         // Store the exception as the response, so successful responses
