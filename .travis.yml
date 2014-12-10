@@ -20,8 +20,8 @@ before_script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;'
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi;'
   - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
-  - '[[ "$TRAVIS_PHP_VERSION" == "5.5" ]] || pecl install apcu-beta'
-  - '[[ "$TRAVIS_PHP_VERSION" == "5.6" ]] || pecl install apcu-beta'
+  - '[[ "$TRAVIS_PHP_VERSION" == "5.5" ]] || printf "\n" | pecl install apcu-beta'
+  - '[[ "$TRAVIS_PHP_VERSION" == "5.6" ]] || printf "\n" | pecl install apcu-beta'
   - phpenv version-name | grep ^5.[3456] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
 
 script:
