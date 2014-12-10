@@ -2,8 +2,8 @@
     "name": "pyyoshi/google-api-php-client",
     "type": "library",
     "description": "Client library for Google APIs",
-    "keywords": ["google"],
-    "homepage": "http://developers.google.com/api-client-library/php",
+    "keywords": ["google", "phalcon"],
+    "homepage": "https://github.com/PyYoshi/google-api-php-client",
     "license": "Apache-2.0",
     "require": {
         "php": ">=5.5.0"
