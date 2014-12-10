@@ -25,6 +25,21 @@ See the examples/ directory for examples of the key client features.
   $client->setDeveloperKey("YOUR_APP_KEY");
 ```
 
+## Support Phalcon PHP
+
+### example
+
+```php
+  # loader.php
+  $loader = new \Phalcon\Loader();
+  $loader->registerDirs([
+    __DIR__ . '/../../vendor/pyyoshi/google-api-php-client/src'
+  ])->register();
+
+  # example.php
+  var_dump(\Google\Client::LIBVER);
+```
+
 ## Code Quality ##
 
 ```bash
