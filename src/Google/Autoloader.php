@@ -58,7 +58,10 @@ class Autoloader
         if (strpos($name, self::NAME_SPACE) === 0) {
             $parts = explode("\\", $name);
             array_shift($parts);
-            $expected_path = join(DIRECTORY_SEPARATOR, array(self::$base_dir, join(DIRECTORY_SEPARATOR, $parts) . ".php"));
+            $expected_path = join(
+                DIRECTORY_SEPARATOR,
+                array(self::$base_dir, join(DIRECTORY_SEPARATOR, $parts) . ".php")
+            );
             if (is_file($expected_path) && is_readable($expected_path)) {
                 require $expected_path;
                 $retval = true;
