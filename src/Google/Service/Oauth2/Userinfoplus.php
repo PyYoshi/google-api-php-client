@@ -17,7 +17,6 @@
 
 namespace Google\Service\Oauth2;
 
-
 class Userinfoplus extends \Google\Model
 {
     protected $internal_gapi_mappings = array(

@@ -17,7 +17,6 @@
 
 namespace Google\Service\Autoscaler\ZoneOperations;
 
-
 /**
  * The "zoneOperations" collection of methods.
  * Typical usage is:

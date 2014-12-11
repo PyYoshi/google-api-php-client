@@ -17,7 +17,6 @@
 
 namespace Google\Service\Storage;
 
-
 class ObjectAccessControls extends \Google\Collection
 {
     protected $collection_key = 'items';

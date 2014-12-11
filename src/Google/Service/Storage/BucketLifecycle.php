@@ -17,7 +17,6 @@
 
 namespace Google\Service\Storage;
 
-
 class BucketLifecycle extends \Google\Collection
 {
     protected $collection_key = 'rule';

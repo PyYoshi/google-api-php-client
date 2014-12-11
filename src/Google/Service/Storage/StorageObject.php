@@ -17,7 +17,6 @@
 
 namespace Google\Service\Storage;
 
-
 class StorageObject extends \Google\Collection
 {
     protected $collection_key = 'acl';

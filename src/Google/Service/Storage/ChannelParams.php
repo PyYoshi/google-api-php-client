@@ -17,7 +17,6 @@
 
 namespace Google\Service\Storage;
 
-
 class ChannelParams extends \Google\Model
 {
 }
