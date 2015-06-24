@@ -17,7 +17,7 @@
 
 namespace Google\IO;
 
-class Exception extends \Google\Exception
+class Exception extends \Google\Exception implements \Google\Task\Retryable
 {
     /**
      * @var array $retryMap Map of errors with retry counts.
