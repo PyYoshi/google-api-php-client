@@ -26,10 +26,12 @@ class BaseTest extends \PHPUnit_Framework_TestCase {
         parent::__construct();
         // Fill in a token JSON here and you can test the oauth token
         // requiring functions.
-        // $this->token = '';
+        $this->token = <<<JSON_TOKEN
+{}
+JSON_TOKEN;
 
-        $this->memcacheHost = getenv('MEMCACHE_HOST') ? getenv('MEMCACHE_HOST') : null;
-        $this->memcachePort = getenv('MEMCACHE_PORT') ? getenv('MEMCACHE_PORT') : null;
+        $this->memcacheHost = getenv('MEMCACHE_HOST') ? getenv('MEMCACHE_HOST') : '127.0.0.1';
+        $this->memcachePort = getenv('MEMCACHE_PORT') ? getenv('MEMCACHE_PORT') : '11211';
     }
 
     public function getClient()
