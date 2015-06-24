@@ -343,7 +343,7 @@ class Resource extends \Google\Service\Resource
             'postBody' => $postBody
         );
         $params = array_merge($params, $optParams);
-        return $this->call('rewrite', array($params), '\Google\Service\Storage\RewriteResponse');
+        return $this->call('rewrite', array($params), 'Google\Service\Storage\RewriteResponse');
     }
 
     /**

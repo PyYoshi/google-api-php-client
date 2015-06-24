@@ -80,7 +80,7 @@ class Curl extends \Google\IO\IoAbstract
             curl_setopt($curl, CURLOPT_ENCODING, 'gzip,deflate');
         }
 
-        $options = $this->client->getClassConfig('\Google\IO\Curl', 'options');
+        $options = $this->client->getClassConfig('Google\IO\Curl', 'options');
         if (is_array($options)) {
             $this->setOptions($options);
         }
@@ -107,7 +107,7 @@ class Curl extends \Google\IO\IoAbstract
         if ($response === false) {
             $error = curl_error($curl);
             $code = curl_errno($curl);
-            $map = $this->client->getClassConfig('\Google\IO\Exception', 'retry_map');
+            $map = $this->client->getClassConfig('Google\IO\Exception', 'retry_map');
 
             $this->client->getLogger()->error('cURL ' . $error);
             throw new \Google\IO\Exception($error, $code, null, $map);

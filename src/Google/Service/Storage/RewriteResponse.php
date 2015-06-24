@@ -24,7 +24,7 @@ class RewriteResponse extends \Google\Model
     public $done;
     public $kind;
     public $objectSize;
-    protected $resourceType = '\Google\Service\Storage\StorageObject';
+    protected $resourceType = 'Google\Service\Storage\StorageObject';
     protected $resourceDataType = '';
     public $rewriteToken;
     public $totalBytesRewritten;
