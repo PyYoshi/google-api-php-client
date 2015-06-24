@@ -23,6 +23,7 @@ class Tokeninfo extends \Google\Model
         "accessType" => "access_type",
         "expiresIn" => "expires_in",
         "issuedTo" => "issued_to",
+        "tokenHandle" => "token_handle",
         "userId" => "user_id",
         "verifiedEmail" => "verified_email",
     );
@@ -32,6 +33,7 @@ class Tokeninfo extends \Google\Model
     public $expiresIn;
     public $issuedTo;
     public $scope;
+    public $tokenHandle;
     public $userId;
     public $verifiedEmail;
 
@@ -93,6 +95,16 @@ class Tokeninfo extends \Google\Model
     public function getScope()
     {
         return $this->scope;
+    }
+
+    public function setTokenHandle($tokenHandle)
+    {
+        $this->tokenHandle = $tokenHandle;
+    }
+
+    public function getTokenHandle()
+    {
+        return $this->tokenHandle;
     }
 
     public function setUserId($userId)

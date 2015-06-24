@@ -21,13 +21,9 @@ namespace Google\Auth;
  * Simple API access implementation. Can either be used to make requests
  * completely unauthenticated, or by using a Simple API Access developer
  * key.
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  */
 class Simple extends \Google\Auth\AuthAbstract
 {
-    private $key = null;
-
     /**
      * @var \Google\Client
      */

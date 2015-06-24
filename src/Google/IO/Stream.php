@@ -40,12 +40,23 @@ class Stream extends \Google\IO\IoAbstract
         "verify_peer" => true,
     );
 
+    public function __construct(\Google\Client $client)
+    {
+        if (!ini_get('allow_url_fopen')) {
+            $error = 'The stream IO handler requires the allow_url_fopen runtime ' .
+                'configuration to be enabled';
+            $client->getLogger()->critical($error);
+            throw new \Google\IO\Exception($error);
+        }
+
+        parent::__construct($client);
+    }
+
     /**
      * Execute an HTTP Request
      *
      * @param \Google\Http\Request $request the http request to be executed
-     * @return \Google\Http\Request http request with the response http code,
-     * response headers and response body filled in
+     * @return array containing response headers, body, and http code
      * @throws \Google\IO\Exception on curl or IO error
      */
     public function executeRequest(\Google\Http\Request $request)

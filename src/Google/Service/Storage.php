@@ -218,6 +218,10 @@ class Storage extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
+                            'predefinedDefaultObjectAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                         ),
                     ), 'list' => array(
                         'path' => 'b',
@@ -229,6 +233,10 @@ class Storage extends \Google\Service
                                 'required' => true,
                             ),
                             'pageToken' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'prefix' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -250,7 +258,15 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'projection' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'predefinedDefaultObjectAcl' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -259,10 +275,6 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                             ),
                             'ifMetagenerationNotMatch' => array(
-                                'location' => 'query',
-                                'type' => 'string',
-                            ),
-                            'projection' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -276,7 +288,15 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                                 'required' => true,
                             ),
+                            'projection' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                             'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'predefinedDefaultObjectAcl' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -285,10 +305,6 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                             ),
                             'ifMetagenerationNotMatch' => array(
-                                'location' => 'query',
-                                'type' => 'string',
-                            ),
-                            'projection' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
@@ -833,6 +849,83 @@ class Storage extends \Google\Service
                                 'type' => 'string',
                             ),
                             'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifGenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifMetagenerationNotMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'projection' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                        ),
+                    ),'rewrite' => array(
+                        'path' => 'b/{sourceBucket}/o/{sourceObject}/rewriteTo/b/{destinationBucket}/o/{destinationObject}',
+                        'httpMethod' => 'POST',
+                        'parameters' => array(
+                            'sourceBucket' => array(
+                                'location' => 'path',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                            'sourceObject' => array(
+                                'location' => 'path',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                            'destinationBucket' => array(
+                                'location' => 'path',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                            'destinationObject' => array(
+                                'location' => 'path',
+                                'type' => 'string',
+                                'required' => true,
+                            ),
+                            'ifSourceGenerationNotMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifGenerationNotMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'rewriteToken' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifSourceMetagenerationNotMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifMetagenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'sourceGeneration' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'destinationPredefinedAcl' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifSourceGenerationMatch' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'maxBytesRewrittenPerCall' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
+                            'ifSourceMetagenerationMatch' => array(
                                 'location' => 'query',
                                 'type' => 'string',
                             ),

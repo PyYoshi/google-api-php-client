@@ -27,7 +27,6 @@ use google\appengine\api\app_identity\AppIdentityService;
 class AppIdentity extends \Google\Auth\AuthAbstract
 {
     const CACHE_PREFIX = "Google_Auth_AppIdentity::";
-    private $key = null;
     private $client;
     private $token = false;
     private $tokenScopes = false;
@@ -49,22 +48,36 @@ class AppIdentity extends \Google\Auth\AuthAbstract
         $cacheKey = self::CACHE_PREFIX;
         if (is_string($scopes)) {
             $cacheKey .= $scopes;
-        } elseif (is_array($scopes)) {
+        } else if (is_array($scopes)) {
             $cacheKey .= implode(":", $scopes);
         }
 
         $this->token = $this->client->getCache()->get($cacheKey);
         if (!$this->token) {
-            $this->token = AppIdentityService::getAccessToken($scopes);
-            if ($this->token) {
-                $this->client->getCache()->set(
-                    $cacheKey,
-                    $this->token
-                );
-            }
+            $this->retrieveToken($scopes, $cacheKey);
+        } else if ($this->token['expiration_time'] < time()) {
+            $this->client->getCache()->delete($cacheKey);
+            $this->retrieveToken($scopes, $cacheKey);
         }
+
         $this->tokenScopes = $scopes;
         return $this->token;
+    }
+
+    /**
+     * Retrieve a new access token and store it in cache
+     * @param mixed $scopes
+     * @param string $cacheKey
+     */
+    private function retrieveToken($scopes, $cacheKey)
+    {
+        $this->token = AppIdentityService::getAccessToken($scopes);
+        if ($this->token) {
+            $this->client->getCache()->set(
+                $cacheKey,
+                $this->token
+            );
+        }
     }
 
     /**

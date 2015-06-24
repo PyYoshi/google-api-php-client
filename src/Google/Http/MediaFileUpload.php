@@ -18,8 +18,8 @@
 namespace Google\Http;
 
 /**
- * @author Chirag Shah <chirags@google.com>
- *
+ * Manage large file uploads, which may be media but can be any type
+ * of sizable data.
  */
 class MediaFileUpload
 {

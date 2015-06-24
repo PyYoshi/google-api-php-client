@@ -18,7 +18,7 @@
 namespace Google\Http;
 
 /**
- * @author Chirag Shah <chirags@google.com>
+ * Class to handle batched requests to the Google API service.
  */
 class Batch
 {

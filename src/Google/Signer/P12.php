@@ -44,6 +44,8 @@ class P12 extends \Google\Signer\SignerAbstract
         // at the time.
         if (!$password && strpos($p12, "-----BEGIN RSA PRIVATE KEY-----") !== false) {
             $this->privateKey = openssl_pkey_get_private($p12);
+        } elseif($password === 'notasecret' && strpos($p12, "-----BEGIN PRIVATE KEY-----") !== false) {
+            $this->privateKey = openssl_pkey_get_private($p12);
         } else {
             // This throws on error
             $certs = array();

@@ -22,9 +22,6 @@ namespace Google\Service;
  * calling overloading (__call()), which on call will see if the method name (plus.activities.list)
  * is available in this service, and if so construct an apiHttpRequest representing it.
  *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
- *
  */
 class Resource
 {
@@ -33,13 +30,13 @@ class Resource
         'alt' => array('type' => 'string', 'location' => 'query'),
         'fields' => array('type' => 'string', 'location' => 'query'),
         'trace' => array('type' => 'string', 'location' => 'query'),
-        'userIp' => array('type' => 'string', 'location' => 'query'),
         'userip' => array('type' => 'string', 'location' => 'query'),
         'quotaUser' => array('type' => 'string', 'location' => 'query'),
         'data' => array('type' => 'string', 'location' => 'body'),
         'mimeType' => array('type' => 'string', 'location' => 'header'),
         'uploadType' => array('type' => 'string', 'location' => 'query'),
         'mediaUpload' => array('type' => 'complex', 'location' => 'query'),
+        'prettyPrint' => array('type' => 'string', 'location' => 'query'),
     );
 
     /** @var \Google\Service $service */
@@ -50,6 +47,9 @@ class Resource
 
     /** @var string $serviceName */
     private $serviceName;
+
+    /** @var string $servicePath */
+    private $servicePath;
 
     /** @var string $resourceName */
     private $resourceName;
@@ -65,11 +65,12 @@ class Resource
      */
     public function __construct($service, $serviceName, $resourceName, $resource)
     {
-        $this->service = $service;
+        $this->rootUrl = $service->rootUrl;
         $this->client = $service->getClient();
+        $this->servicePath = $service->servicePath;
         $this->serviceName = $serviceName;
         $this->resourceName = $resourceName;
-        $this->methods = isset($resource['methods']) ?
+        $this->methods = is_array($resource) && isset($resource['methods']) ?
             $resource['methods'] :
             array($resourceName => $resource);
     }
@@ -179,8 +180,6 @@ class Resource
             }
         }
 
-        $servicePath = $this->service->servicePath;
-
         $this->client->getLogger()->info(
             'Service Call',
             array(
@@ -192,7 +191,7 @@ class Resource
         );
 
         $url = \Google\Http\Rest::createRequestUri(
-            $servicePath,
+            $this->servicePath,
             $method['path'],
             $parameters
         );
@@ -202,7 +201,12 @@ class Resource
             null,
             $postBody
         );
-        $httpRequest->setBaseComponent($this->client->getBasePath());
+
+        if ($this->rootUrl) {
+            $httpRequest->setBaseComponent($this->rootUrl);
+        } else {
+            $httpRequest->setBaseComponent($this->client->getBasePath());
+        }
 
         if ($postBody) {
             $contentTypeHeader = array();
@@ -224,6 +228,10 @@ class Resource
                 isset($parameters['mimeType']) ? $parameters['mimeType']['value'] : 'application/octet-stream',
                 $parameters['data']['value']
             );
+        }
+
+        if (isset($parameters['alt']) && $parameters['alt']['value'] == 'media') {
+            $httpRequest->enableExpectedRaw();
         }
 
         if ($this->client->shouldDefer()) {

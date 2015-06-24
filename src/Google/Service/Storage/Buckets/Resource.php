@@ -72,6 +72,8 @@ class Resource extends \Google\Service\Resource
      * @opt_param string projection Set of properties to return. Defaults to noAcl,
      * unless the bucket resource specifies acl or defaultObjectAcl properties, when
      * it defaults to full.
+     * @opt_param string predefinedDefaultObjectAcl Apply a predefined set of
+     * default object access controls to this bucket.
      * @return \Google\Service\Storage\Bucket
      */
     public function insert($project, \Google\Service\Storage\Bucket $postBody, $optParams = array())
@@ -89,6 +91,8 @@ class Resource extends \Google\Service\Resource
      *
      * @opt_param string pageToken A previously-returned page token representing
      * part of the larger set of results to view.
+     * @opt_param string prefix Filter results to buckets whose names begin with
+     * this prefix.
      * @opt_param string projection Set of properties to return. Defaults to noAcl.
      * @opt_param string maxResults Maximum number of buckets to return.
      * @return \Google\Service\Storage\Buckets
@@ -107,15 +111,17 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\Bucket $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string projection Set of properties to return. Defaults to full.
      * @opt_param string ifMetagenerationMatch Makes the return of the bucket
      * metadata conditional on whether the bucket's current metageneration matches
      * the given value.
+     * @opt_param string predefinedDefaultObjectAcl Apply a predefined set of
+     * default object access controls to this bucket.
      * @opt_param string predefinedAcl Apply a predefined set of access controls to
      * this bucket.
      * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket
      * metadata conditional on whether the bucket's current metageneration does not
      * match the given value.
-     * @opt_param string projection Set of properties to return. Defaults to full.
      * @return \Google\Service\Storage\Bucket
      */
     public function patch($bucket, \Google\Service\Storage\Bucket $postBody, $optParams = array())
@@ -132,15 +138,17 @@ class Resource extends \Google\Service\Resource
      * @param \Google\Service\Storage\Bucket $postBody
      * @param array $optParams Optional parameters.
      *
+     * @opt_param string projection Set of properties to return. Defaults to full.
      * @opt_param string ifMetagenerationMatch Makes the return of the bucket
      * metadata conditional on whether the bucket's current metageneration matches
      * the given value.
+     * @opt_param string predefinedDefaultObjectAcl Apply a predefined set of
+     * default object access controls to this bucket.
      * @opt_param string predefinedAcl Apply a predefined set of access controls to
      * this bucket.
      * @opt_param string ifMetagenerationNotMatch Makes the return of the bucket
      * metadata conditional on whether the bucket's current metageneration does not
      * match the given value.
-     * @opt_param string projection Set of properties to return. Defaults to full.
      * @return \Google\Service\Storage\Bucket
      */
     public function update($bucket, \Google\Service\Storage\Bucket $postBody, $optParams = array())

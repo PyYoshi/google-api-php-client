@@ -20,9 +20,6 @@ namespace Google\Auth;
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
  *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
- *
  */
 class OAuth2 extends \Google\Auth\AuthAbstract
 {

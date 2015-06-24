@@ -21,12 +21,10 @@ namespace Google;
  * The Google API Client
  * http://code.google.com/p/google-api-php-client/
  *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  */
 class Client
 {
-    const LIBVER = "1.1.2";
+    const LIBVER = "1.1.4";
     const USER_AGENT_SUFFIX = "google-api-php-client/";
     /**
      * @var \Google\Auth\AuthAbstract $auth
@@ -49,7 +47,7 @@ class Client
     private $config;
 
     /**
-     * @var \Google\Logger\Abstract $logger
+     * @var \Google\Logger\LoggerAbstract $logger
      */
     private $logger;
 
@@ -124,6 +122,33 @@ class Client
     {
         $this->authenticated = true;
         return $this->getAuth()->authenticate($code);
+    }
+
+    /**
+     * Loads a service account key and parameters from a JSON
+     * file from the Google Developer Console. Uses that and the
+     * given array of scopes to return an assertion credential for
+     * use with refreshTokenWithAssertionCredential.
+     *
+     * @param string $jsonLocation File location of the project-key.json.
+     * @param array $scopes The scopes to assert.
+     * @return \Google\Auth\AssertionCredentials.
+     * @
+     */
+    public function loadServiceAccountJson($jsonLocation, $scopes)
+    {
+        $data = json_decode(file_get_contents($jsonLocation));
+        if (isset($data->type) && $data->type == 'service_account') {
+            // Service Account format.
+            $cred = new \Google\Auth\AssertionCredentials(
+                $data->client_email,
+                $scopes,
+                $data->private_key
+            );
+            return $cred;
+        } else {
+            throw new \Google\Exception("Invalid service account JSON file.");
+        }
     }
 
     /**

@@ -20,13 +20,12 @@ namespace Google\Http;
 /**
  * This class implements the RESTful transport of apiServiceRequest()'s
  *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  */
 class Rest
 {
     /**
-     * Executes a \Google\Http_Request
+     * Executes a \Google\Http\Request and (if applicable) automatically retries
+     * when errors occur.
      *
      * @param \Google\Client $client
      * @param \Google\Http\Request $req
@@ -35,6 +34,27 @@ class Rest
      *  invalid or malformed post body, invalid url)
      */
     public static function execute(\Google\Client $client, \Google\Http\Request $req)
+    {
+        $runner = new \Google\Task\Runner(
+            $client,
+            sprintf('%s %s', $req->getRequestMethod(), $req->getUrl()),
+            array(get_class(), 'doExecute'),
+            array($client, $req)
+        );
+
+        return $runner->run();
+    }
+
+    /**
+     * Executes a \Google\Http\Request
+     *
+     * @param \Google\Client $client
+     * @param \Google\Http\Request $req
+     * @return array decoded result
+     * @throws \Google\Service\Exception on server side error (ie: not authenticated,
+     *  invalid or malformed post body, invalid url)
+     */
+    public static function doExecute(\Google\Client $client, \Google\Http\Request $req)
     {
         $httpRequest = $client->getIo()->makeRequest($req);
         $httpRequest->setExpectedClass($req->getExpectedClass());
@@ -51,6 +71,7 @@ class Rest
      */
     public static function decodeHttpResponse($response, \Google\Client $client = null)
     {
+        /** @var $response \Google\Http\Request $code */
         $code = $response->getResponseHttpCode();
         $body = $response->getResponseBody();
         $decoded = null;
@@ -59,9 +80,8 @@ class Rest
             $decoded = json_decode($body, true);
             $err = 'Error calling ' . $response->getRequestMethod() . ' ' . $response->getUrl();
             if (isset($decoded['error']) &&
-                isset($decoded['error']['message']) &&
-                isset($decoded['error']['code'])
-            ) {
+                isset($decoded['error']['message'])  &&
+                isset($decoded['error']['code'])) {
                 // if we're getting a json encoded error definition, use that instead of the raw response
                 // body for improved readability
                 $err .= ": ({$decoded['error']['code']}) {$decoded['error']['message']}";
@@ -75,17 +95,27 @@ class Rest
                 $errors = $decoded['error']['errors'];
             }
 
+            $map = null;
             if ($client) {
                 $client->getLogger()->error(
                     $err,
                     array('code' => $code, 'errors' => $errors)
                 );
+
+                $map = $client->getClassConfig(
+                    'Google\Service\Exception',
+                    'retry_map'
+                );
             }
-            throw new \Google\Service\Exception($err, $code, null, $errors);
+            throw new \Google\Service\Exception($err, $code, null, $errors, $map);
         }
 
         // Only attempt to decode the response, if the response code wasn't (204) 'no content'
         if ($code != '204') {
+            if ($response->getExpectedRaw()) {
+                return $body;
+            }
+
             $decoded = json_decode($body, true);
             if ($decoded === null || $decoded === "") {
                 $error = "Invalid json in service response: $body";
@@ -126,10 +156,10 @@ class Rest
             } elseif ($paramSpec['location'] == 'query') {
                 if (isset($paramSpec['repeated']) && is_array($paramSpec['value'])) {
                     foreach ($paramSpec['value'] as $value) {
-                        $queryVars[] = $paramName . '=' . rawurlencode($value);
+                        $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($value));
                     }
                 } else {
-                    $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+                    $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($paramSpec['value']));
                 }
             }
         }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010 Google Inc.
+ * Copyright 2014 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +15,15 @@
  * limitations under the License.
  */
 
-namespace Google;
+namespace Google\Task;
 
-class Service
-{
-    public $rootUrl;
-    public $version;
-    public $servicePath;
-    public $availableScopes;
-    public $resource;
-    private $client;
-
-    public function __construct(\Google\Client $client)
-    {
-        $this->client = $client;
-    }
-
+interface Retryable {
     /**
-     * Return the associated \Google\Client class.
-     * @return \Google\Client
+     * Gets the number of times the associated task can be retried.
+     *
+     * NOTE: -1 is returned if the task can be retried indefinitely
+     *
+     * @return integer
      */
-    public function getClient()
-    {
-        return $this->client;
-    }
+    public function allowedRetries();
 }

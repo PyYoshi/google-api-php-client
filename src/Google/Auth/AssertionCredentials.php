@@ -20,7 +20,6 @@ namespace Google\Auth;
 /**
  * Credentials object used for OAuth 2.0 Signed JWT assertion grants.
  *
- * @author Chirag Shah <chirags@google.com>
  */
 class AssertionCredentials
 {

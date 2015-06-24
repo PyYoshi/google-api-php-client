@@ -216,13 +216,13 @@ class Resource extends \Google\Service\Resource
      * @param array $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to noAcl.
-     * @opt_param bool versions If true, lists all versions of a file as distinct
-     * results.
+     * @opt_param bool versions If true, lists all versions of an object as distinct
+     * results. The default is false. For more information, see Object Versioning.
      * @opt_param string prefix Filter results to objects whose names begin with
      * this prefix.
      * @opt_param string maxResults Maximum number of items plus prefixes to return.
      * As duplicate prefixes are omitted, fewer total results may be returned than
-     * requested.
+     * requested. The default value of this parameter is 1,000 items.
      * @opt_param string pageToken A previously-returned page token representing
      * part of the larger set of results to view.
      * @opt_param string delimiter Returns results in a directory-like mode. items
@@ -271,6 +271,70 @@ class Resource extends \Google\Service\Resource
     }
 
     /**
+     * Rewrites a source object to a destination object. Optionally overrides
+     * metadata. (objects.rewrite)
+     *
+     * @param string $sourceBucket Name of the bucket in which to find the source
+     * object.
+     * @param string $sourceObject Name of the source object.
+     * @param string $destinationBucket Name of the bucket in which to store the new
+     * object. Overrides the provided object metadata's bucket value, if any.
+     * @param string $destinationObject Name of the new object. Required when the
+     * object metadata is not otherwise provided. Overrides the object metadata's
+     * name value, if any.
+     * @param \Google\Service\Storage\StorageObject $postBody
+     * @param array $optParams Optional parameters.
+     *
+     * @opt_param string ifSourceGenerationNotMatch Makes the operation conditional
+     * on whether the source object's generation does not match the given value.
+     * @opt_param string ifGenerationNotMatch Makes the operation conditional on
+     * whether the destination object's current generation does not match the given
+     * value.
+     * @opt_param string rewriteToken Include this field (from the previous Rewrite
+     * response) on each Rewrite request after the first one, until the Rewrite
+     * response 'done' flag is true. Calls that provide a rewriteToken can omit all
+     * other request fields, but if included those fields must match the values
+     * provided in the first rewrite request.
+     * @opt_param string ifSourceMetagenerationNotMatch Makes the operation
+     * conditional on whether the source object's current metageneration does not
+     * match the given value.
+     * @opt_param string ifMetagenerationMatch Makes the operation conditional on
+     * whether the destination object's current metageneration matches the given
+     * value.
+     * @opt_param string sourceGeneration If present, selects a specific revision of
+     * the source object (as opposed to the latest version, the default).
+     * @opt_param string destinationPredefinedAcl Apply a predefined set of access
+     * controls to the destination object.
+     * @opt_param string ifSourceGenerationMatch Makes the operation conditional on
+     * whether the source object's generation matches the given value.
+     * @opt_param string maxBytesRewrittenPerCall The maximum number of bytes that
+     * will be rewritten per Rewrite request. Most callers shouldn't need to specify
+     * this parameter - it is primarily in place to support testing. If specified
+     * the value must be an integral multiple of 1 MiB (1048576). Also, this only
+     * applies to requests where the source and destination span locations and/or
+     * storage classes. Finally, this value must not change across Rewrite calls
+     * else you'll get an error that the rewrite token is invalid.
+     * @opt_param string ifSourceMetagenerationMatch Makes the operation conditional
+     * on whether the source object's current metageneration matches the given
+     * value.
+     * @opt_param string ifGenerationMatch Makes the operation conditional on
+     * whether the destination object's current generation matches the given value.
+     * @opt_param string ifMetagenerationNotMatch Makes the operation conditional on
+     * whether the destination object's current metageneration does not match the
+     * given value.
+     * @opt_param string projection Set of properties to return. Defaults to noAcl,
+     * unless the object resource specifies the acl property, when it defaults to
+     * full.
+     * @return \Google\Service\Storage\RewriteResponse
+     */
+    public function rewrite($sourceBucket, $sourceObject, $destinationBucket, $destinationObject, \Google\Service\Storage\StorageObject $postBody, $optParams = array())
+    {
+        $params = array('sourceBucket' => $sourceBucket, 'sourceObject' => $sourceObject, 'destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
+        $params = array_merge($params, $optParams);
+        return $this->call('rewrite', array($params), '\Google\Service\Storage\RewriteResponse');
+    }
+
+    /**
      * Updates an object's metadata. (objects.update)
      *
      * @param string $bucket Name of the bucket in which the object resides.
@@ -308,13 +372,13 @@ class Resource extends \Google\Service\Resource
      * @param array $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to noAcl.
-     * @opt_param bool versions If true, lists all versions of a file as distinct
-     * results.
+     * @opt_param bool versions If true, lists all versions of an object as distinct
+     * results. The default is false. For more information, see Object Versioning.
      * @opt_param string prefix Filter results to objects whose names begin with
      * this prefix.
      * @opt_param string maxResults Maximum number of items plus prefixes to return.
      * As duplicate prefixes are omitted, fewer total results may be returned than
-     * requested.
+     * requested. The default value of this parameter is 1,000 items.
      * @opt_param string pageToken A previously-returned page token representing
      * part of the larger set of results to view.
      * @opt_param string delimiter Returns results in a directory-like mode. items

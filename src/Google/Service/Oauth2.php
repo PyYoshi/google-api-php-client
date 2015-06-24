@@ -95,7 +95,11 @@ class Oauth2 extends \Google\Service
             '',
             array(
                 'methods' => array(
-                    'tokeninfo' => array(
+                    'getCertForOpenIdConnect' => array(
+                        'path' => 'oauth2/v2/certs',
+                        'httpMethod' => 'GET',
+                        'parameters' => array(),
+                    ),'tokeninfo' => array(
                         'path' => 'oauth2/v2/tokeninfo',
                         'httpMethod' => 'POST',
                         'parameters' => array(
@@ -107,11 +111,28 @@ class Oauth2 extends \Google\Service
                                 'location' => 'query',
                                 'type' => 'string',
                             ),
+                            'token_handle' => array(
+                                'location' => 'query',
+                                'type' => 'string',
+                            ),
                         ),
                     ),
                 )
             )
         );
+    }
+
+    /**
+     * (getCertForOpenIdConnect)
+     *
+     * @param array $optParams Optional parameters.
+     * @return \Google\Service\Oauth2\Jwk
+     */
+    public function getCertForOpenIdConnect($optParams = array())
+    {
+        $params = array();
+        $params = array_merge($params, $optParams);
+        return $this->base_methods->call('getCertForOpenIdConnect', array($params), "Google_Service_Oauth2_Jwk");
     }
 
     /**
@@ -121,6 +142,7 @@ class Oauth2 extends \Google\Service
      *
      * @opt_param string access_token
      * @opt_param string id_token
+     * * @opt_param string token_handle
      * @return \Google\Service\Oauth2\Tokeninfo
      */
     public function tokeninfo($optParams = array())

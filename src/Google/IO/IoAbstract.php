@@ -30,6 +30,16 @@ abstract class IoAbstract
         "HTTP/1.1 200 Connection established\r\n\r\n",
     );
     private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
+    private static $HOP_BY_HOP = array(
+        'connection' => true,
+        'keep-alive' => true,
+        'proxy-authenticate' => true,
+        'proxy-authorization' => true,
+        'te' => true,
+        'trailers' => true,
+        'transfer-encoding' => true,
+        'upgrade' => true
+    );
 
     /** @var \Google\Client */
     protected $client;
@@ -44,9 +54,10 @@ abstract class IoAbstract
     }
 
     /**
-     * Executes a \Google\Http\Request and returns the resulting populated \Google\Http\Request
-     * @param \Google\Http\Request $request
-     * @return \Google\Http\Request $request
+     * Executes a \Google\Http\Request
+     * @param \Google\Http\Request $request the http request to be executed
+     * @return array containing response headers, body, and http code
+     * @throws \Google\IO\Exception on curl or IO error
      */
     abstract public function executeRequest(\Google\Http\Request $request);
 
@@ -128,7 +139,7 @@ abstract class IoAbstract
         }
 
         if (!isset($responseHeaders['Date']) && !isset($responseHeaders['date'])) {
-            $responseHeaders['Date'] = date("r");
+            $responseHeaders['date'] = date("r");
         }
 
         $request->setResponseHttpCode($respHttpCode);
@@ -221,23 +232,19 @@ abstract class IoAbstract
      */
     protected function updateCachedRequest($cached, $responseHeaders)
     {
-        if (isset($responseHeaders['connection'])) {
-            $hopByHop = array_merge(
-                self::$HOP_BY_HOP,
-                explode(
-                    ',',
-                    $responseHeaders['connection']
+        $hopByHop = self::$HOP_BY_HOP;
+        if (!empty($responseHeaders['connection'])) {
+            $connectionHeaders = array_map(
+                'strtolower',
+                array_filter(
+                    array_map('trim', explode(',', $responseHeaders['connection']))
                 )
             );
-
-            $endToEnd = array();
-            foreach ($hopByHop as $key) {
-                if (isset($responseHeaders[$key])) {
-                    $endToEnd[$key] = $responseHeaders[$key];
-                }
-            }
-            $cached->setResponseHeaders($endToEnd);
+            $hopByHop += array_fill_keys($connectionHeaders, true);
         }
+
+        $endToEnd = array_diff_key($responseHeaders, $hopByHop);
+        $cached->setResponseHeaders($endToEnd);
     }
 
     /**
@@ -320,7 +327,7 @@ abstract class IoAbstract
             // Times will have colons in - so we just want the first match.
             $header_parts = explode(': ', $header, 2);
             if (count($header_parts) == 2) {
-                $headers[$header_parts[0]] = $header_parts[1];
+                $headers[strtolower($header_parts[0])] = $header_parts[1];
             }
         }
 
