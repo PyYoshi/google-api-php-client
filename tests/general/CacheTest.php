@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,117 +18,116 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 class CacheTest extends BaseTest
 {
-  public function testFile()
-  {
-    $dir = sys_get_temp_dir() . '/google-api-php-client/tests';
-    $client = $this->getClient();
-    $client->setClassConfig(
-        'Google\Cache\File',
-        'directory',
-        $dir
-    );
-    $cache = new \Google\Cache\File($client);
-    $cache->set('foo', 'bar');
-    $this->assertEquals($cache->get('foo'), 'bar');
+    public function testFile()
+    {
+        $dir = sys_get_temp_dir() . '/google-api-php-client/tests';
+        $client = $this->getClient();
+        $client->setClassConfig(
+            'Google\Cache\File',
+            'directory',
+            $dir
+        );
+        $cache = new \Google\Cache\File($client);
+        $cache->set('foo', 'bar');
+        $this->assertEquals($cache->get('foo'), 'bar');
 
-    $this->getSetDelete($cache);
-  }
-
-  /**
-   * @requires extension Memcache
-   */
-  public function testNull()
-  {
-    $client = $this->getClient();
-    $cache = new \Google\Cache\Null($client);
-    $client->setCache($cache);
-
-    $cache->set('foo', 'bar');
-    $cache->delete('foo');
-    $this->assertEquals(false, $cache->get('foo'));
-
-    $cache->set('foo.1', 'bar.1');
-    $this->assertEquals($cache->get('foo.1'), false);
-
-    $cache->set('foo', 'baz');
-    $this->assertEquals($cache->get('foo'), false);
-
-    $cache->set('foo', null);
-    $cache->delete('foo');
-    $this->assertEquals($cache->get('foo'), false);
-  }
-
-  /**
-   * @requires extension Memcache
-   */
-  public function testMemcache()
-  {
-    $client = $this->getClient();
-    if (!$client->getClassConfig('Google\Cache\Memcache', 'host')) {
-      $this->markTestSkipped('Test requires memcache host specified');
+        $this->getSetDelete($cache);
     }
 
-    $cache = new \Google\Cache\Memcache($client);
+    /**
+     * @requires extension Memcache
+     */
+    public function testNull()
+    {
+        $client = $this->getClient();
+        $cache = new \Google\Cache\Null($client);
+        $client->setCache($cache);
 
-    $this->getSetDelete($cache);
-  }
+        $cache->set('foo', 'bar');
+        $cache->delete('foo');
+        $this->assertEquals(false, $cache->get('foo'));
 
-  /**
-   * @requires extension APC
-   */
-  public function testAPC()
-  {
-    if (!ini_get('apc.enable_cli')) {
-      $this->markTestSkipped('Test requires APC enabled for CLI');
+        $cache->set('foo.1', 'bar.1');
+        $this->assertEquals($cache->get('foo.1'), false);
+
+        $cache->set('foo', 'baz');
+        $this->assertEquals($cache->get('foo'), false);
+
+        $cache->set('foo', null);
+        $cache->delete('foo');
+        $this->assertEquals($cache->get('foo'), false);
     }
-    $client = $this->getClient();
-    $cache = new \Google\Cache\Apc($client);
 
-    $this->getSetDelete($cache);
-  }
+    /**
+     * @requires extension Memcache
+     */
+    public function testMemcache()
+    {
+        $client = $this->getClient();
+        if (!$client->getClassConfig('Google\Cache\Memcache', 'host')) {
+            $this->markTestSkipped('Test requires memcache host specified');
+        }
 
-  public function getSetDelete($cache)
-  {
-    $cache->set('foo', 'bar');
-    $cache->delete('foo');
-    $this->assertEquals(false, $cache->get('foo'));
+        $cache = new \Google\Cache\Memcache($client);
 
-    $cache->set('foo.1', 'bar.1');
-    $cache->delete('foo.1');
-    $this->assertEquals($cache->get('foo.1'), false);
+        $this->getSetDelete($cache);
+    }
 
-    $cache->set('foo', 'baz');
-    $cache->delete('foo');
-    $this->assertEquals($cache->get('foo'), false);
+    /**
+     * @requires extension APC
+     */
+    public function testAPC()
+    {
+        if (!ini_get('apc.enable_cli')) {
+            $this->markTestSkipped('Test requires APC enabled for CLI');
+        }
+        $client = $this->getClient();
+        $cache = new \Google\Cache\Apc($client);
 
-    $cache->set('foo', null);
-    $cache->delete('foo');
-    $this->assertEquals($cache->get('foo'), false);
+        $this->getSetDelete($cache);
+    }
 
-    $obj = new stdClass();
-    $obj->foo = 'bar';
-    $cache->set('foo', $obj);
-    $cache->delete('foo');
-    $this->assertEquals($cache->get('foo'), false);
+    public function getSetDelete($cache)
+    {
+        $cache->set('foo', 'bar');
+        $cache->delete('foo');
+        $this->assertEquals(false, $cache->get('foo'));
 
-    $cache->set('foo.1', 'bar.1');
-    $this->assertEquals($cache->get('foo.1'), 'bar.1');
+        $cache->set('foo.1', 'bar.1');
+        $cache->delete('foo.1');
+        $this->assertEquals($cache->get('foo.1'), false);
 
-    $cache->set('foo', 'baz');
-    $this->assertEquals($cache->get('foo'), 'baz');
+        $cache->set('foo', 'baz');
+        $cache->delete('foo');
+        $this->assertEquals($cache->get('foo'), false);
 
-    $cache->set('foo', null);
-    $this->assertEquals($cache->get('foo'), null);
+        $cache->set('foo', null);
+        $cache->delete('foo');
+        $this->assertEquals($cache->get('foo'), false);
 
-    $cache->set('1/2/3', 'bar');
-    $this->assertEquals($cache->get('1/2/3'), 'bar');
+        $obj = new stdClass();
+        $obj->foo = 'bar';
+        $cache->set('foo', $obj);
+        $cache->delete('foo');
+        $this->assertEquals($cache->get('foo'), false);
 
-    $obj = new stdClass();
-    $obj->foo = 'bar';
-    $cache->set('foo', $obj);
-    $this->assertEquals($cache->get('foo'), $obj);
-  }
+        $cache->set('foo.1', 'bar.1');
+        $this->assertEquals($cache->get('foo.1'), 'bar.1');
+
+        $cache->set('foo', 'baz');
+        $this->assertEquals($cache->get('foo'), 'baz');
+
+        $cache->set('foo', null);
+        $this->assertEquals($cache->get('foo'), null);
+
+        $cache->set('1/2/3', 'bar');
+        $this->assertEquals($cache->get('1/2/3'), 'bar');
+
+        $obj = new stdClass();
+        $obj->foo = 'bar';
+        $cache->set('foo', $obj);
+        $this->assertEquals($cache->get('foo'), $obj);
+    }
 }

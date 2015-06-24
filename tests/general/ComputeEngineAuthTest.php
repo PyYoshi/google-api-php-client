@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,68 +18,68 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 class ComputeEngineAuthTest extends BaseTest
 {
-  public function testTokenAcquisition()
-  {
-    $client = new \Google\Client();
-    
-    /* Mock out refresh call */
-    $response_data = json_encode(
-        array(
-          'access_token' => "ACCESS_TOKEN",
-          'expires_in' => "12345"
-        )
-    );
-    $response = $this->getMock('Google\Http\Request', array(), array(''));
-    $response->expects($this->any())
-            ->method('getResponseHttpCode')
-            ->will($this->returnValue(200));
-    $response->expects($this->any())
-            ->method('getResponseBody')
-            ->will($this->returnValue($response_data));
-    $io = $this->getMock('Google\IO\Stream', array(), array($client));
-    $client->setIo($io);$io->expects($this->any())
-        ->method('makeRequest')
-        ->will(
-            $this->returnCallback(
-                function ($request) use ($response) {
-                  return $response;
-                }
-            )
-        );
-    
-    /* Run method */
-    $oauth = new \Google\Auth\ComputeEngine($client);
-    $oauth->acquireAccessToken();
-    $token = json_decode($oauth->getAccessToken(), true);
+    public function testTokenAcquisition()
+    {
+        $client = new \Google\Client();
 
-    /* Check results */
-    $this->assertEquals($token['access_token'], "ACCESS_TOKEN");
-    $this->assertEquals($token['expires_in'], "12345");
-    $this->assertTrue($token['created'] > 0);
-  }
-
-  public function testSign()
-  {
-    $client = new \Google\Client();
-    $oauth = new \Google\Auth\ComputeEngine($client);
-    
-    /* Load mock access token */
-    $oauth->setAccessToken(
-        json_encode(
+        /* Mock out refresh call */
+        $response_data = json_encode(
             array(
                 'access_token' => "ACCESS_TOKEN",
                 'expires_in' => "12345"
             )
-        )
-    );
+        );
+        $response = $this->getMock('Google\Http\Request', array(), array(''));
+        $response->expects($this->any())
+            ->method('getResponseHttpCode')
+            ->will($this->returnValue(200));
+        $response->expects($this->any())
+            ->method('getResponseBody')
+            ->will($this->returnValue($response_data));
+        $io = $this->getMock('Google\IO\Stream', array(), array($client));
+        $client->setIo($io);
+        $io->expects($this->any())
+            ->method('makeRequest')
+            ->will(
+                $this->returnCallback(
+                    function ($request) use ($response) {
+                        return $response;
+                    }
+                )
+            );
 
-    /* Sign a URL and verify auth header is correctly set */
-    $req = new \Google\Http\Request('http://localhost');
-    $req = $oauth->sign($req);
-    $auth = $req->getRequestHeader('authorization');
-    $this->assertEquals('Bearer ACCESS_TOKEN', $auth);
-  }
+        /* Run method */
+        $oauth = new \Google\Auth\ComputeEngine($client);
+        $oauth->acquireAccessToken();
+        $token = json_decode($oauth->getAccessToken(), true);
+
+        /* Check results */
+        $this->assertEquals($token['access_token'], "ACCESS_TOKEN");
+        $this->assertEquals($token['expires_in'], "12345");
+        $this->assertTrue($token['created'] > 0);
+    }
+
+    public function testSign()
+    {
+        $client = new \Google\Client();
+        $oauth = new \Google\Auth\ComputeEngine($client);
+
+        /* Load mock access token */
+        $oauth->setAccessToken(
+            json_encode(
+                array(
+                    'access_token' => "ACCESS_TOKEN",
+                    'expires_in' => "12345"
+                )
+            )
+        );
+
+        /* Sign a URL and verify auth header is correctly set */
+        $req = new \Google\Http\Request('http://localhost');
+        $req = $oauth->sign($req);
+        $auth = $req->getRequestHeader('authorization');
+        $this->assertEquals('Bearer ACCESS_TOKEN', $auth);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,90 +18,89 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 class TestModel extends \Google\Model
 {
-  public function mapTypes($array)
-  {
-    return parent::mapTypes($array);
-  }
+    public function mapTypes($array)
+    {
+        return parent::mapTypes($array);
+    }
 
-  public function isAssociativeArray($array)
-  {
-    return parent::isAssociativeArray($array);
-  }
+    public function isAssociativeArray($array)
+    {
+        return parent::isAssociativeArray($array);
+    }
 }
 
 class ServiceTest extends PHPUnit_Framework_TestCase
 {
-  public function testModel()
-  {
-    $model = new TestModel();
+    public function testModel()
+    {
+        $model = new TestModel();
 
-    $model->mapTypes(
-        array(
-          'name' => 'asdf',
-          'gender' => 'z',
-        )
-    );
-    $this->assertEquals('asdf', $model->name);
-    $this->assertEquals('z', $model->gender);
-    $model->mapTypes(
-        array(
-          '__infoType' => 'Google\Model',
-          '__infoDataType' => 'map',
-          'info' => array (
-            'location' => 'mars',
-            'timezone' => 'mst',
-          ),
-          'name' => 'asdf',
-          'gender' => 'z',
-        )
-    );
-    $this->assertEquals('asdf', $model->name);
-    $this->assertEquals('z', $model->gender);
+        $model->mapTypes(
+            array(
+                'name' => 'asdf',
+                'gender' => 'z',
+            )
+        );
+        $this->assertEquals('asdf', $model->name);
+        $this->assertEquals('z', $model->gender);
+        $model->mapTypes(
+            array(
+                '__infoType' => 'Google\Model',
+                '__infoDataType' => 'map',
+                'info' => array(
+                    'location' => 'mars',
+                    'timezone' => 'mst',
+                ),
+                'name' => 'asdf',
+                'gender' => 'z',
+            )
+        );
+        $this->assertEquals('asdf', $model->name);
+        $this->assertEquals('z', $model->gender);
 
-    $this->assertEquals(false, $model->isAssociativeArray(""));
-    $this->assertEquals(false, $model->isAssociativeArray(false));
-    $this->assertEquals(false, $model->isAssociativeArray(null));
-    $this->assertEquals(false, $model->isAssociativeArray(array()));
-    $this->assertEquals(false, $model->isAssociativeArray(array(1, 2)));
-    $this->assertEquals(false, $model->isAssociativeArray(array(1 => 2)));
+        $this->assertEquals(false, $model->isAssociativeArray(""));
+        $this->assertEquals(false, $model->isAssociativeArray(false));
+        $this->assertEquals(false, $model->isAssociativeArray(null));
+        $this->assertEquals(false, $model->isAssociativeArray(array()));
+        $this->assertEquals(false, $model->isAssociativeArray(array(1, 2)));
+        $this->assertEquals(false, $model->isAssociativeArray(array(1 => 2)));
 
-    $this->assertEquals(true, $model->isAssociativeArray(array('test' => 'a')));
-    $this->assertEquals(true, $model->isAssociativeArray(array("a", "b" => 2)));
-  }
-
-  /**
-   * @dataProvider serviceProvider
-   */
-  public function testIncludes($class)
-  {
-    $this->assertTrue(
-        class_exists($class),
-        sprintf('Failed asserting class %s exists.', $class)
-    );
-  }
-
-  public function serviceProvider()
-  {
-    $classes = array();
-    $path = dirname(dirname(dirname(__FILE__))) . '/src/Google/Service';
-    foreach (glob($path . "/*.php") as $file) {
-      $classes[] = array("Google\\Service\\" . basename($file, '.php'));
+        $this->assertEquals(true, $model->isAssociativeArray(array('test' => 'a')));
+        $this->assertEquals(true, $model->isAssociativeArray(array("a", "b" => 2)));
     }
 
-    return $classes;
-  }
+    /**
+     * @dataProvider serviceProvider
+     */
+    public function testIncludes($class)
+    {
+        $this->assertTrue(
+            class_exists($class),
+            sprintf('Failed asserting class %s exists.', $class)
+        );
+    }
 
-  public function testStrLen()
-  {
-    $this->assertEquals(0, \Google\Utils::getStrLen(null));
-    $this->assertEquals(0, \Google\Utils::getStrLen(false));
-    $this->assertEquals(0, \Google\Utils::getStrLen(""));
+    public function serviceProvider()
+    {
+        $classes = array();
+        $path = dirname(dirname(dirname(__FILE__))) . '/src/Google/Service';
+        foreach (glob($path . "/*.php") as $file) {
+            $classes[] = array("Google\\Service\\" . basename($file, '.php'));
+        }
 
-    $this->assertEquals(1, \Google\Utils::getStrLen(" "));
-    $this->assertEquals(2, \Google\Utils::getStrLen(" 1"));
-    $this->assertEquals(7, \Google\Utils::getStrLen("0a\\n\n\r\n"));
-  }
+        return $classes;
+    }
+
+    public function testStrLen()
+    {
+        $this->assertEquals(0, \Google\Utils::getStrLen(null));
+        $this->assertEquals(0, \Google\Utils::getStrLen(false));
+        $this->assertEquals(0, \Google\Utils::getStrLen(""));
+
+        $this->assertEquals(1, \Google\Utils::getStrLen(" "));
+        $this->assertEquals(2, \Google\Utils::getStrLen(" 1"));
+        $this->assertEquals(7, \Google\Utils::getStrLen("0a\\n\n\r\n"));
+    }
 }

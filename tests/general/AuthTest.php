@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,36 +18,35 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 class AuthTest extends BaseTest
 {
-  const PRIVATE_KEY_FILE = "testdata/cert.p12";
-  const PUBLIC_KEY_FILE_JSON = "testdata/cacert.json";
-  const PUBLIC_KEY_FILE = "testdata/cacert.pem";
-  const USER_ID = "102102479283111695822";
+    const PRIVATE_KEY_FILE = "testdata/cert.p12";
+    const PUBLIC_KEY_FILE_JSON = "testdata/cacert.json";
+    const PUBLIC_KEY_FILE = "testdata/cacert.pem";
+    const USER_ID = "102102479283111695822";
 
-  /** @var \Google\Signer\P12  */
-  private $signer;
+    /** @var \Google\Signer\P12 */
+    private $signer;
 
-  /** @var string */
-  private $pem;
+    /** @var string */
+    private $pem;
 
-  /** @var \Google\Verifier\Pem */
-  private $verifier;
+    /** @var \Google\Verifier\Pem */
+    private $verifier;
 
-  public function setUp()
-  {
-    $this->signer = new \Google\Signer\P12(
-        file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true),
-        "notasecret"
-    );
-    $this->pem = file_get_contents(__DIR__.'/'.self::PUBLIC_KEY_FILE, true);
-    $this->verifier = new \Google\Verifier\Pem($this->pem);
-  }
+    public function setUp()
+    {
+        $this->signer = new \Google\Signer\P12(
+            file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true),
+            "notasecret"
+        );
+        $this->pem = file_get_contents(__DIR__ . '/' . self::PUBLIC_KEY_FILE, true);
+        $this->verifier = new \Google\Verifier\Pem($this->pem);
+    }
 
-  public function testDirectInject()
-  {
-    $privateKeyString = <<<PK
+    public function testDirectInject()
+    {
+        $privateKeyString = <<<PK
 -----BEGIN RSA PRIVATE KEY-----
 MIICWwIBAAKBgQC8iqFTYTrSGxddW+Tsx6cdWbQxITdM2anRbMYcohnQpQuPG46B
 HO3WbUA8suC6PXqeIi4JkDrAYbI2+TN6w1FE/fh2H7WczuDVKtosBcfsoL2C5loU
@@ -63,268 +63,268 @@ k9Cv+GcNoggnMlWycwJAHMVgaBmNc+RVCMar/gN6i5sENjN9Itu7U1V4Qj/mG6+4
 MHOXhXSKhtTe0Bqm/MssVvCmc8AraKwBMs0rkMadsA==
 -----END RSA PRIVATE KEY-----
 PK;
-    $sign = new \Google\Signer\P12($privateKeyString, null);
-  }
-
-  public function testCantOpenP12()
-  {
-    try {
-      new \Google\Signer\P12(
-          file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true),
-          "badpassword"
-      );
-      $this->fail("Should have thrown");
-    } catch (\Google\Auth\Exception $e) {
-      $this->assertContains("mac verify failure", $e->getMessage());
+        $sign = new \Google\Signer\P12($privateKeyString, null);
     }
 
-    try {
-      new \Google\Signer\P12(
-          file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true) . "foo",
-          "badpassword"
-      );
-      $this->fail("Should have thrown");
-    } catch (Exception $e) {
-      $this->assertContains("Unable to parse", $e->getMessage());
+    public function testCantOpenP12()
+    {
+        try {
+            new \Google\Signer\P12(
+                file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true),
+                "badpassword"
+            );
+            $this->fail("Should have thrown");
+        } catch (\Google\Auth\Exception $e) {
+            $this->assertContains("mac verify failure", $e->getMessage());
+        }
+
+        try {
+            new \Google\Signer\P12(
+                file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true) . "foo",
+                "badpassword"
+            );
+            $this->fail("Should have thrown");
+        } catch (Exception $e) {
+            $this->assertContains("Unable to parse", $e->getMessage());
+        }
     }
-  }
 
-  public function testVerifySignature()
-  {
-    $binary_data = "\x00\x01\x02\x66\x6f\x6f";
-    $signature = $this->signer->sign($binary_data);
-    $this->assertTrue($this->verifier->verify($binary_data, $signature));
+    public function testVerifySignature()
+    {
+        $binary_data = "\x00\x01\x02\x66\x6f\x6f";
+        $signature = $this->signer->sign($binary_data);
+        $this->assertTrue($this->verifier->verify($binary_data, $signature));
 
-    $empty_string = "";
-    $signature = $this->signer->sign($empty_string);
-    $this->assertTrue($this->verifier->verify($empty_string, $signature));
+        $empty_string = "";
+        $signature = $this->signer->sign($empty_string);
+        $this->assertTrue($this->verifier->verify($empty_string, $signature));
 
-    $text = "foobar";
-    $signature = $this->signer->sign($text);
-    $this->assertTrue($this->verifier->verify($text, $signature));
+        $text = "foobar";
+        $signature = $this->signer->sign($text);
+        $this->assertTrue($this->verifier->verify($text, $signature));
 
-    $this->assertFalse($this->verifier->verify($empty_string, $signature));
-  }
-
-  // Creates a signed JWT similar to the one created by google authentication.
-  private function makeSignedJwt($payload)
-  {
-    $header = array("typ" => "JWT", "alg" => "RS256");
-    $segments = array();
-    $segments[] = \Google\Utils::urlSafeB64Encode(json_encode($header));
-    $segments[] = \Google\Utils::urlSafeB64Encode(json_encode($payload));
-    $signing_input = implode(".", $segments);
-
-    $signature = $this->signer->sign($signing_input);
-    $segments[] = \Google\Utils::urlSafeB64Encode($signature);
-
-    return implode(".", $segments);
-  }
-
-  // Returns certificates similar to the ones used by google authentication.
-  private function getSignonCerts()
-  {
-    return array("keyid" => $this->pem);
-  }
-
-  public function testVerifySignedJwtWithCerts()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "sub" => self::USER_ID,
-          "iat" => time(),
-          "exp" => time() + 3600
-        )
-    );
-    $certs = $this->getSignonCerts();
-    $oauth2 = new \Google\Auth\OAuth2($this->getClient());
-    $ticket = $oauth2->verifySignedJwtWithCerts($id_token, $certs, "client_id");
-    $this->assertEquals(self::USER_ID, $ticket->getUserId());
-    // Check that payload and envelope got filled in.
-    $attributes = $ticket->getAttributes();
-    $this->assertEquals("JWT", $attributes["envelope"]["typ"]);
-    $this->assertEquals("client_id", $attributes["payload"]["aud"]);
-  }
-
-  // Checks that the id token fails to verify with the expected message.
-  private function checkIdTokenFailure($id_token, $msg)
-  {
-    $certs = $this->getSignonCerts();
-    $oauth2 = new \Google\Auth\OAuth2($this->getClient());
-    try {
-      $oauth2->verifySignedJwtWithCerts($id_token, $certs, "client_id");
-      $this->fail("Should have thrown for $id_token");
-    } catch (\Google\Auth\Exception $e) {
-      $this->assertContains($msg, $e->getMessage());
+        $this->assertFalse($this->verifier->verify($empty_string, $signature));
     }
-  }
 
-  public function testVerifySignedJwtWithBadJwt()
-  {
-    $this->checkIdTokenFailure("foo", "Wrong number of segments");
-    $this->checkIdTokenFailure("foo.bar", "Wrong number of segments");
-    $this->checkIdTokenFailure(
-        "foo.bar.baz",
-        "Can't parse token envelope: foo"
-    );
-  }
+    // Creates a signed JWT similar to the one created by google authentication.
+    private function makeSignedJwt($payload)
+    {
+        $header = array("typ" => "JWT", "alg" => "RS256");
+        $segments = array();
+        $segments[] = \Google\Utils::urlSafeB64Encode(json_encode($header));
+        $segments[] = \Google\Utils::urlSafeB64Encode(json_encode($payload));
+        $signing_input = implode(".", $segments);
 
-  public function testVerifySignedJwtWithBadSignature()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "id" => self::USER_ID,
-          "iat" => time(),
-          "exp" => time() + 3600
-        )
-    );
-    $id_token = $id_token . "a";
-    $this->checkIdTokenFailure($id_token, "Invalid token signature");
-  }
+        $signature = $this->signer->sign($signing_input);
+        $segments[] = \Google\Utils::urlSafeB64Encode($signature);
 
-  public function testVerifySignedJwtWithNoIssueTime()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "id" => self::USER_ID,
-          "exp" => time() + 3600
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "No issue time");
-  }
+        return implode(".", $segments);
+    }
 
-  public function testVerifySignedJwtWithNoExpirationTime()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "id" => self::USER_ID,
-          "iat" => time()
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "No expiration time");
-  }
+    // Returns certificates similar to the ones used by google authentication.
+    private function getSignonCerts()
+    {
+        return array("keyid" => $this->pem);
+    }
 
-  public function testVerifySignedJwtWithTooEarly()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "id" => self::USER_ID,
-          "iat" => time() + 1800,
-          "exp" => time() + 3600
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "Token used too early");
-  }
+    public function testVerifySignedJwtWithCerts()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "sub" => self::USER_ID,
+                "iat" => time(),
+                "exp" => time() + 3600
+            )
+        );
+        $certs = $this->getSignonCerts();
+        $oauth2 = new \Google\Auth\OAuth2($this->getClient());
+        $ticket = $oauth2->verifySignedJwtWithCerts($id_token, $certs, "client_id");
+        $this->assertEquals(self::USER_ID, $ticket->getUserId());
+        // Check that payload and envelope got filled in.
+        $attributes = $ticket->getAttributes();
+        $this->assertEquals("JWT", $attributes["envelope"]["typ"]);
+        $this->assertEquals("client_id", $attributes["payload"]["aud"]);
+    }
 
-  public function testVerifySignedJwtWithTooLate()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-            "iss" => "federated-signon@system.gserviceaccount.com",
-            "aud" => "client_id",
-            "id" => self::USER_ID,
-            "iat" => time() - 3600,
-            "exp" => time() - 1800
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "Token used too late");
-  }
+    // Checks that the id token fails to verify with the expected message.
+    private function checkIdTokenFailure($id_token, $msg)
+    {
+        $certs = $this->getSignonCerts();
+        $oauth2 = new \Google\Auth\OAuth2($this->getClient());
+        try {
+            $oauth2->verifySignedJwtWithCerts($id_token, $certs, "client_id");
+            $this->fail("Should have thrown for $id_token");
+        } catch (\Google\Auth\Exception $e) {
+            $this->assertContains($msg, $e->getMessage());
+        }
+    }
 
-  public function testVerifySignedJwtWithLifetimeTooLong()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "client_id",
-          "id" => self::USER_ID,
-          "iat" => time(),
-          "exp" => time() + 3600 * 25
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "Expiration time too far in future");
-  }
+    public function testVerifySignedJwtWithBadJwt()
+    {
+        $this->checkIdTokenFailure("foo", "Wrong number of segments");
+        $this->checkIdTokenFailure("foo.bar", "Wrong number of segments");
+        $this->checkIdTokenFailure(
+            "foo.bar.baz",
+            "Can't parse token envelope: foo"
+        );
+    }
 
-  public function testVerifySignedJwtWithBadAudience()
-  {
-    $id_token = $this->makeSignedJwt(
-        array(
-          "iss" => "federated-signon@system.gserviceaccount.com",
-          "aud" => "wrong_client_id",
-          "id" => self::USER_ID,
-          "iat" => time(),
-          "exp" => time() + 3600
-        )
-    );
-    $this->checkIdTokenFailure($id_token, "Wrong recipient");
-  }
+    public function testVerifySignedJwtWithBadSignature()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "iat" => time(),
+                "exp" => time() + 3600
+            )
+        );
+        $id_token = $id_token . "a";
+        $this->checkIdTokenFailure($id_token, "Invalid token signature");
+    }
 
-  public function testNoAuth()
-  {
-    /** @var $noAuth \Google\Auth\Simple */
-    $noAuth = new \Google\Auth\Simple($this->getClient());
-    $oldAuth = $this->getClient()->getAuth();
-    $this->getClient()->setAuth($noAuth);
-    $this->getClient()->setDeveloperKey(null);
-    $req = new \Google\Http\Request("http://example.com");
+    public function testVerifySignedJwtWithNoIssueTime()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "exp" => time() + 3600
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "No issue time");
+    }
 
-    $resp = $noAuth->sign($req);
-    $this->assertEquals("http://example.com", $resp->getUrl());
-    $this->getClient()->setAuth($oldAuth);
-  }
+    public function testVerifySignedJwtWithNoExpirationTime()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "iat" => time()
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "No expiration time");
+    }
 
-  public function testAssertionCredentials()
-  {
-    $assertion = new \Google\Auth\AssertionCredentials(
-        'name',
-        'scope',
-        file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true)
-    );
+    public function testVerifySignedJwtWithTooEarly()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "iat" => time() + 1800,
+                "exp" => time() + 3600
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "Token used too early");
+    }
 
-    $token = explode(".", $assertion->generateAssertion());
-    $this->assertEquals('{"typ":"JWT","alg":"RS256"}', base64_decode($token[0]));
+    public function testVerifySignedJwtWithTooLate()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "iat" => time() - 3600,
+                "exp" => time() - 1800
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "Token used too late");
+    }
 
-    $jwt = json_decode(base64_decode($token[1]), true);
-    $this->assertEquals('https://accounts.google.com/o/oauth2/token', $jwt['aud']);
-    $this->assertEquals('scope', $jwt['scope']);
-    $this->assertEquals('name', $jwt['iss']);
+    public function testVerifySignedJwtWithLifetimeTooLong()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "client_id",
+                "id" => self::USER_ID,
+                "iat" => time(),
+                "exp" => time() + 3600 * 25
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "Expiration time too far in future");
+    }
 
-    $key = $assertion->getCacheKey();
-    $this->assertTrue($key != false);
-    $assertion = new \Google\Auth\AssertionCredentials(
-        'name2',
-        'scope',
-        file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true)
-    );
-    $this->assertNotEquals($key, $assertion->getCacheKey());
-  }
+    public function testVerifySignedJwtWithBadAudience()
+    {
+        $id_token = $this->makeSignedJwt(
+            array(
+                "iss" => "federated-signon@system.gserviceaccount.com",
+                "aud" => "wrong_client_id",
+                "id" => self::USER_ID,
+                "iat" => time(),
+                "exp" => time() + 3600
+            )
+        );
+        $this->checkIdTokenFailure($id_token, "Wrong recipient");
+    }
 
-  public function testVerifySignedJWT()
-  {
-    $assertion = new \Google\Auth\AssertionCredentials(
-        'issuer',
-        'scope',
-        file_get_contents(__DIR__.'/'.self::PRIVATE_KEY_FILE, true)
-    );
-    $client = $this->getClient();
+    public function testNoAuth()
+    {
+        /** @var $noAuth \Google\Auth\Simple */
+        $noAuth = new \Google\Auth\Simple($this->getClient());
+        $oldAuth = $this->getClient()->getAuth();
+        $this->getClient()->setAuth($noAuth);
+        $this->getClient()->setDeveloperKey(null);
+        $req = new \Google\Http\Request("http://example.com");
 
-    $this->assertInstanceOf(
-        'Google\Auth\LoginTicket',
-        $client->verifySignedJwt(
-            $assertion->generateAssertion(),
-            __DIR__ . DIRECTORY_SEPARATOR .  self::PUBLIC_KEY_FILE_JSON,
-            'https://accounts.google.com/o/oauth2/token',
-            'issuer'
-        )
-    );
-  }
+        $resp = $noAuth->sign($req);
+        $this->assertEquals("http://example.com", $resp->getUrl());
+        $this->getClient()->setAuth($oldAuth);
+    }
+
+    public function testAssertionCredentials()
+    {
+        $assertion = new \Google\Auth\AssertionCredentials(
+            'name',
+            'scope',
+            file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true)
+        );
+
+        $token = explode(".", $assertion->generateAssertion());
+        $this->assertEquals('{"typ":"JWT","alg":"RS256"}', base64_decode($token[0]));
+
+        $jwt = json_decode(base64_decode($token[1]), true);
+        $this->assertEquals('https://accounts.google.com/o/oauth2/token', $jwt['aud']);
+        $this->assertEquals('scope', $jwt['scope']);
+        $this->assertEquals('name', $jwt['iss']);
+
+        $key = $assertion->getCacheKey();
+        $this->assertTrue($key != false);
+        $assertion = new \Google\Auth\AssertionCredentials(
+            'name2',
+            'scope',
+            file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true)
+        );
+        $this->assertNotEquals($key, $assertion->getCacheKey());
+    }
+
+    public function testVerifySignedJWT()
+    {
+        $assertion = new \Google\Auth\AssertionCredentials(
+            'issuer',
+            'scope',
+            file_get_contents(__DIR__ . '/' . self::PRIVATE_KEY_FILE, true)
+        );
+        $client = $this->getClient();
+
+        $this->assertInstanceOf(
+            'Google\Auth\LoginTicket',
+            $client->verifySignedJwt(
+                $assertion->generateAssertion(),
+                __DIR__ . DIRECTORY_SEPARATOR . self::PUBLIC_KEY_FILE_JSON,
+                'https://accounts.google.com/o/oauth2/token',
+                'issuer'
+            )
+        );
+    }
 }
