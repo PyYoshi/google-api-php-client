@@ -20,60 +20,60 @@
 
 class ApiBatchRequestTest extends BaseTest
 {
-//    public $plus;
-//
-//    public function testBatchRequestWithAuth()
-//    {
-//        if (!$this->checkToken()) {
-//            return;
-//        }
-//        $client = $this->getClient();
-//        $batch = new \Google\Http\Batch($client);
-//        $this->plus = new \Google\Service\Plus($client);
-//
-//        $client->setUseBatch(true);
-//        $batch->add($this->plus->people->get('me'), 'key1');
-//        $batch->add($this->plus->people->get('me'), 'key2');
-//        $batch->add($this->plus->people->get('me'), 'key3');
-//
-//        $result = $batch->execute();
-//        $this->assertTrue(isset($result['response-key1']));
-//        $this->assertTrue(isset($result['response-key2']));
-//        $this->assertTrue(isset($result['response-key3']));
-//    }
-//
-//    public function testBatchRequest()
-//    {
-//        $client = $this->getClient();
-//        $batch = new \Google\Http\Batch($client);
-//        $this->plus = new \Google\Service\Plus($client);
-//
-//        $client->setUseBatch(true);
-//        $batch->add($this->plus->people->get('+LarryPage'), 'key1');
-//        $batch->add($this->plus->people->get('+LarryPage'), 'key2');
-//        $batch->add($this->plus->people->get('+LarryPage'), 'key3');
-//
-//        $result = $batch->execute();
-//        $this->assertTrue(isset($result['response-key1']));
-//        $this->assertTrue(isset($result['response-key2']));
-//        $this->assertTrue(isset($result['response-key3']));
-//    }
-//
-//    public function testInvalidBatchRequest()
-//    {
-//        $client = $this->getClient();
-//        $batch = new \Google\Http\Batch($client);
-//        $this->plus = new \Google\Service\Plus($client);
-//
-//        $client->setUseBatch(true);
-//        $batch->add($this->plus->people->get('123456789987654321'), 'key1');
-//        $batch->add($this->plus->people->get('+LarryPage'), 'key2');
-//
-//        $result = $batch->execute();
-//        $this->assertTrue(isset($result['response-key2']));
-//        $this->assertInstanceOf(
-//            'Google\Service\Exception',
-//            $result['response-key1']
-//        );
-//    }
+  public $plus;
+
+  public function testBatchRequestWithAuth()
+  {
+    if (!$this->checkToken()) {
+      return;
+    }
+    $client = $this->getClient();
+    $batch = new \Google\Http\Batch($client);
+    $this->plus = new \Google\Service\Plus($client);
+
+    $client->setUseBatch(true);
+    $batch->add($this->plus->people->get('me'), 'key1');
+    $batch->add($this->plus->people->get('me'), 'key2');
+    $batch->add($this->plus->people->get('me'), 'key3');
+
+    $result = $batch->execute();
+    $this->assertTrue(isset($result['response-key1']));
+    $this->assertTrue(isset($result['response-key2']));
+    $this->assertTrue(isset($result['response-key3']));
+  }
+
+  public function testBatchRequest()
+  {
+    $client = $this->getClient();
+    $batch = new \Google\Http\Batch($client);
+    $this->plus = new \Google\Service\Plus($client);
+
+    $client->setUseBatch(true);
+    $batch->add($this->plus->people->get('+LarryPage'), 'key1');
+    $batch->add($this->plus->people->get('+LarryPage'), 'key2');
+    $batch->add($this->plus->people->get('+LarryPage'), 'key3');
+
+    $result = $batch->execute();
+    $this->assertTrue(isset($result['response-key1']));
+    $this->assertTrue(isset($result['response-key2']));
+    $this->assertTrue(isset($result['response-key3']));
+  }
+
+  public function testInvalidBatchRequest()
+  {
+    $client = $this->getClient();
+    $batch = new \Google\Http\Batch($client);
+    $this->plus = new \Google\Service\Plus($client);
+
+    $client->setUseBatch(true);
+    $batch->add($this->plus->people->get('123456789987654321'), 'key1');
+    $batch->add($this->plus->people->get('+LarryPage'), 'key2');
+
+    $result = $batch->execute();
+    $this->assertTrue(isset($result['response-key2']));
+    $this->assertInstanceOf(
+        'Google\Service\Exception',
+        $result['response-key1']
+    );
+  }
 }
