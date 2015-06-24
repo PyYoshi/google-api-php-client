@@ -17,7 +17,8 @@
 
 namespace Google\Task;
 
-interface Retryable {
+interface Retryable
+{
     /**
      * Gets the number of times the associated task can be retried.
      *

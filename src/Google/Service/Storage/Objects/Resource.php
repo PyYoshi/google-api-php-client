@@ -327,9 +327,21 @@ class Resource extends \Google\Service\Resource
      * full.
      * @return \Google\Service\Storage\RewriteResponse
      */
-    public function rewrite($sourceBucket, $sourceObject, $destinationBucket, $destinationObject, \Google\Service\Storage\StorageObject $postBody, $optParams = array())
-    {
-        $params = array('sourceBucket' => $sourceBucket, 'sourceObject' => $sourceObject, 'destinationBucket' => $destinationBucket, 'destinationObject' => $destinationObject, 'postBody' => $postBody);
+    public function rewrite(
+        $sourceBucket,
+        $sourceObject,
+        $destinationBucket,
+        $destinationObject,
+        \Google\Service\Storage\StorageObject $postBody,
+        $optParams = array()
+    ) {
+        $params = array(
+            'sourceBucket' => $sourceBucket,
+            'sourceObject' => $sourceObject,
+            'destinationBucket' => $destinationBucket,
+            'destinationObject' => $destinationObject,
+            'postBody' => $postBody
+        );
         $params = array_merge($params, $optParams);
         return $this->call('rewrite', array($params), '\Google\Service\Storage\RewriteResponse');
     }

@@ -48,14 +48,14 @@ class AppIdentity extends \Google\Auth\AuthAbstract
         $cacheKey = self::CACHE_PREFIX;
         if (is_string($scopes)) {
             $cacheKey .= $scopes;
-        } else if (is_array($scopes)) {
+        } elseif (is_array($scopes)) {
             $cacheKey .= implode(":", $scopes);
         }
 
         $this->token = $this->client->getCache()->get($cacheKey);
         if (!$this->token) {
             $this->retrieveToken($scopes, $cacheKey);
-        } else if ($this->token['expiration_time'] < time()) {
+        } elseif ($this->token['expiration_time'] < time()) {
             $this->client->getCache()->delete($cacheKey);
             $this->retrieveToken($scopes, $cacheKey);
         }
