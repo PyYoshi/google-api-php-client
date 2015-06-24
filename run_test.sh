@@ -1,5 +1,7 @@
 #!/bin/bash
 
-MEMCACHE_HOST=127.0.0.1 MEMCACHE_PORT=11211 ./vendor/bin/phpunit --coverage-text --verbose --coverage-html coverages
-
-open ./coverages/index.html
+export MEMCACHE_HOST=127.0.0.1
+export MEMCACHE_PORT=11211
+cd /tmp/google-api-php-client-test
+$(which php) ./vendor/bin/phpunit -v
+$(which hhvm) ./vendor/bin/phpunit -v

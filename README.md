@@ -45,3 +45,12 @@ See the examples/ directory for examples of the key client features.
 ```bash
 $ ./check_psr.sh
 ```
+
+## Docker Test
+
+```bash
+$ docker build -t pyyoshi/google-api-php-client:1.1.4 .
+$ docker run -i -t pyyoshi/google-api-php-client:1.1.4 /bin/bash
+$ service memcached start
+$ cd /tmp/google-api-php-client-test && ./run_test.sh
+```
